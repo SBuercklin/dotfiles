@@ -43,6 +43,11 @@ echo "Sourcing .bashrc"
 LOAD_VIMRC="so \$HOME/.vimrc-sam"
 DIR_VIMRC="$HOME/.bashrc"
 
+# If it's a clean install with no .vimrc, make one
+if [ ! -f $HOME/.vimrc ]; then
+    touch $HOME/.vimrc
+fi
+
 # Symlink the .bashrc-sam file into the $HOME dir
 if [ ! -f $HOME/.vimrc-sam ]; then
     echo "symlinking .vimrc-sam into $HOME"
