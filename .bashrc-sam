@@ -1,0 +1,7 @@
+# Setting default editor to Sublime
+export VISUAL="vim"
+export EDITOR="subl"
+
+# Julia multithreading, for reference
+# export JULIA_NUM_THREADS=4
+
