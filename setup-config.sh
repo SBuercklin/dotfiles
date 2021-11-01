@@ -25,7 +25,6 @@ if ! grep -q "$SOURCE_BASHRC" "$DIR_BASHRC"; then
     # So I'm just going to use spaces and lose the alignment
     cat >> $HOME/.bashrc<< EOF
 if [ -f \$HOME/.bashrc-sam ]; then
-    echo "Also sourcing .bashrc-sam"
     . \$HOME/.bashrc-sam
 fi
 EOF
@@ -57,7 +56,6 @@ fi
 # If we haven't added the so command to the .vimrc, add it
 if ! grep -q "$LOAD_VIMRC" "$DIR_VIMRC"; then
     echo "Adding so command for .vimrc-sam"
-
     echo "so $HOME/.vimrc-sam" >> $HOME/.vimrc
 fi
 
