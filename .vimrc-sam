@@ -90,7 +90,7 @@ set number
 
 " Makes <Esc> immediately exit insert mode, see: 
 "       https://www.johnhawthorn.com/2012/09/vi-escape-delays/
-set timeoutlen=500 ttimeoutlen=0
+set timeoutlen=50 ttimeoutlen=0
 
 
 " Use <F11> to toggle between 'paste' and 'nopaste'
@@ -128,7 +128,7 @@ nnoremap <C-L> :nohl<CR><C-L>
 
 " Maps Alt+{h,j,k,l} to <Meta-{h,j,k,l}>
 " The \e is used since Alt is interpreted as Esc from the terminal
-" This leads to slow exiting of insert mode if we press Esc and then try to change windows
+" This leads to slow exiting of insert mode if we press Esc and then try to move
 execute "set <M-h>=\eh"
 execute "set <M-j>=\ej"
 execute "set <M-k>=\ek"
