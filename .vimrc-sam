@@ -126,17 +126,19 @@ map Y y$
 " next search
 nnoremap <C-L> :nohl<CR><C-L>
 
-" Maps Alt+{h,j,k,l} to <Meta-{h,j,k,l}>
-" The \e is used since Alt is interpreted as Esc from the terminal
-" This leads to slow exiting of insert mode if we press Esc and then try to move
-execute "set <M-h>=\eh"
-execute "set <M-j>=\ej"
-execute "set <M-k>=\ek"
-execute "set <M-l>=\el"
-
 " Move between windows by holding down Meta and directions
-nnoremap <M-h> <C-w>h
-nnoremap <M-j> <C-w>j
-nnoremap <M-k> <C-w>k
-nnoremap <M-l> <C-w>l
+if !has('nvim')
+    nnoremap <Esc>h <C-w>h
+    nnoremap <Esc>j <C-w>j
+    nnoremap <Esc>k <C-w>k
+    nnoremap <Esc>l <C-w>l
+endif
+
+if has('nvim')
+    nnoremap <M-h> <C-w>h
+    nnoremap <M-j> <C-w>j
+    nnoremap <M-k> <C-w>k
+    nnoremap <M-l> <C-w>l
+endif
+
 "------------------------------------------------------------
