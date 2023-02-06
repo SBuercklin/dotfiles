@@ -90,7 +90,7 @@ set number
 
 " Makes <Esc> immediately exit insert mode, see: 
 "       https://www.johnhawthorn.com/2012/09/vi-escape-delays/
-set timeoutlen=50 ttimeoutlen=0
+" set timeoutlen=50 ttimeoutlen=0
 
 
 " Use <F11> to toggle between 'paste' and 'nopaste'
@@ -132,6 +132,7 @@ if !has('nvim')
     nnoremap <Esc>j <C-w>j
     nnoremap <Esc>k <C-w>k
     nnoremap <Esc>l <C-w>l
+    inoremap jj <Esc>
 endif
 
 if has('nvim')
