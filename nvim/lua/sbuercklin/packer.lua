@@ -59,6 +59,11 @@ return require('packer').startup(function(use)
         'tpope/vim-commentary'
     }
 
+    -- Git gutter
+    use {
+        'airblade/vim-gitgutter'
+    }
+
 	-- Set the theme in lua/sbuercklin/init.lua
 	use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
 
