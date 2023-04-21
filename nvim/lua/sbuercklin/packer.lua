@@ -54,6 +54,11 @@ return require('packer').startup(function(use)
     -- Git integration
     use { 'tpope/vim-fugitive' }
 
+    -- Comments
+    use {
+        'tpope/vim-commentary'
+    }
+
 	-- Set the theme in lua/sbuercklin/init.lua
 	use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
 
