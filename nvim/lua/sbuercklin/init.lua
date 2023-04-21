@@ -27,4 +27,10 @@ vim.opt.scrolloff = 4
 vim.opt.signcolumn = "yes"
 
 -- Don't automatically add comments with newlines
-vim.opt.formatoptions:remove { "c", "r", "o" }
+vim.api.nvim_create_autocmd(
+    'BufEnter', { callback = function(ev)
+        vim.opt.formatoptions:remove { "c", "r", "o" }
+    end
+    }
+)
+

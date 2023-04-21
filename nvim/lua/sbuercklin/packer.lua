@@ -64,6 +64,16 @@ return require('packer').startup(function(use)
         'airblade/vim-gitgutter'
     }
 
+    -- bqf and fzf
+    use {'kevinhwang91/nvim-bqf', ft = 'qf'}
+    use {'junegunn/fzf', run = function()
+        vim.fn['fzf#install']()
+    end
+    }
+
+    -- auto-pairs
+    use {'LunarWatcher/auto-pairs'}
+
 	-- Set the theme in lua/sbuercklin/init.lua
 	use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
 

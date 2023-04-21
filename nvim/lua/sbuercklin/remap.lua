@@ -14,3 +14,9 @@ vim.keymap.set("i", "jj", "<Esc>", {silent = true})
 -- Switch Buffers
 vim.keymap.set("n", "<leader>bn", vim.cmd['bnext'])
 vim.keymap.set("n", "<leader>bp", vim.cmd['bprevious'])
+
+-- Tab/Shift-Tab to indent
+vim.keymap.set("n", "<Tab>", '>>')
+vim.keymap.set("n", "<S-Tab>", '<<')
+vim.keymap.set("v", "<Tab>", '>gv')
+vim.keymap.set("v", "<S-Tab>", '<gv')
