@@ -25,3 +25,6 @@ vim.opt.incsearch = true
 -- Makes sure you have at least N lines above/below cursor when you scroll
 vim.opt.scrolloff = 4
 vim.opt.signcolumn = "yes"
+
+-- Don't automatically add comments with newlines
+vim.opt.formatoptions:remove { "c", "r", "o" }

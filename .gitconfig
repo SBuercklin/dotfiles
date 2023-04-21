@@ -1,0 +1,15 @@
+[color]
+    diff = auto
+    status = auto
+[core]
+    pager = less -S
+[log]
+    decorate = short
+[merge]
+    conflictstyle = diff3
+[alias]
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'
+    ll = !git lg --all
+[user]
+	email = sam.buercklin@gmail.com
+	name = Sam Buercklin
