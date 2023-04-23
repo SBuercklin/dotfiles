@@ -1,3 +1,5 @@
+local lib = require("sbuercklin.lib")
+
 vim.g.mapleader = " "
 
 if isModuleAvailable('nvim-tree') then
@@ -5,7 +7,6 @@ if isModuleAvailable('nvim-tree') then
 else
     vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 end
-    
 
 -- Window movement remaps
 --     Move between windows
