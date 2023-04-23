@@ -1,5 +1,11 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+
+if isModuleAvailable('nvim-tree') then
+    vim.keymap.set("n", "<leader>pv", vim.cmd.NvimTreeToggle)
+else
+    vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+end
+    
 
 -- Window movement remaps
 --     Move between windows

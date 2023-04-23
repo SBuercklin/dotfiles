@@ -1,6 +1,7 @@
 require("sbuercklin")
 require("sbuercklin.packer")
 
+-- Ref: https://stackoverflow.com/a/15434737
 function isModuleAvailable(name)
   if package.loaded[name] then
     return true
