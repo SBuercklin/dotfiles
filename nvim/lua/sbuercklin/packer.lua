@@ -88,6 +88,9 @@ return require('packer').startup(function(use)
     end
     }
 
+    -- Allows fancy icons, install a patched font set into ~/.fonts from nerdfonts.com
+    use {'nvim-tree/nvim-web-devicons'}
+
 	-- Set the theme in lua/sbuercklin/init.lua
 	use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
 
