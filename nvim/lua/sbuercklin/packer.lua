@@ -82,7 +82,7 @@ return require('packer').startup(function(use)
                 group_empty = true,
             },
             filters = {
-                dotfiles = true,
+                dotfiles = false,
             }
         }
     end
