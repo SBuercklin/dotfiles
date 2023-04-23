@@ -74,6 +74,20 @@ return require('packer').startup(function(use)
     -- auto-pairs
     use {'LunarWatcher/auto-pairs'}
 
+    -- nvim-tree explorer
+    use {'nvim-tree/nvim-tree.lua',
+    config = function() 
+        require("nvim-tree").setup {
+            renderer = {
+                group_empty = true,
+            },
+            filters = {
+                dotfiles = true,
+            }
+        }
+    end
+    }
+
 	-- Set the theme in lua/sbuercklin/init.lua
 	use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
 

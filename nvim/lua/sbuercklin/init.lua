@@ -14,6 +14,11 @@ vim.opt.expandtab = true
 
 vim.opt.smartindent = true
 
+-- Only do case-senstive search if capitalization is included
+--  override with \C in search string to make case sensitive
+vim.opt.smartcase = true
+vim.opt.ignorecase = true
+
 -- Don't use swapfiles, but store the undos in a dir
 vim.opt.swapfile = false
 vim.opt.backup = false

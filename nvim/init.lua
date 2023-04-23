@@ -1,13 +1,27 @@
 require("sbuercklin")
 require("sbuercklin.packer")
 
+function isModuleAvailable(name)
+  if package.loaded[name] then
+    return true
+  else
+    for _, searcher in ipairs(package.searchers or package.loaders) do
+      local loader = searcher(name)
+      if type(loader) == 'function' then
+        package.preload[name] = loader
+        return true
+      end
+    end
+    return false
+  end
+end
 
--- require'lspconfig'.julials.setup{
---     on_new_config = function(new_config, _)
---         local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
---         if require'lspconfig'.util.path.is_file(julia) then
--- 	    vim.notify("Hello!")
---             new_config.cmd[1] = julia
---         end
---     end
--- }
+-- Settings for nvim-tree
+if isModuleAvailable('nvim-tree') then
+    vim.g.loaded_netrew = 1
+    vim.g.loaded_netrwPlugin = 1
+end
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
