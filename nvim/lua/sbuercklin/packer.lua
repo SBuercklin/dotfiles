@@ -89,6 +89,7 @@ return require('packer').startup(function(use)
     }
 
     -- Allows fancy icons, install a patched font set into ~/.fonts from nerdfonts.com
+    -- e.g. Caskaydia Cove
     use {'nvim-tree/nvim-web-devicons'}
 
 	-- Set the theme in lua/sbuercklin/init.lua
