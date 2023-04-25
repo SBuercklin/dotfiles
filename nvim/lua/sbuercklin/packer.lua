@@ -92,6 +92,9 @@ return require('packer').startup(function(use)
     -- e.g. Caskaydia Cove
     use {'nvim-tree/nvim-web-devicons'}
 
+    -- insert/change surrounding characters
+    use { 'tpope/vim-surround' }
+
 	-- Set the theme in lua/sbuercklin/init.lua
 	use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
 
