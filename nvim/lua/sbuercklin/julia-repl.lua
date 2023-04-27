@@ -20,11 +20,23 @@ function createJuliaREPL(project)
     vim.cmd('split')
     vim.cmd('wincmd 1 j')
 
-    local termwin = vim.fn.win_getid()
+    local termbuf = vim.fn.bufnr()
 
     startJulia(project)
 
     vim.api.nvim_set_current_win(startwin)
+
+    return termbuf
+end
+
+function tabJuliaREPL()
+    if vim.t.julia_repl_buffer == nil then
+        local repl_buf_id = createJuliaREPL(findProjectTOML())
+
+        vim.t.julia_repl_buffer = repl_buf_id
+    else
+        print("Already opened Julia REPL")
+    end
 end
 
 function findProjectTOML()
@@ -32,6 +44,14 @@ function findProjectTOML()
 end
 
 -- Keymap to start the repl
-vim.keymap.set('n', '<leader>jr', function()
-    createJuliaREPL(findProjectTOML())
-end)
+vim.keymap.set('n', '<leader>jr', tabJuliaREPL)
+
+vim.api.nvim_create_autocmd(
+    'BufDelete', { callback = function(ev)
+        if ev['buf'] == vim.t.julia_repl_buffer then
+            vim.t.julia_repl_buffer = nil
+            print("Deleted Julia REPL from Tab")
+        end
+    end
+    }
+)
