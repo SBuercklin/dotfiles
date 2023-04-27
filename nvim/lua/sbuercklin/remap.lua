@@ -27,3 +27,6 @@ vim.keymap.set("n", "<Tab>", '>>')
 vim.keymap.set("n", "<S-Tab>", '<<')
 vim.keymap.set("v", "<Tab>", '>gv')
 vim.keymap.set("v", "<S-Tab>", '<gv')
+
+-- C-l clashes with tmux window movements
+vim.keymap.set("n", "<leader>cl", vim.cmd['noh'])
