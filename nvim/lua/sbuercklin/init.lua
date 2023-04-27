@@ -39,3 +39,5 @@ vim.api.nvim_create_autocmd(
     }
 )
 
+-- Don't save terminals in sessions
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize"
