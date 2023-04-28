@@ -41,3 +41,15 @@ vim.api.nvim_create_autocmd(
 
 -- Don't save terminals in sessions
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize"
+
+-- Code Folding, and a function below it to create the autocommands to open folds on enter
+-- ref: https://www.jmaguire.tech/posts/treesitter_folding/
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+
+vim.api.nvim_create_autocmd(
+    'BufReadPost', { callback = function(ev)
+        vim.fn.feedkeys("zR")
+    end
+    }
+)
