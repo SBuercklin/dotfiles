@@ -1,28 +1,34 @@
 -- Assuming you're in a terminal in normal mode, enter terminal mode, start julia, and return
 -- to normal mode
-function startJulia(project)
+function startJulia(project, startup)
     local execute = 'using Revise, Infiltrator, Pkg'
+    if startup ~= nil then
+        execute = execute .. '; include(\"' .. startup .. '\");'
+    end
+    
     local extra_args = ''
     if project ~= nil then
         extra_args = extra_args .. '--project=' .. project .. ' '
     end
-    local start_cmd = 'julia ' .. '-i -e \"' .. execute .. '\" ' .. extra_args
 
+    local start_cmd = 'julia ' .. '-i -e \'' .. execute .. '\' ' .. extra_args
+
+    print(start_cmd)
     vim.cmd('terminal ' .. start_cmd)
 end
 
 -- Just go to the rightmost window, split in half, terminal in bottm, open terminal with cmd
-function createJuliaREPL(project)
+function createJuliaREPL(project, startup)
     local termbuf = vim.api.nvim_create_buf(true, true)
 
-    vim.api.nvim_buf_call(termbuf, function() startJulia(project) end)
+    vim.api.nvim_buf_call(termbuf, function() startJulia(project, startup) end)
 
     return termbuf
 end
 
 function tabJuliaREPL()
     if vim.t.julia_repl_job_id == nil then
-        local repl_buf_id = createJuliaREPL(findProjectTOML())
+        local repl_buf_id = createJuliaREPL(findProjectTOML(), findStartupJL())
 
         local repl_job_id = vim.b[repl_buf_id].terminal_job_id
         vim.t.julia_repl_job_id = repl_job_id
@@ -34,6 +40,10 @@ end
 
 function findProjectTOML()
     return vim.fs.find('Project.toml',  { upward = true })[1]
+end
+
+function findStartupJL()
+    return vim.fs.find('startup.jl_',  { upward = true })[1]
 end
 
 function envJuliaStatus()
