@@ -13,11 +13,20 @@ lsp.ensure_installed({
 lsp.setup()
 
 local cmp = require('cmp')
+local cmp_action = require('lsp-zero').cmp_action()
 
 cmp.setup({
     mapping = {
-        ['<Tab>'] = cmp.mapping.confirm({select = false}),
-        ['<Tab>'] = cmp.mapping.confirm({select = true})
+        -- `Enter` key to confirm completion
+        ['<CR>'] = cmp.mapping.confirm({select = false}),
+        ['<Tab>'] = cmp.mapping.abort(),
+
+        -- Ctrl+Space to trigger completion menu
+        ['<C-Space>'] = cmp.mapping.complete(),
+
+        -- Navigate between snippet placeholder
+        ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+        ['<C-b>'] = cmp_action.luasnip_jump_backward(),
     }
 })
 

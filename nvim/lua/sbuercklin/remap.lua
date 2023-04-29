@@ -30,3 +30,6 @@ vim.keymap.set("v", "<S-Tab>", '<gv')
 
 -- C-l clashes with tmux window movements
 vim.keymap.set("n", "<leader>cl", vim.cmd['noh'])
+
+-- Toggle relative line numbers
+vim.keymap.set("n", "<leader>tr", function() vim.opt.rnu = not vim.opt.rnu:get() end)
