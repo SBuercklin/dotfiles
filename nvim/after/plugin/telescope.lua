@@ -10,6 +10,8 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 vim.keymap.set('n', '<C-p>', builtin.git_files, {})
 
+vim.keymap.set('n', '<leader>fr', builtin.lsp_references, { noremap = true, silent = true })
+
 require("telescope").setup {
   pickers = {
     buffers = {
