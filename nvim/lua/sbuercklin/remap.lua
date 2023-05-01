@@ -3,9 +3,9 @@ local lib = require("sbuercklin.lib")
 vim.g.mapleader = " "
 
 if isModuleAvailable('nvim-tree') then
-    vim.keymap.set("n", "<leader>pv", vim.cmd.NvimTreeToggle)
+    vim.keymap.set("n", "<leader>e", vim.cmd.NvimTreeToggle)
 else
-    vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+    vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
 end
 
 -- Window movement remaps
