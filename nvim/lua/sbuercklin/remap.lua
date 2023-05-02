@@ -33,3 +33,9 @@ vim.keymap.set("n", "<leader>cl", vim.cmd['noh'])
 
 -- Toggle relative line numbers
 vim.keymap.set("n", "<leader>tr", function() vim.opt.rnu = not vim.opt.rnu:get() end)
+
+-- Center cursor on C-u, C-d, n, N
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
