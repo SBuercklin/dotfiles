@@ -5,7 +5,7 @@ function startJulia(project, startup)
     if startup ~= nil then
         execute = execute .. '; include(\"' .. startup .. '\");'
     end
-    
+
     local extra_args = ''
     if project ~= nil then
         extra_args = extra_args .. '--project=' .. project .. ' '
@@ -46,22 +46,27 @@ function findStartupJL()
     return vim.fs.find('startup.jl_',  { upward = true })[1]
 end
 
-function envJuliaStatus()
+function activeJuliaREPL()
+    return vim.t.julia_repl_job_id
+end
+
+function sendJulia(str)
+    -- Trim the ending newline if it exists
+    local trimmed_str = str:gsub("%\n$", "")
+
     job_id = activeJuliaREPL()
+
     if job_id ~= nil then
-        vim.api.nvim_chan_send(job_id, 'Pkg.status()\n')
+        vim.api.nvim_chan_send(job_id, trimmed_str .. '\n')
     end
+end
+
+function envJuliaStatus()
+     sendJulia('Pkg.status()')
 end
 
 function envJuliaTest()
-    job_id = activeJuliaREPL()
-    if job_id ~= nil then
-        vim.api.nvim_chan_send(job_id, 'Pkg.test()\n')
-    end
-end
-
-function activeJuliaREPL()
-    return vim.t.julia_repl_job_id
+    sendJulia('Pkg.test()')
 end
 
 function toggleJuliaREPL()
@@ -76,6 +81,18 @@ function toggleJuliaREPL()
         vim.api.nvim_set_current_buf(toggle_id)
         vim.w.julia_repl_toggle_buf = nil
     end
+end
+
+function sendJuliaLine()
+    sendJulia(vim.api.nvim_get_current_line())
+end
+
+function sendJuliaVisual()
+    -- Yank visual selection into v register
+    -- Reference: https://www.reddit.com/r/neovim/comments/oo97pq/how_to_get_the_visual_selection_range/
+    vim.cmd('noau normal! "vy"')
+    local contents = vim.fn.getreg('"v')
+    sendJulia(contents)
 end
 
 vim.api.nvim_create_autocmd(
@@ -94,3 +111,5 @@ vim.keymap.set('n', '<leader>jr', tabJuliaREPL)
 vim.keymap.set('n', '<leader>js', envJuliaStatus)
 vim.keymap.set('n', '<leader>jt', envJuliaTest)
 vim.keymap.set('n', '<leader>jp', toggleJuliaREPL)
+vim.keymap.set('n', '<leader>jj', sendJuliaLine)
+vim.keymap.set('v', '<leader>jj', sendJuliaVisual)
