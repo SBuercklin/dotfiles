@@ -27,6 +27,7 @@ set-option -ga terminal-overrides ",xterm-256color:Tc"
 
 # Remove default binding of tab to clear history
 unbind -n Tab
+unbind -n C-l
 
 set-option -g status-interval 5
 set-option -g automatic-rename on
