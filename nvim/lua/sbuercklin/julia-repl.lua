@@ -64,6 +64,20 @@ function activeJuliaREPL()
     return vim.t.julia_repl_job_id
 end
 
+function toggleJuliaREPL()
+    local current_buf_id = vim.api.nvim_get_current_buf()
+    local repl_id = vim.t.julia_repl_buf_id
+    local toggle_id = vim.w.julia_repl_toggle_buf
+
+    if (current_buf_id ~= repl_id) and (repl_id ~= nil) then
+        vim.w.julia_repl_toggle_buf = current_buf_id
+        vim.api.nvim_set_current_buf(repl_id)
+    elseif (current_buf_id == repl_id) and (toggle_id ~= nil) then
+        vim.api.nvim_set_current_buf(toggle_id)
+        vim.w.julia_repl_toggle_buf = nil
+    end
+end
+
 vim.api.nvim_create_autocmd(
     'BufDelete', { callback = function(ev)
         if ev['buf'] == vim.t.julia_repl_buf_id then
@@ -79,3 +93,4 @@ vim.api.nvim_create_autocmd(
 vim.keymap.set('n', '<leader>jr', tabJuliaREPL)
 vim.keymap.set('n', '<leader>js', envJuliaStatus)
 vim.keymap.set('n', '<leader>jt', envJuliaTest)
+vim.keymap.set('n', '<leader>jp', toggleJuliaREPL)
