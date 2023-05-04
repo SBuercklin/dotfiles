@@ -54,3 +54,7 @@ vim.api.nvim_create_autocmd(
     end
     }
 )
+
+-- By default let subsitutions replace all, rather than just the first on a line
+-- See: `:help :substitute` and look at the `g` flag description
+vim.opt.gdefault = true
