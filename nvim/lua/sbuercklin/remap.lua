@@ -39,3 +39,14 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
+
+-- System clipboard interactions, indenting
+for _,mode in ipairs({"n", "v"}) do
+    -- Copy
+    vim.keymap.set(mode, "<leader>y", "\"+y")
+    -- Cut
+    vim.keymap.set(mode, "<leader>d", "\"+d")
+    -- Paste
+    vim.keymap.set(mode, "<leader>p", "\"+p")
+    vim.keymap.set(mode, "<leader>P", "\"+P")
+end
