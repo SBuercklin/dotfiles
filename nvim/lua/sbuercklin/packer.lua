@@ -93,7 +93,15 @@ return require('packer').startup(function(use)
     use {'nvim-tree/nvim-web-devicons'}
 
     -- insert/change surrounding characters
-    use { 'tpope/vim-surround' }
+    use({
+        "kylechui/nvim-surround",
+        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+        config = function()
+            require("nvim-surround").setup({
+                -- Configuration here, or leave empty to use defaults
+            })
+        end
+    })
 
 	-- Set the theme in lua/sbuercklin/init.lua
 	use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
