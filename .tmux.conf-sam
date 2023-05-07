@@ -1,6 +1,7 @@
 # Change from C-b to C-a for prefix
 set -g prefix C-a
 bind-key C-a send-prefix
+bin C-a send-keys C-a
 unbind C-b
 
 # Index from 1, not 0
