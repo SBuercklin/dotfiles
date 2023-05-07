@@ -83,6 +83,13 @@ function toggleJuliaREPL()
     end
 end
 
+function killJuliaREPL()
+    sendJulia('exit()')
+    local buf_id = vim.t.julia_repl_buf_id
+
+    vim.api.nvim_buf_delete(buf_id, { force = true })
+end
+
 function sendJuliaLine()
     sendJulia(vim.api.nvim_get_current_line())
 end
@@ -111,5 +118,6 @@ vim.keymap.set('n', '<leader>jr', tabJuliaREPL)
 vim.keymap.set('n', '<leader>js', envJuliaStatus)
 vim.keymap.set('n', '<leader>jt', envJuliaTest)
 vim.keymap.set('n', '<leader>jp', toggleJuliaREPL)
+vim.keymap.set('n', '<leader>jq', killJuliaREPL)
 vim.keymap.set('n', '<C-m>', sendJuliaLine)
 vim.keymap.set('v', '<C-m>', sendJuliaVisual)
