@@ -105,5 +105,6 @@ return require('packer').startup(function(use)
 
 	-- Set the theme in lua/sbuercklin/init.lua
 	use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
+    use { "rebelot/kanagawa.nvim" } -- lighter background for screenshots, :set background=light
 
 end)
