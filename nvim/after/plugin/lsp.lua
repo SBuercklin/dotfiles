@@ -1,4 +1,5 @@
 local lsp = require('lsp-zero')
+local lib = require('sbuercklin.lib')
 lsp.preset('recommended')
 
 
@@ -11,7 +12,7 @@ lsp.ensure_installed({
 })
 
 lsp.configure('julials', {
-    julia_env_path = { os.getenv( "HOME" ) .. ".julia/environments/nvim-lspconfig"}
+    julia_env_path = { lib.get_normalized_home() .. ".julia/environments/nvim-lspconfig"}
 })
 
 lsp.setup()

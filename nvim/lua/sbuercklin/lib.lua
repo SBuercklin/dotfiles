@@ -28,4 +28,13 @@ function M.dump(o)
    end
 end
 
+function M.get_normalized_home()
+    local home = os.getenv("HOME")
+    if string.sub(home, -1) ~= '/' then
+        home = home .. '/'
+    end
+
+    return home
+end
+
 return M
