@@ -10,6 +10,10 @@ lsp.ensure_installed({
     'julials',
 })
 
+lsp.configure('julials', {
+    julia_env_path = { os.getenv( "HOME" ) .. ".julia/environments/nvim-lspconfig"}
+})
+
 lsp.setup()
 
 local cmp = require('cmp')
