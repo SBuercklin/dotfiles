@@ -2,6 +2,7 @@ require("sbuercklin")
 require("sbuercklin.packer")
 require("sbuercklin.lib")
 require("sbuercklin.julia-repl")
+require("sbuercklin.notes")
 
 -- Settings for nvim-tree
 if isModuleAvailable('nvim-tree') then
