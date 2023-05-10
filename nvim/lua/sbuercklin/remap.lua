@@ -2,7 +2,7 @@ local lib = require("sbuercklin.lib")
 
 vim.g.mapleader = " "
 
-if isModuleAvailable('nvim-tree') then
+if lib.isModuleAvailable('nvim-tree') then
     vim.keymap.set("n", "<leader>e", vim.cmd.NvimTreeToggle)
 else
     vim.keymap.set("n", "<leader>e", vim.cmd.Ex)

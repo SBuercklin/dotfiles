@@ -1,5 +1,6 @@
+local M = {}
 -- Ref: https://stackoverflow.com/a/15434737
-function isModuleAvailable(name)
+function M.isModuleAvailable(name)
   if package.loaded[name] then
     return true
   else
@@ -14,12 +15,12 @@ function isModuleAvailable(name)
   end
 end
 
-function dump(o)
+function M.dump(o)
    if type(o) == 'table' then
       local s = '{ '
       for k,v in pairs(o) do
          if type(k) ~= 'number' then k = '"'..k..'"' end
-         s = s .. '['..k..'] = ' .. dump(v) .. ','
+         s = s .. '['..k..'] = ' .. M.dump(v) .. ','
       end
       return s .. '} '
    else
@@ -27,3 +28,4 @@ function dump(o)
    end
 end
 
+return M

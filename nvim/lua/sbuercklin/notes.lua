@@ -1,13 +1,14 @@
 local api = vim.api
 local fn = vim.fn
-local fs = vim.fs
 local math = require("math")
 
-function get_note_dir()
+local M = {}
+
+function M.get_note_dir()
     return "~/.sam-notes/"
 end
 
-function open_win()
+function M.open_win()
     local N = 10 
     local width = math.floor(fn.winwidth(0) / N)
     local height = math.floor(fn.winheight(0) / N)
@@ -18,7 +19,7 @@ function open_win()
     vim.wo[w].rnu = false
 end
 
-function get_note_title()
+function M.get_note_title()
     local dt = os.date('*t')
     
     local year = tostring(dt['year'])
@@ -38,11 +39,11 @@ function get_note_title()
     return title
 end
 
-function get_daily_note()
-    open_win()
+function M.get_daily_note()
+    M.open_win()
 
-    local note_dir = get_note_dir()
-    local title = get_note_title()
+    local note_dir = M.get_note_dir()
+    local title = M.get_note_title()
 
     vim.cmd('e ' .. note_dir .. title .. ".md")
 
@@ -54,4 +55,6 @@ function get_daily_note()
     end
 end
 
-vim.keymap.set('n', '<leader>nn', get_daily_note)
+vim.keymap.set('n', '<leader>nn', M.get_daily_note)
+
+return M
