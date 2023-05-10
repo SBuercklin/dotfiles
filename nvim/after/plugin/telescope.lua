@@ -25,3 +25,10 @@ require("telescope").setup {
     }
   }
 }
+
+local notes = require("sbuercklin.notes")
+
+vim.keymap.set('n', '<leader>fn', function()
+    local dir = notes.get_note_dir()
+    builtin.live_grep({cwd = dir})
+end)
