@@ -54,6 +54,7 @@ return require('packer').startup(function(use)
     use { 'tpope/vim-fugitive' }
 
     -- Comments
+    -- Also gc<motion> to comment
     use {
         'tpope/vim-commentary'
     }
@@ -72,6 +73,7 @@ return require('packer').startup(function(use)
 
     -- auto-pairs
     use {'LunarWatcher/auto-pairs'}
+    -- use {'windwp/nvim-autopairs'} -- more customizable
 
     -- nvim-tree explorer
     use {'nvim-tree/nvim-tree.lua',
