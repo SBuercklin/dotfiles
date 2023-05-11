@@ -17,6 +17,8 @@ vim.keymap.set("n", "<A-l>", "<C-w>l")
 
 -- Insert mode exit with 
 vim.keymap.set("i", "jj", "<Esc>", {silent = true})
+vim.keymap.set("t", "jj", "<C-\\><C-n>", {silent = true})
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", {silent = true})
 
 -- Switch Buffers
 vim.keymap.set("n", "<leader>bn", vim.cmd['bnext'])
