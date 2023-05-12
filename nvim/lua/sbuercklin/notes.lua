@@ -8,7 +8,7 @@ local M = {}
 local month_map = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
 
 function M.get_note_dir()
-    return lib.get_normalized_home() .. ".sam-notes"
+    return lib.get_normalized_home() .. ".sam-notes/"
 end
 
 function M.open_win()
