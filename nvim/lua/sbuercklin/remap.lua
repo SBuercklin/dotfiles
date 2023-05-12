@@ -52,3 +52,8 @@ for _,mode in ipairs({"n", "v"}) do
     vim.keymap.set(mode, "<leader>p", "\"+p")
     vim.keymap.set(mode, "<leader>P", "\"+P")
 end
+
+-- If gf is over a file that doesn't exist, create it
+vim.keymap.set("n", "gf", function()
+    vim.cmd { cmd = 'e', args = { '<cfile>' } }
+end)
