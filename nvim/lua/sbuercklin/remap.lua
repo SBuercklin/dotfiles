@@ -20,9 +20,11 @@ vim.keymap.set("i", "jj", "<Esc>", {silent = true})
 vim.keymap.set("t", "jj", "<C-\\><C-n>", {silent = true})
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", {silent = true})
 
--- Switch Buffers
+-- Switch Buffers, Tabs
 vim.keymap.set("n", "<leader>bn", vim.cmd['bnext'])
 vim.keymap.set("n", "<leader>bp", vim.cmd['bprevious'])
+vim.keymap.set("n", "<leader>tn", vim.cmd['tabnext'])
+vim.keymap.set("n", "<leader>tp", vim.cmd['tabprevious'])
 
 -- Tab/Shift-Tab to indent
 vim.keymap.set("n", "<Tab>", '>>')
