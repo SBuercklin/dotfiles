@@ -56,6 +56,7 @@ for _,mode in ipairs({"n", "v"}) do
 end
 
 -- If gf is over a file that doesn't exist, create it
-vim.keymap.set("n", "gf", function()
-    vim.cmd { cmd = 'e', args = { '<cfile>' } }
-end)
+-- NOTE: Was having problems where this wasn't popping open the file in the proper relative path
+-- vim.keymap.set("n", "gf", function()
+--     vim.cmd { cmd = 'e', args = { '<cfile>' } }
+-- end)
