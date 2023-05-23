@@ -72,8 +72,8 @@ return require('packer').startup(function(use)
     }
 
     -- auto-pairs
-    use {'LunarWatcher/auto-pairs'}
-    -- use {'windwp/nvim-autopairs'} -- more customizable
+    -- use {'LunarWatcher/auto-pairs'} -- simpler, older package
+    use {'windwp/nvim-autopairs'} -- more customizable
 
     -- nvim-tree explorer
     use {'nvim-tree/nvim-tree.lua',
