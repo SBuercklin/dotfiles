@@ -37,4 +37,28 @@ function M.get_normalized_home()
     return home
 end
 
+function M.get_sorted_files(dir, opts)
+    local files = vim.fs.dir(dir, opts)
+    local i = 1
+    local files_table = {}
+
+    for a,_ in files do
+        files_table[i] = a
+        i = i + 1
+    end
+    table.sort(files_table)
+
+    return files_table
+end
+
+function M.find_in_table(t, val)
+    for i,v in ipairs(t) do
+        if v == val then
+            return i
+        end
+    end
+
+    return nil
+end
+
 return M
