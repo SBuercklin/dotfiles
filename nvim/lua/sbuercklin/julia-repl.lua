@@ -1,3 +1,5 @@
+-- TODO: Try ToggleTerm for this:  https://github.com/akinsho/toggleterm.nvim
+
 -- Assuming you're in a terminal in normal mode, enter terminal mode, start julia, and return
 -- to normal mode
 function startJulia(project, startup)
