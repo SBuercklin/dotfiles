@@ -1,14 +1,13 @@
-require("sbuercklin")
 require("sbuercklin.packer")
 local lib = require("sbuercklin.lib")
-require("sbuercklin.julia-repl")
-require("sbuercklin.notes")
 
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
 
 -- Generic remaps go here
 require("sbuercklin.remap")
+require("sbuercklin.notes")
+require("sbuercklin.julia-repl")
 
 -- Sets the colorscheme 
 vim.cmd [[colorscheme nightfly]]
