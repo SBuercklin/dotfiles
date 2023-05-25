@@ -85,3 +85,14 @@ if ! grep -q "$SOURCE_TMUX" "$DIR_TMUX"; then
     echo "source $HOME/.tmux.conf-sam" >> $HOME/.tmux.conf
 fi
 
+############################################
+#
+# Importing my neovim config: nvim
+#
+############################################
+mkdir -p $HOME/.config
+
+if [ ! -d $HOME/.config/nvim ]; then
+    echo "symlinking nvim config into $HOME/.config"  
+    ln -sd $SCRIPT_DIR/nvim/ $HOME/.config/
+fi
