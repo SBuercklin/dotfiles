@@ -5,21 +5,13 @@ local lib = require("sbuercklin.lib")
 
 local M = {}
 
+-- TODO:
+-- 1. Add ability to check the local dir for a notefile
+
 local month_map = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
 
 function M.get_note_dir()
     return lib.get_normalized_home() .. ".sam-notes/"
-end
-
-function M.open_win()
-    local N = 10 
-    local width = math.floor(fn.winwidth(0) / N)
-    local height = math.floor(fn.winheight(0) / N)
-
-    local w = api.nvim_open_win(0, true, {relative='win', row=height, col=width, width=width*(N-2), height=height*(N-2), border="double"})
-
-    vim.wo[w].nu = false
-    vim.wo[w].rnu = false
 end
 
 function M.get_note_title()
@@ -63,7 +55,7 @@ function M.open_note(note_name, note_list, prev_b)
 end
 
 function M.get_daily_note()
-    M.open_win()
+    lib.open_win()
 
     local note_dir = M.get_note_dir()
     local fname, title = M.get_note_title()

@@ -1,3 +1,6 @@
+local api = vim.api
+local fn = vim.fn
+
 local M = {}
 -- Ref: https://stackoverflow.com/a/15434737
 function M.isModuleAvailable(name)
@@ -59,6 +62,31 @@ function M.find_in_table(t, val)
     end
 
     return nil
+end
+
+function M.split_delimiter(s, delim)
+    local retval = {}
+    local i = 1
+    for l in string.gmatch(s, '([^'..delim..']+)') do
+        retval[i] = l
+        i = i + 1
+    end
+
+    return retval
+end
+
+function M.split_lines(s) return M.split_delimiter(s, '\n') end
+
+-- Opens a floating with with some proportion of the current window
+function M.open_win(N)
+    N = N or 10
+    local width = math.floor(fn.winwidth(0) / N)
+    local height = math.floor(fn.winheight(0) / N)
+
+    local w = api.nvim_open_win(0, true, {relative='win', row=height, col=width, width=width*(N-2), height=height*(N-2), border="double"})
+
+    vim.wo[w].nu = false
+    vim.wo[w].rnu = false
 end
 
 return M

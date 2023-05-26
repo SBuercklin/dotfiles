@@ -9,6 +9,14 @@ require("sbuercklin.remap")
 require("sbuercklin.notes")
 require("sbuercklin.julia-repl")
 
+if vim.fn.executable('rg') then
+    vim.opt.grepprg = 'rg -n --no-heading'
+
+    -- We use ripgrep to do the TODO parsing.
+    -- TODO: rewrite with normal grep?
+    require("sbuercklin.todo")
+end
+
 -- Sets the colorscheme 
 vim.cmd [[colorscheme nightfly]]
 
