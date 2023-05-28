@@ -89,4 +89,10 @@ function M.open_win(N)
     vim.wo[w].rnu = false
 end
 
+-- Ref: https://stackoverflow.com/questions/4990990/check-if-a-file-exists-with-lua
+function M.file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
+
 return M
