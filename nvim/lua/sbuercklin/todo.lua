@@ -12,6 +12,11 @@ local M = {}
 -- 4. Keymaps to toggle entries in the todo list between done/not done
 -- 5. Check local dir for a todo file before we go to the global todo
 
+-- TODO v2:
+-- The above proposal is really complicated and brittle to rewording stuff. 
+-- Better to add a "sync with TODO" command for the notes and not try to
+-- sync between the notes dir and the TODO file
+
 function M.get_todo_file()
     return lib.get_normalized_home() .. ".sam-todo.md"
 end
@@ -23,6 +28,15 @@ function M.grep_notes_dir()
     local search = "\"^\\[ \\]\""
 
     local cmd = "rg --no-heading -n -w " .. search .. " " .. cwd
+
+    return vim.fn.system(cmd)
+end
+
+function M.grep_todo_file()
+    local cwf = M.get_todo_file()
+    local search = "\"^\\[(.)\\]\""
+
+    local cmd = "rg --no-heading -n -w " .. search .. " " .. cwf
 
     return vim.fn.system(cmd)
 end
@@ -104,9 +118,9 @@ function M.todos_to_string(todo_strings_with_fname)
     local current_fname = todo_strings_with_fname[1]["todo_fname"]
     local todostr = '# '..current_fname..'\n '..'\n'
     for _,t in pairs(todo_strings_with_fname) do
-        new_fname = t["todo_fname"]
+        local new_fname = t["todo_fname"]
         if new_fname ~= current_fname then
-            todostr = todostr..' \n # '..new_fname..'\n \n'
+            todostr = todostr..' \n# '..new_fname..'\n \n'
             current_fname = new_fname
         end
         todostr = todostr..t["todo_str"]
@@ -141,6 +155,46 @@ function M.show_todo_list()
             fn.appendbufline(b, i-1, l)
         end
     end
+end
+
+function M.parse_todo_list()
+    local fname = M.get_todo_file()
+    local headers_entries = {}
+
+    if lib.file_exists(fname) then
+        headers_entries = M.get_headers_entries(fname)
+    end
+
+    return headers_entries
+end
+
+function M.get_headers_entries(fname)
+    local header_table = {}
+    local current_table = {}
+    for l in io.lines(fname) do
+        local header = M.is_header_line(l)
+        if header then
+            if #current_table > 0 then
+                table.insert(header_table, current_table)
+            end
+            current_table = {header = header}
+        else
+            table.insert(current_table, l)
+        end
+    end
+    if #current_table > 0 then
+        table.insert(header_table, current_table)
+    end
+
+    return header_table
+end
+
+function M.is_header_line(l)
+    return string.match(l, '^# (.*)')
+end
+
+function M.is_root_todo_line(l)
+    return string.match(l, '^%[ %]')
 end
 
 vim.keymap.set('n', '<leader>nt', M.show_todo_list)
