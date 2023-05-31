@@ -15,3 +15,15 @@ local test_dirs = vim.fs.find(
 for k,v in pairs(test_dirs) do 
     print(v)
 end
+
+local ts = require("nvim-treesitter.ts_utils")
+local lib = require("sbuercklin.lib")
+
+function print_node()
+    print("activated")
+    local node = ts.get_node_at_cursor()
+    print(lib.dump({lib.dump(ts.get_node_text(node)), lib.dump(ts.get_node_text(node:parent()))}))
+    -- print(lib.dump(node))
+end
+
+vim.keymap.set("n", "<C-u>", print_node)
