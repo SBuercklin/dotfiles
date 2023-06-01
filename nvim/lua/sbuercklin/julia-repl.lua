@@ -107,7 +107,7 @@ function sendJuliaCursor()
 
     sendJulia(scoped_text)
 
-    ts_utils.goto_node(final_node:next_sibling(), false, true)
+    ts_utils.goto_node(final_node, true, true)
     vim.cmd.normal("j^")
 end
 
