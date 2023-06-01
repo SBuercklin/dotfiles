@@ -1,3 +1,6 @@
+-- local api = require("vim.api")
+local ts = require("vim.treesitter")
+local lib = require("sbuercklin.lib")
 -- TODO: Try ToggleTerm for this:  https://github.com/akinsho/toggleterm.nvim
 
 -- Assuming you're in a terminal in normal mode, enter terminal mode, start julia, and return
@@ -93,7 +96,16 @@ function killJuliaREPL()
 end
 
 function sendJuliaLine()
-    sendJulia(vim.api.nvim_get_current_line())
+    local current_buf_id = vim.api.nvim_get_current_buf()
+    local cur = vim.fn.getcurpos()
+    vim.cmd.normal("^")
+
+    local node = ts.get_node()
+    local scoped_text = getJuliaFromNode(node, current_buf_id)
+
+    sendJulia(scoped_text)
+
+    vim.fn.setpos('.', cur)
 end
 
 function sendJuliaVisual()
@@ -102,6 +114,26 @@ function sendJuliaVisual()
     vim.cmd('noau normal! "vy"')
     local contents = vim.fn.getreg('"v')
     sendJulia(contents)
+end
+
+-- Terminate at: assignment, function, parent is a function, parent is a do block,
+-- parent is source_file
+function getJuliaFromNode(node, buf)
+    pnode = node:parent()
+
+    if pnode:type() == "source_file" then
+        return ts.get_node_text(node, buf)
+    end
+
+    if node:type() == "function_definition" then
+        return ts.get_node_text(node, buf)
+    end
+
+    if pnode:type() == "do_clause" then
+        return ts.get_node_text(node, buf)
+    end
+
+    return getJuliaFromNode(pnode, buf)
 end
 
 vim.api.nvim_create_autocmd(

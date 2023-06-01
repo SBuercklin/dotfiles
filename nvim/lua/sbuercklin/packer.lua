@@ -108,4 +108,6 @@ return require('packer').startup(function(use)
 	use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
     use { "rebelot/kanagawa.nvim" } -- lighter background for screenshots, :set background=light
 
+    use({'nvim-treesitter/playground'})
+
 end)

@@ -95,4 +95,19 @@ function M.file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end
 
+function M.backup_mark(name, buf)
+    buf = buf or 0
+    local mark_data = api.nvim_buf_get_mark(buf, name)
+
+    return { buf, name, mark_data[1], mark_data[2] }
+end
+
+function M.restore_mark(args)
+    local buffer = args[1]
+    local name = args[2]
+    local line = args[3]
+    local col = args[4]
+    return api.nvim_buf_set_mark(buffer, name, line, col)
+end
+
 return M
