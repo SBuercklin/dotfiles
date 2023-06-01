@@ -110,4 +110,13 @@ function M.restore_mark(args)
     return api.nvim_buf_set_mark(buffer, name, line, col)
 end
 
+function M.inTableValues(val, tbl)
+    for _,v in pairs(tbl) do
+        if val == v then
+            return true
+        end
+    end
+    return false
+end
+
 return M

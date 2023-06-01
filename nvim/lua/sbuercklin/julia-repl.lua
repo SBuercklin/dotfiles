@@ -1,5 +1,6 @@
 -- local api = require("vim.api")
 local ts = require("vim.treesitter")
+local ts_utils = require("nvim-treesitter.ts_utils")
 local lib = require("sbuercklin.lib")
 -- TODO: Try ToggleTerm for this:  https://github.com/akinsho/toggleterm.nvim
 
@@ -95,17 +96,19 @@ function killJuliaREPL()
     vim.api.nvim_buf_delete(buf_id, { force = true })
 end
 
-function sendJuliaLine()
+function sendJuliaCursor()
     local current_buf_id = vim.api.nvim_get_current_buf()
-    local cur = vim.fn.getcurpos()
     vim.cmd.normal("^")
 
     local node = ts.get_node()
-    local scoped_text = getJuliaFromNode(node, current_buf_id)
+    local final_node = getTerminalJuliaNode(node)
+
+    local scoped_text = ts.get_node_text(final_node, current_buf_id)
 
     sendJulia(scoped_text)
 
-    vim.fn.setpos('.', cur)
+    ts_utils.goto_node(final_node:next_sibling(), false, true)
+    vim.cmd.normal("j^")
 end
 
 function sendJuliaVisual()
@@ -116,24 +119,31 @@ function sendJuliaVisual()
     sendJulia(contents)
 end
 
--- Terminate at: assignment, function, parent is a function, parent is a do block,
--- parent is source_file
-function getJuliaFromNode(node, buf)
-    pnode = node:parent()
+function getTerminalJuliaNode(node)
+    local pnode = node:parent()
 
-    if pnode:type() == "source_file" then
-        return ts.get_node_text(node, buf)
+    if node:type() == "return_statement" then
+        return getTerminalJuliaNode(pnode)
     end
 
-    if node:type() == "function_definition" then
-        return ts.get_node_text(node, buf)
+    if inTerminalNodes(pnode) then
+        return node
+    else
+        return getTerminalJuliaNode(pnode)
     end
+end
 
-    if pnode:type() == "do_clause" then
-        return ts.get_node_text(node, buf)
-    end
+local terminal_nodes = {
+    "function_definition",
+    "module_definition",
+    "do_clause",
+    "if_statement",
+    "source_file"
+}
 
-    return getJuliaFromNode(pnode, buf)
+function inTerminalNodes(node)
+    local t = node:type()
+    return lib.inTableValues(t, terminal_nodes)
 end
 
 vim.api.nvim_create_autocmd(
@@ -153,5 +163,5 @@ vim.keymap.set('n', '<leader>js', envJuliaStatus)
 vim.keymap.set('n', '<leader>jt', envJuliaTest)
 vim.keymap.set('n', '<leader>jp', toggleJuliaREPL)
 vim.keymap.set('n', '<leader>jq', killJuliaREPL)
-vim.keymap.set('n', '<C-m>', sendJuliaLine)
+vim.keymap.set('n', '<C-m>', sendJuliaCursor)
 vim.keymap.set('v', '<C-m>', sendJuliaVisual)
