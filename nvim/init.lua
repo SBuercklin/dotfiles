@@ -71,6 +71,15 @@ vim.api.nvim_create_autocmd(
     }
 )
 
+-- Open help in a vertical split to the right
+vim.api.nvim_create_autocmd("BufWinEnter", {
+    group = vim.api.nvim_create_augroup("help_window_right", {}),
+    pattern = { "*.txt" },
+    callback = function()
+        if vim.o.filetype == 'help' then vim.cmd.wincmd("L") end
+    end
+})
+
 -- By default let subsitutions replace all, rather than just the first on a line
 -- See: `:help :substitute` and look at the `g` flag description
 vim.opt.gdefault = true
