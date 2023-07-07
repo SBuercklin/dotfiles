@@ -27,10 +27,10 @@ vim.keymap.set("n", "<leader>tn", vim.cmd['tabnext'])
 vim.keymap.set("n", "<leader>tp", vim.cmd['tabprevious'])
 
 -- Tab/Shift-Tab to indent
-vim.keymap.set("n", "<Tab>", '>>')
-vim.keymap.set("n", "<S-Tab>", '<<')
-vim.keymap.set("v", "<Tab>", '>gv')
-vim.keymap.set("v", "<S-Tab>", '<gv')
+vim.keymap.set("n", ">", '>>')
+vim.keymap.set("n", "<", '<<')
+vim.keymap.set("v", ">", '>gv')
+vim.keymap.set("v", "<", '<gv')
 
 -- C-l clashes with tmux window movements
 vim.keymap.set("n", "<leader>cl", vim.cmd['noh'])
