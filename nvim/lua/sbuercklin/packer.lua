@@ -50,6 +50,9 @@ return require('packer').startup(function(use)
 		}
 	}
 
+    -- Rust support
+    use 'simrat39/rust-tools.nvim'
+
     -- Git integration
     use { 'tpope/vim-fugitive' }
 
