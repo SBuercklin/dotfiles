@@ -23,13 +23,9 @@ use ( { 'tpope/vim-commentary' } )
 
 -- auto-pairs
 use (
-{
-   'windwp/nvim-autopairs',
-   setup = {
-      enable_check_bracket_line = false,
-      ignored_next_char = "[%w%.]"
-   }
-}
+    {
+       'windwp/nvim-autopairs',
+    }
 )
 
 -- telescope, treesitter
