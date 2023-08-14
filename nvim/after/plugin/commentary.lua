@@ -1,3 +1,5 @@
+local lib = require("sbuercklin.lib")
+
 vim.keymap.set("n", "<C-_>", vim.cmd.Commentary)
 vim.keymap.set("i", "<C-_>", vim.cmd.Commentary)
 
@@ -10,5 +12,3 @@ function comment_visual()
 end
 
 vim.keymap.set("v", "<C-_>", comment_visual)
-
-

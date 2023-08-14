@@ -83,3 +83,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 -- By default let subsitutions replace all, rather than just the first on a line
 -- See: `:help :substitute` and look at the `g` flag description
 vim.opt.gdefault = true
+
+-- used for gitgutter
+vim.cmd.set('updatetime=100')
