@@ -1,114 +1,122 @@
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
+-- Install packer:
+-- git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+--  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
 -- Only required if you have packer configured as `opt`
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
 	-- Packer can manage itself
-	use('wbthomason/packer.nvim')
-
-	-- telescope
-	use({
-		'nvim-telescope/telescope.nvim', tag = '0.1.1',
-		-- or                            , branch = '0.1.x',
-		requires = { {'nvim-lua/plenary.nvim'} }
-	})
-
-	-- treesitter
-	use({
-		'nvim-treesitter/nvim-treesitter',
-		run = ':TSUpdate'
-	})
+	use ( { 'wbthomason/packer.nvim' } )
 
 	-- undo tree
-	use({'mbbill/undotree'})
-
-    -- Julia support
-    use { 'JuliaEditorSupport/julia-vim'}
-
-	-- LSP
-	use {
-		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v1.x',
-		requires = {
-			-- LSP Support
-			{'neovim/nvim-lspconfig'},
-			{'williamboman/mason.nvim'},
-			{'williamboman/mason-lspconfig.nvim'},
-
-			-- Autocompletion
-			{'hrsh7th/nvim-cmp'},
-			{'hrsh7th/cmp-buffer'},
-			{'hrsh7th/cmp-path'},
-			{'saadparwaiz1/cmp_luasnip'},
-			{'hrsh7th/cmp-nvim-lsp'},
-			{'hrsh7th/cmp-nvim-lua'},
-
-			-- Snippets
-			{'L3MON4D3/LuaSnip'},
-			{'rafamadriz/friendly-snippets'},
-		}
-	}
-
-    -- Rust support
-    use 'simrat39/rust-tools.nvim'
+	use( { 'mbbill/undotree' } )
 
     -- Git integration
-    use { 'tpope/vim-fugitive' }
+    use ( { 'tpope/vim-fugitive' } )
+    use ( { 'airblade/vim-gitgutter' } )
 
     -- Comments
-    -- Also gc<motion> to comment
-    use {
-        'tpope/vim-commentary'
-    }
-
-    -- Git gutter
-    use {
-        'airblade/vim-gitgutter'
-    }
-
-    -- bqf and fzf
-    use {'kevinhwang91/nvim-bqf', ft = 'qf'}
-    use {'junegunn/fzf', run = function()
-        vim.fn['fzf#install']()
-    end
-    }
+    use ( { 'tpope/vim-commentary' } )
 
     -- auto-pairs
-    -- use {'LunarWatcher/auto-pairs'} -- simpler, older package
-    use {'windwp/nvim-autopairs'} -- more customizable
+    use ( {'windwp/nvim-autopairs'} )
+
+	-- telescope, treesitter
+	use(
+        {
+            -- or                            , branch = '0.1.x',
+            'nvim-telescope/telescope.nvim', tag = '0.1.1',
+            requires = { {'nvim-lua/plenary.nvim'} }
+        }
+    )
+	use(
+        {
+		'nvim-treesitter/nvim-treesitter',
+		run = ':TSUpdate'
+        }
+    )
+
+    -- vim surround
+    use(
+        {
+            "kylechui/nvim-surround",
+            tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+            config = function()
+                require("nvim-surround").setup(
+                    {
+                        -- config here
+                    }
+                )
+            end
+        }
+    )
+
+    -- fzf
+    use (
+        {
+            'junegunn/fzf',
+            run = function()
+                vim.fn['fzf#install']()
+            end
+        }
+    )
+
+    -- bqf, "better quick fix", gives a popup preview in qf
+    use ( {'kevinhwang91/nvim-bqf', ft = 'qf'} )
 
     -- nvim-tree explorer
-    use {'nvim-tree/nvim-tree.lua',
-    config = function() 
-        require("nvim-tree").setup {
-            renderer = {
-                group_empty = true,
-            },
-            filters = {
-                dotfiles = false,
-            }
+    use (
+        {
+            'nvim-tree/nvim-tree.lua',
+            config = function()
+                require("nvim-tree").setup {
+                    renderer = {
+                        group_empty = true,
+                    },
+                    filters = {
+                        dotfiles = false,
+                    }
+                }
+            end
         }
-    end
-    }
+    )
+
+    -----------------------------------------
+    -- LSP autocomplete, languages
+    -----------------------------------------
+    use ( {'neovim/nvim-lspconfig'} )
+    use ( {'williamboman/mason.nvim'} )
+    use ( {'williamboman/mason-lspconfig.nvim'} )
+
+    -- nvim-cmp engine and autocomplete locations
+    use ( {'hrsh7th/nvim-cmp'} )
+    use ( {'hrsh7th/cmp-cmdline'} )
+    use ( {'hrsh7th/cmp-buffer'} )
+    use ( {'hrsh7th/cmp-path'} )
+    use ( {'hrsh7th/cmp-nvim-lua'} )
+
+    use ( {'rafamadriz/friendly-snippets'} )
+    use ( {'L3MON4D3/LuaSnip'} )
+    use ( {'hrsh7th/cmp-nvim-lsp'} )
+    use ( {'saadparwaiz1/cmp_luasnip'} )
+
+    -- Language support
+    use ( {'simrat39/rust-tools.nvim'} )
+    use( { 'JuliaEditorSupport/julia-vim'} )
+
+    -----------------------------------------
+    -- Everything below here is purely visual
+    -----------------------------------------
 
     -- Allows fancy icons, install a patched font set into ~/.fonts from nerdfonts.com
     -- e.g. Caskaydia Cove
     use {'nvim-tree/nvim-web-devicons'}
 
-    -- insert/change surrounding characters
-    use({
-        "kylechui/nvim-surround",
-        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-        config = function()
-            require("nvim-surround").setup({
-                -- Configuration here, or leave empty to use defaults
-            })
-        end
-    })
-
 	-- Set the theme in lua/sbuercklin/init.lua
 	use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
-    use { "rebelot/kanagawa.nvim" } -- lighter background for screenshots, :set background=light
+    use ( { "rebelot/kanagawa.nvim" } ) -- lighter background for screenshots, :set background=light
 
 end)
