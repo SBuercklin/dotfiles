@@ -35,20 +35,6 @@ use(
        'nvim-telescope/telescope.nvim',
        tag = '0.1.1',
        requires = { {'nvim-lua/plenary.nvim'} },
-       setup = {
-          pickers = {
-             buffers = {
-                mappings = {
-                   i = {
-                      ["<C-d>"] = "delete_buffer",
-                   },
-                   n = {
-                      ["<C-d>"] = "delete_buffer",
-                   }
-                }
-             }
-          }
-       }
     }
 )
 use(

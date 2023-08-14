@@ -1,6 +1,8 @@
 local lsp = require('lspconfig')
 local lib = require('sbuercklin.lib')
 
+require('mason').setup()
+
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Enable LSP logging
@@ -12,7 +14,7 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
 local attach_fn = function(client, bufnr)
-    local opts = { noremap = true, silent = true }
+    local opts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
@@ -53,5 +55,20 @@ lsp.julials.setup(
             end
         end,
         capabilities = capabilities
+    }
+)
+
+local rt = require("rust-tools")
+rt.setup(
+    {
+        server = {
+            on_attach = function(client, bufnr)
+                attach_fn(client, bufnr)
+
+                local opts = { noremap = true, silent = true, buffer = bufnr }
+                vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, opts)
+                vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, opts)
+            end
+        }
     }
 )
