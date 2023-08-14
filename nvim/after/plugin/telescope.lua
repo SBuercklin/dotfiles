@@ -11,20 +11,20 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 vim.keymap.set('n', '<leader>fr', builtin.lsp_references, { noremap = true, silent = true })
 
-require("telescope").setup {
-  pickers = {
-    buffers = {
-      mappings = {
-        i = {
-          ["<C-d>"] = "delete_buffer",
-        },
-        n = {
-          ["<C-d>"] = "delete_buffer",
-        }
-      }
-    }
-  }
-}
+-- require("telescope").setup {
+--   pickers = {
+--     buffers = {
+--       mappings = {
+--         i = {
+--           ["<C-d>"] = "delete_buffer",
+--         },
+--         n = {
+--           ["<C-d>"] = "delete_buffer",
+--         }
+--       }
+--     }
+--   }
+-- }
 
 local notes = require("sbuercklin.notes")
 
