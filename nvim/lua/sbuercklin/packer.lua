@@ -12,19 +12,77 @@ return require('packer').startup(function(use)
 use ( { 'wbthomason/packer.nvim' } )
 
 -- undo tree
-use( { 'mbbill/undotree' } )
+use( 
+    { 
+        'mbbill/undotree',
+        config = function () 
+            vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+
+            -- Focuses the undo tree when it's opened
+            vim.api.nvim_set_var("undotree_SetFocusWhenToggle", 1)
+
+            vim.api.nvim_set_var("undotree_WindowLayout", 2)
+        end
+    } 
+
+)
 
 -- Git integration
-use ( { 'tpope/vim-fugitive' } )
+use ( 
+    { 
+        'tpope/vim-fugitive' ,
+        config = function () 
+            vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+            vim.keymap.set("n", "<leader>gb", function() vim.cmd({ cmd = 'Git', args = { 'blame' } }) end)
+
+            vim.keymap.set("n", "<leader>glg", 
+                function() 
+                    vim.cmd({ cmd = 'Git',  args = { 'log --graph --oneline' } }) 
+                end
+                )
+            vim.keymap.set("n", "<leader>gll", 
+                function() 
+                    vim.cmd({ cmd = 'Git',  args = { 'log --graph --oneline --all' } }) 
+                end
+                )
+        end
+    } 
+)
 use ( { 'airblade/vim-gitgutter' } )
 
 -- Comments
-use ( { 'tpope/vim-commentary' } )
+use ( 
+    { 
+        'tpope/vim-commentary',
+        config = function () 
+            vim.keymap.set("n", "<C-_>", vim.cmd.Commentary)
+            vim.keymap.set("i", "<C-_>", vim.cmd.Commentary)
+
+            -- Enable visual mode by getting the lines and then pass to commentary
+            function comment_visual()
+                local strt = math.min(vim.fn.line("v"), vim.fn.line("."))
+                local stp = math.max(vim.fn.line("v"), vim.fn.line("."))
+
+                vim.cmd(tostring(strt) .. "," .. tostring(stp) .. "Commentary")
+            end
+
+            vim.keymap.set("v", "<C-_>", comment_visual)
+        end
+    } 
+)
 
 -- auto-pairs
 use (
     {
        'windwp/nvim-autopairs',
+       config = function () 
+           require('nvim-autopairs').setup( 
+               {
+                  enable_check_bracket_line = false,
+                  ignored_next_char = "[%w%.]"
+               } 
+           )
+       end
     }
 )
 
@@ -39,8 +97,8 @@ use(
 )
 use(
     {
-       'nvim-treesitter/nvim-treesitter',
-       run = ':TSUpdate'
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate',
     }
 )
 
@@ -85,7 +143,38 @@ use (
                    dotfiles = false,
                 }
             }
+            config = function ()
+                vim.g.loaded_netrw = 1
+                vim.g.loaded_netrwPlugin = 1
+            end
         end
+    }
+)
+
+use(
+    {
+    "aserowy/tmux.nvim",
+    config = function()
+        local tmux = require("tmux")
+
+        tmux.setup(
+            {
+                navigation = {
+                    cycle_navigation = false,
+                    enable_default_keybindings = false,
+                },
+                resize = {
+                    enable_default_keybindings = false,
+                }
+            }
+        )
+
+
+        vim.keymap.set("n", "<A-h>", tmux.move_left)
+        vim.keymap.set("n", "<A-j>", tmux.move_bottom)
+        vim.keymap.set("n", "<A-k>", tmux.move_top)
+        vim.keymap.set("n", "<A-l>", tmux.move_right)
+    end
     }
 )
 

@@ -10,10 +10,13 @@ end
 
 -- Window movement remaps
 --     Move between windows
-vim.keymap.set("n", "<A-h>", "<C-w>h")
-vim.keymap.set("n", "<A-j>", "<C-w>j")
-vim.keymap.set("n", "<A-k>", "<C-w>k")
-vim.keymap.set("n", "<A-l>", "<C-w>l")
+if not(lib.isModuleAvailable('tmux')) then
+    --     These are superseded by tmux.nvim configs
+    vim.keymap.set("n", "<A-h>", "<C-w>h")
+    vim.keymap.set("n", "<A-j>", "<C-w>j")
+    vim.keymap.set("n", "<A-k>", "<C-w>k")
+    vim.keymap.set("n", "<A-l>", "<C-w>l")
+end
 
 -- Insert mode exit with 
 vim.keymap.set("i", "jj", "<Esc>", {silent = true})
@@ -31,9 +34,6 @@ vim.keymap.set("n", ">", '>>')
 vim.keymap.set("n", "<", '<<')
 vim.keymap.set("v", ">", '>gv')
 vim.keymap.set("v", "<", '<gv')
-
--- C-l clashes with tmux window movements
-vim.keymap.set("n", "<leader>cl", vim.cmd['noh'])
 
 -- Toggle relative line numbers
 vim.keymap.set("n", "<leader>tr", function() vim.opt.rnu = not vim.opt.rnu:get() end)
