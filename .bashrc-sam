@@ -7,3 +7,6 @@ export EDITOR="vim"
 
 type nvim >/dev/null 2>&1 && alias vim=nvim
 
+# Vim movement mode in the terminal
+set -o vi
+bind -m vi-insert '"jj":vi-movement-mode'
