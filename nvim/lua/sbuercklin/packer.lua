@@ -165,6 +165,10 @@ use(
                 },
                 resize = {
                     enable_default_keybindings = false,
+                },
+                copy_sync = {
+                    enable = false, -- I like persisting my individual nvim registers
+                    sync_clipboard = false, -- but if I did want this, I want to manage the clipboard
                 }
             }
         )
