@@ -30,9 +30,9 @@ end
 
 function M.get_session_info()
     local cmd_str = build_tmux_cmd({cmd = 'display', flags = {"p"}})
-    local sstring = lib.trim_newline(run_cmd(cmd_str .. " '#S'"))
-    local wstring = lib.trim_newline(run_cmd(cmd_str .. " '#W'"))
-    local pstring = lib.trim_newline(run_cmd(cmd_str .. " '#P'"))
+    local sstring = lib.trim_newline(run_cmd(cmd_str .. " '#{session_id}'"))
+    local wstring = lib.trim_newline(run_cmd(cmd_str .. " '#{window_id}'"))
+    local pstring = lib.trim_newline(run_cmd(cmd_str .. " '#D'"))
 
     return {session = sstring, window = wstring, panel = pstring}
 end
@@ -52,11 +52,13 @@ function M.attach_new_pane(cmd)
     end
 
     -- Command to start a new terminal and save the id
+    -- TODO: Put this in a separate session specifically for terminals,
+    --      don't show it automatically
     local current_info = M.get_session_info()
     local tcmd = build_tmux_cmd(
         {
             cmd = 'splitw', 
-            flags = {"h", "F", "P"}, 
+            flags = {"h", "F", "P", d}, 
             F = "'#{pane_id}'",
             arg = cmd
         }
@@ -89,11 +91,7 @@ function M.toggle_pane(id)
     local win_id = M.get_session_info().window
 
     if M.pane_alive(id) then
-        print("Pane alive")
-        print(id)
         for _,l in pairs(M.get_window_panelist(win_id)) do
-            print("iterating panes")
-            print(l)
             if l == id then
                 M.hide_pane(id)
                 return nil
@@ -121,9 +119,8 @@ function M.restore_pane(id)
         local session = session_info.session
         local window = session_info.window
 
-        local tcmd = build_tmux_cmd({cmd = 'joinp', flags = {'d', 'h'}, source = id, target = session .. ':' .. window})
+        local tcmd = build_tmux_cmd({cmd = 'joinp', flags = {'d', 'h'}, source = id, target = ':' .. window})
 
-        print(tcmd)
         run_cmd(tcmd)
     end
 end
@@ -188,7 +185,9 @@ end
 
 function pad_str(s) return ' ' .. s end
 
--- print(M.attach_new_pane('julia'))
+-- print(M.attach_new_pane())
+
+M.attach_new_pane()
 
 -- print(M.has_session(1))
 -- print(M.has_session(2))
