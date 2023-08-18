@@ -77,6 +77,10 @@ end
 
 function M.split_lines(s) return M.split_delimiter(s, '\n') end
 
+function M.trim_newline(s)
+    return s:gsub("%\n$", "")
+end
+
 -- Opens a floating with with some proportion of the current window
 function M.open_win(N)
     N = N or 10
