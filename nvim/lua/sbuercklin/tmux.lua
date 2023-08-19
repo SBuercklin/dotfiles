@@ -172,7 +172,7 @@ end
 
 function M.attach_existing_pane(id)
     local panelist = M.get_panelist()
-    
+
     for _,l in pairs(panelist) do
         if l == id then
             local acmd = build_tmux_cmd({cmd = 'joinp', flags = {'h', 'd', 's', 't'}, s = id, t = ':'})
@@ -197,6 +197,17 @@ function M.get_panelist()
     local panelist = run_cmd(pane_cmd)
 
     return lib.split_lines(panelist)
+end
+
+function M.get_windowlist(sess)
+    if not(sess) then
+        sess = 'tstash'
+    end
+    local wcmd = build_tmux_cmd({cmd = 'lsp', flags = {'F', 's', 't'}, F = "'#{pane_id}'", t = sess})
+
+    local wlist = run_cmd(wcmd)
+
+    return lib.split_lines(wlist)
 end
 
 -- Check to see if a pane with the given ID is alive
