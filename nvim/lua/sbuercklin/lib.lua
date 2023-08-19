@@ -99,4 +99,6 @@ function M.file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end
 
+function M.pad_str(s) return ' ' .. s end
+
 return M

@@ -60,7 +60,7 @@ function envJuliaTest()
 end
 
 function toggleJuliaREPL()
-    tmux.toggle_pane(vim.t.attached_tmux_pane)
+    tmux.toggle_attached_pane()
 end
 
 function killJuliaREPL()
@@ -99,5 +99,6 @@ vim.keymap.set('n', '<leader>js', envJuliaStatus)
 vim.keymap.set('n', '<leader>jt', envJuliaTest)
 vim.keymap.set('n', '<leader>jp', toggleJuliaREPL)
 vim.keymap.set('n', '<leader>jq', tmux.kill_attached_pane)
+vim.keymap.set('n', '<leader>jd', tmux.detach_pane)
 vim.keymap.set('n', '<C-m>', sendJuliaLine)
 vim.keymap.set('v', '<C-m>', sendJuliaVisual)
