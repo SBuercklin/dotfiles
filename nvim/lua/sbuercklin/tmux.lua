@@ -77,7 +77,7 @@ function M.create_pane_cmd(sess, cmd)
             arg = cmd
         }
     )
-
+    print(tcmd)
     local panel_id = run_cmd(tcmd)
     local trimmed_id = panel_id:gsub("%\n$", "")
 
@@ -290,5 +290,11 @@ vim.api.nvim_create_autocmd(
     group = 'TmuxAttachedPane'
     }
 )
+
+-- Default keymaps for interaction with tmux
+vim.keymap.set('n', '<leader>jr', M.attach_new_pane)
+vim.keymap.set('n', '<leader>jd', M.detach_pane)
+vim.keymap.set('n', '<leader>jp', M.toggle_attached_pane)
+vim.keymap.set('n', '<leader>jq', M.kill_attached_pane)
 
 return M
