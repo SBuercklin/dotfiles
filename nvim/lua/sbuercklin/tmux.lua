@@ -67,7 +67,7 @@ end
 
 -- Create a pane in the session s with a cmd
 function M.create_pane_cmd(sess, cmd)
-    M.ensure_session(sess)
+    local session_existed = M.ensure_session(sess)
     local tcmd = build_tmux_cmd(
         {
             cmd = 'neww', 
@@ -80,6 +80,10 @@ function M.create_pane_cmd(sess, cmd)
 
     local panel_id = run_cmd(tcmd)
     local trimmed_id = panel_id:gsub("%\n$", "")
+
+    if not(session_existed) then
+        M.kill_first_window(sess) 
+    end
 
     return trimmed_id
 end
@@ -117,15 +121,19 @@ end
 function M.toggle_attached_pane() M.toggle_pane(vim.t.attached_tmux_pane) end
 
 -- Hides the pane with the given id in the supplied session s, default to tstash
-function M.hide_pane(id, s)
-    if not(s) then
-        s = 'tstash'
+function M.hide_pane(id, sess)
+    if not(sess) then
+        sess = 'tstash'
     end
     if M.pane_alive(id) then
-        M.ensure_session(s)
+        local session_existed = M.ensure_session(sess)
         
-        local bcmd = build_tmux_cmd({cmd = 'breakp', flags = {'d', 't', 's'}, s = id, t = s .. ':'})
+        local bcmd = build_tmux_cmd({cmd = 'breakp', flags = {'d', 't', 's'}, s = id, t = sess .. ':'})
         run_cmd(bcmd)
+
+        if not(session_existed) then
+            M.kill_first_window(sess)
+        end
     end
 end
 
@@ -245,11 +253,25 @@ function M.create_session(s)
     run_cmd(scmd)
 end
 
+
+-- Ensures that a session `s` is running in tmux. Creates the session if 
+--  it doesn't exist, otherwise a no-op
+-- Returns truthy if the session already existed, returns falsey if the session did not
 function M.ensure_session(s)
     if M.has_session(s) then
-        return 1
+        return true
     else
-        return M.create_session(s)
+        M.create_session(s)
+        return nil
+    end
+end
+
+-- Kills the first window in a session s
+--  Used for when we start a session and it has a default window that we don't use
+function M.kill_first_window(s)
+    if M.has_session(s) then
+        local kcmd = build_tmux_cmd({cmd = "killw", flags = {"t"}, t = s .. ":^"})
+        run_cmd(kcmd)
     end
 end
   
