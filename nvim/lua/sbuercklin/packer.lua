@@ -117,16 +117,6 @@ use(
     }
 )
 
--- fzf
-use (
-    {
-        'junegunn/fzf',
-        run = function()
-            vim.fn['fzf#install']()
-        end
-    }
-)
-
 -- bqf, "better quick fix", gives a popup preview in qf
 use ( {'kevinhwang91/nvim-bqf', ft = 'qf'} )
 
