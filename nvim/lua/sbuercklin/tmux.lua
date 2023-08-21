@@ -77,7 +77,6 @@ function M.create_pane_cmd(sess, cmd)
             arg = cmd
         }
     )
-    print(tcmd)
     local panel_id = run_cmd(tcmd)
     local trimmed_id = panel_id:gsub("%\n$", "")
 
@@ -183,6 +182,7 @@ function M.attach_existing_pane(id)
 
     for _,l in pairs(panelist) do
         if l == id then
+            M.detach_pane()
             local acmd = build_tmux_cmd({cmd = 'joinp', flags = {'h', 'd', 's', 't'}, s = id, t = ':'})
             run_cmd(acmd)
 
@@ -276,7 +276,6 @@ function M.kill_first_window(s)
 end
 
 function M.get_pane_contents(pid)
-    print(pid)
     local ccmd = build_tmux_cmd({cmd = "capture-pane", flags = {'t', 'p'}, t = pid})
     return run_cmd(ccmd)
 end
