@@ -9,6 +9,7 @@ require("sbuercklin.remap")
 
 require("sbuercklin.notes")
 require("sbuercklin.julia")
+require("sbuercklin.rust")
 require("sbuercklin.tmux")
 
 if vim.fn.executable('rg') then
