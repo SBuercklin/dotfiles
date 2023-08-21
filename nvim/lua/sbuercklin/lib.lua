@@ -77,6 +77,10 @@ end
 
 function M.split_lines(s) return M.split_delimiter(s, '\n') end
 
+function M.trim_newline(s)
+    return s:gsub("%\n$", "")
+end
+
 -- Opens a floating with with some proportion of the current window
 function M.open_win(N)
     N = N or 10
@@ -94,5 +98,7 @@ function M.file_exists(name)
    local f=io.open(name,"r")
    if f~=nil then io.close(f) return true else return false end
 end
+
+function M.pad_str(s) return ' ' .. s end
 
 return M

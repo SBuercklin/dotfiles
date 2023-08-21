@@ -6,8 +6,11 @@ vim.opt.termguicolors = true
 
 -- Generic remaps go here
 require("sbuercklin.remap")
+
 require("sbuercklin.notes")
-require("sbuercklin.julia-repl")
+require("sbuercklin.julia")
+require("sbuercklin.rust")
+require("sbuercklin.tmux")
 
 if vim.fn.executable('rg') then
     vim.opt.grepprg = 'rg -n --no-heading'
