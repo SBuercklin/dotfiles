@@ -274,6 +274,12 @@ function M.kill_first_window(s)
         run_cmd(kcmd)
     end
 end
+
+function M.get_pane_contents(pid)
+    print(pid)
+    local ccmd = build_tmux_cmd({cmd = "capture-pane", flags = {'t', 'p'}, t = pid})
+    return run_cmd(ccmd)
+end
   
 -- TODO: This seems to not kill active panes in some cases?
 vim.api.nvim_create_augroup('TmuxAttachedPane', {clear = true})
