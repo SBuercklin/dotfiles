@@ -118,6 +118,9 @@ set tabstop=4
 "
 " Useful mappings
 
+" space as leader
+let mapleader = "\<Space>"
+
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 " which is the default
 map Y y$
@@ -143,3 +146,9 @@ if has('nvim')
 endif
 
 "------------------------------------------------------------
+" relative line numbering
+
+set number
+set relativenumber
+
+nnoremap <leader>tr :set relativenumber!<CR>
