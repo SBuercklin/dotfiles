@@ -1,0 +1,16 @@
+snippet function_nodoc Function without docstring
+	function $1($2)
+		$3
+		return nothing
+	end
+
+snippet function_doc Function with docstring
+	"""
+		$1($2)
+
+	TODO: Description of $1
+	"""
+	function $1($2)
+		$3
+		return nothing
+	end

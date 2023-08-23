@@ -3,7 +3,7 @@ local lib = require('sbuercklin.lib')
 
 require('mason').setup()
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+local capabilities = require('cmp_nvim_lsp').default_capabilities
 
 -- Enable LSP logging
 -- vim.lsp.set_log_level("debug")
@@ -54,7 +54,7 @@ lsp.julials.setup(
                 format_autocmd(bufnr)
             end
         end,
-        capabilities = capabilities
+        capabilities = capabilities()
     }
 )
 
