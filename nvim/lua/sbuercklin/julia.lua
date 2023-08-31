@@ -12,8 +12,7 @@ function startJuliaCmd(project, startup)
         extra_args = extra_args .. '--project=' .. project .. ' '
     end
 
-    local start_cmd = 'julia ' .. '-i -e \"' .. execute .. '\" ' .. extra_args
-
+    local start_cmd = 'julia ' .. extra_args .. '-i -e \'' .. execute .. '\' '
     return start_cmd
 end
 
