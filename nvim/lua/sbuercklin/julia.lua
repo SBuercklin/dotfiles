@@ -42,6 +42,8 @@ vim.api.nvim_create_autocmd(
                 vim.keymap.set(
                     'n', '<leader>jt', function() slime.send_to_terminal('Pkg.test()') end, {buffer = ev['buf']}
                 )
+                vim.keymap.set('n', '<C-m>', slime.send_line)
+                vim.keymap.set('v', '<C-m>', slime.send_visual)
             end
         end
     }
