@@ -195,6 +195,7 @@ use ( {'hrsh7th/cmp-cmdline'} )
 use ( {'hrsh7th/cmp-buffer'} )
 use ( {'hrsh7th/cmp-nvim-lua'} )
 use ( {'hrsh7th/cmp-nvim-lsp'} )
+use ( {'kdheepak/cmp-latex-symbols'} ) -- needed for Julia autocomplete of symbols
 
 use ( {'rafamadriz/friendly-snippets'} )
 use ( {'L3MON4D3/LuaSnip'} )
