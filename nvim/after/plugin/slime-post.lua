@@ -22,4 +22,7 @@ if slime.slime_active() then
         local contents = vim.fn.getreg('"v')
         slime.send_to_terminal(contents)
     end
+
+    vim.keymap.set('n', '<C-m>', slime.send_line)
+    vim.keymap.set('v', '<C-m>', slime.send_visual)
 end

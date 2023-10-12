@@ -58,6 +58,15 @@ lsp.julials.setup(
     }
 )
 
+lsp.pyright.setup(
+    {
+        on_attach = function(client, bufnr)
+            attach_fn(client, bufnr)
+        end,
+        capabilities = capabilities()
+    }
+)
+
 local rt = require("rust-tools")
 rt.setup(
     {
