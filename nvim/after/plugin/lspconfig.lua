@@ -58,6 +58,8 @@ lsp.julials.setup(
     }
 )
 
+-- Note that to configure the pyright env, use the venv and venvPath entries in the project config:
+--    https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 lsp.pyright.setup(
     {
         on_attach = function(client, bufnr)
