@@ -2,7 +2,7 @@ local tmux = require("sbuercklin.tmux")
 local slime = require("sbuercklin.slime")
 
 function startJuliaCmd(project, startup)
-    local execute = 'using Revise, Infiltrator, Pkg'
+    local execute = 'using Revise, Infiltrator, Pkg, TestEnv'
     if startup ~= nil then
         execute = execute .. '; include(\"' .. startup .. '\");'
     end
