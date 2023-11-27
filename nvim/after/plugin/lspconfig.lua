@@ -4,6 +4,7 @@ local lib = require('sbuercklin.lib')
 require('mason').setup()
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities
+local keymap_opts = { noremap = true, silent = true, buffer = bufnr }
 
 -- Enable LSP logging
 -- vim.lsp.set_log_level("debug")
@@ -14,15 +15,14 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
 local attach_fn = function(client, bufnr)
-    local opts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', 'F2', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, keymap_opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, keymap_opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, keymap_opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, keymap_opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, keymap_opts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, keymap_opts)
+    vim.keymap.set('n', 'F2', vim.lsp.buf.rename, keymap_opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, keymap_opts)
 end
 
 local format_autocmd = function(bufnr)
@@ -58,11 +58,13 @@ lsp.julials.setup(
     }
 )
 
+-- Requires latexindent and latexmk for formatting and building respectively
 lsp.texlab.setup(
     {
         on_attach = function(client, bufnr)
             attach_fn(client, bufnr)
             format_autocmd(bufnr)
+            vim.keymap.set("n", "<Leader>jm", vim.cmd["TexlabBuild"])
         end,
         capabilities = capabilities()
     }
@@ -86,9 +88,8 @@ rt.setup(
             on_attach = function(client, bufnr)
                 attach_fn(client, bufnr)
 
-                local opts = { noremap = true, silent = true, buffer = bufnr }
-                vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, opts)
-                vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, opts)
+                vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, keymap_opts)
+                vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, keymap_opts)
             end
         }
     }
