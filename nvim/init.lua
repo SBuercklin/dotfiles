@@ -33,6 +33,8 @@ vim.opt.expandtab = true
 
 vim.opt.smartindent = true
 
+vim.opt.colorcolumn = {90, 120}
+
 -- Only do case-senstive search if capitalization is included
 --  override with \C in search string to make case sensitive
 vim.opt.smartcase = true
