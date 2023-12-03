@@ -23,6 +23,7 @@ local attach_fn = function(client, bufnr)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, keymap_opts)
     vim.keymap.set('n', 'F2', vim.lsp.buf.rename, keymap_opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, keymap_opts)
+    vim.keymap.set('n', '<leader>jf', vim.lsp.buf.format, keymap_opts)
 end
 
 local format_autocmd = function(bufnr)
@@ -87,7 +88,8 @@ rt.setup(
         server = {
             on_attach = function(client, bufnr)
                 attach_fn(client, bufnr)
-
+                
+                format_autocmd(bufnr)
                 vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, keymap_opts)
                 vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, keymap_opts)
             end

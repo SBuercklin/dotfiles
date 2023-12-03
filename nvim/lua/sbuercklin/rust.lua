@@ -13,6 +13,9 @@ vim.api.nvim_create_autocmd(
                 vim.keymap.set(
                     'n', '<leader>jc', function() slime.send_to_terminal('cargo check') end, {buffer = ev['buf']}
                 )
+                vim.keymap.set(
+                    'n', '<leader>jm', function() slime.send_to_terminal('cargo run') end, {buffer = ev['buf']}
+                )
             end
         end
     }
