@@ -43,7 +43,7 @@ vim.api.nvim_create_autocmd(
                     'n', '<leader>jt', function() slime.send_to_terminal('Pkg.test()') end, {buffer = ev['buf']}
                 )
                 vim.keymap.set(
-                    'n', '<leader>ja', function() slime.send_to_terminal('TestEnv.activate()') end, {buffer = ev['buf']}
+                    'n', '<leader>je', function() slime.send_to_terminal('TestEnv.activate()') end, {buffer = ev['buf']}
                 )
             end
         end
