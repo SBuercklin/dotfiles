@@ -55,6 +55,9 @@ for _,mode in ipairs({"n", "v"}) do
     vim.keymap.set(mode, "<leader>P", "\"+P")
 end
 
+-- Toggle spellcheck
+vim.keymap.set("n", "<leader>zt", function() vim.cmd.set({args = {'spell!', 'spelllang=en_us'}}) end)
+
 -- If gf is over a file that doesn't exist, create it
 -- NOTE: Was having problems where this wasn't popping open the file in the proper relative path
 -- vim.keymap.set("n", "gf", function()
