@@ -65,8 +65,8 @@ vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize"
 
 -- Code Folding, and a function below it to create the autocommands to open folds on enter
 -- ref: https://www.jmaguire.tech/posts/treesitter_folding/
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldenable = false
 
 vim.api.nvim_create_autocmd(
