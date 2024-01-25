@@ -65,13 +65,25 @@ vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize"
 
 -- Code Folding, and a function below it to create the autocommands to open folds on enter
 -- ref: https://www.jmaguire.tech/posts/treesitter_folding/
-vim.opt.foldmethod = "syntax"
+-- vim.opt.foldmethod = "syntax"
 -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldenable = false
 
 vim.api.nvim_create_autocmd(
     'BufReadPost', { callback = function(ev)
         vim.fn.feedkeys("zR")
+    end
+    }
+)
+vim.api.nvim_create_autocmd(
+    'BufReadPost', { callback = function(ev)
+        -- If a buffer exceeds 10 kB, assume we fold by indentation
+        --  Note: This saves us from really long startup times for enormous files
+        if vim.fn.wordcount()["bytes"] > 100000 then
+            vim.opt_local.foldmethod = "indent"
+        else
+            vim.opt_local.foldmethod = "syntax"
+        end
     end
     }
 )
