@@ -13,3 +13,15 @@ bind -m vi-insert '"jj":vi-movement-mode'
 
 alias cdtemp="cd $(mktemp -d)"
 alias pushdtemp="pushd $(mktemp -d)"
+
+##############
+# Functions, aliases
+##############
+
+function jsonformat() {
+    infile=$1
+    td=$(mktemp)
+
+    jq . $1 > $td
+    mv $td $1
+}
