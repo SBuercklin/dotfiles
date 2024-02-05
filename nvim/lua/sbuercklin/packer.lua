@@ -127,6 +127,7 @@ use (
         config = function()
             local tree_augroup = vim.api.nvim_create_augroup("nvimtree", {clear = true})
             local nvtree = require("nvim-tree")
+            local nvtreeapi = require("nvim-tree.api")
             nvtree.setup {
                 renderer = {
                    group_empty = true,
@@ -144,7 +145,7 @@ use (
                     group = tree_augroup,
                     callback = function(ev)
                         local tcwd = vim.fn.getcwd(0,0)
-                        nvtree.api.tree.change_root(tcwd)
+                        nvtreeapi.tree.change_root(tcwd)
                     end 
                 }
             )
