@@ -67,7 +67,15 @@ lsp.texlab.setup(
             format_autocmd(bufnr)
             vim.keymap.set("n", "<Leader>jm", vim.cmd["TexlabBuild"])
         end,
-        capabilities = capabilities()
+        capabilities = capabilities(),
+        settings = {
+            texlab = {
+                build = {
+                  executable = 'latexmk',
+                  args = { '-shell-escape', '-pdf', '-interaction=nonstopmode', '-synctex=1', '%f' },
+                }
+            }
+        }
     }
 )
 
