@@ -1,4 +1,4 @@
-require("sbuercklin.packer")
+require("sbuercklin.lazy")
 local lib = require("sbuercklin.lib")
 
 -- set termguicolors to enable highlight groups
