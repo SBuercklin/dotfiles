@@ -1,3 +1,5 @@
+vim.g.mapleader = " "
+
 require("sbuercklin.lazy")
 local lib = require("sbuercklin.lib")
 
