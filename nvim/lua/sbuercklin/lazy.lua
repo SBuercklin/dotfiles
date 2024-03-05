@@ -80,7 +80,7 @@ local plugins = {
     -- Telescope
     {
        'nvim-telescope/telescope.nvim',
-       version = '0.1.1',
+       version = '0.1.5',
        dependencies = { {'nvim-lua/plenary.nvim'} },
        keys = {
            { "<leader>fg", require("telescope.builtin").live_grep }
@@ -96,6 +96,8 @@ local plugins = {
             -- require'nvim-treesitter.install'.prefer_git = true
             configs.setup(
             {
+                -- parser_install_dir = "~/.local/share/nvim/site/parsers",
+
                 -- ensure_installed = { "lua", "vim", "vimdoc", "query", "julia", "python", "rust", "latex" },
                 -- sync_install = false,
 
@@ -108,6 +110,9 @@ local plugins = {
                     --     local max_filesize = 100 * 1024 -- 100 KB
                     --     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
                     --     if ok and stats and stats.size > max_filesize then
+                    --         return true
+                    --     end
+                    --     if lang == "lua" then
                     --         return true
                     --     end
                     -- end,
