@@ -194,8 +194,18 @@ local plugins = {
      {'williamboman/mason-lspconfig.nvim'},
 
     -- nvim-cmp engine and autocomplete locations
+     {'hrsh7th/nvim-cmp'},
+     {'hrsh7th/cmp-cmdline'},
+     {'hrsh7th/cmp-buffer'},
+     {'hrsh7th/cmp-nvim-lua'},
+     {'hrsh7th/cmp-nvim-lsp'},
+     {'kdheepak/cmp-latex-symbols'},  -- needed for Julia autocomplete of symbol
 
-    -- Language support
+     {'rafamadriz/friendly-snippets'},
+     {'L3MON4D3/LuaSnip'},
+     {'saadparwaiz1/cmp_luasnip'},
+
+     -- Language support
      {'simrat39/rust-tools.nvim'},
      {'JuliaEditorSupport/julia-vim'},
 
