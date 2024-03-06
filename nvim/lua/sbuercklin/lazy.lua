@@ -31,7 +31,6 @@ local plugins = {
     -- Fugitive, git interation
     {
         'tpope/vim-fugitive',
-        event = "VeryLazy",
         keys = {
             {"<leader>gs", vim.cmd['Git'], mode = "n", desc = "git status in nvim"},
             {"<leader>gb", function() vim.cmd( { cmd = 'Git', args = {'blame'} }) end, mode = "n", desc = "git blame for current buffer"},
@@ -153,6 +152,13 @@ local plugins = {
        "kylechui/nvim-surround",
        version = "*", 
        event = "VeryLazy",
+    },
+
+    -- gS to split/combine contents across multiple lines
+    {
+        'echasnovski/mini.splitjoin', 
+        version = '*',
+        config = true,
     },
 
     -- Better tree than netrw
