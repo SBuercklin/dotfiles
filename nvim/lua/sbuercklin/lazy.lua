@@ -32,20 +32,28 @@ local plugins = {
     {
         'tpope/vim-fugitive',
         keys = {
-            {"<leader>gs", vim.cmd['Git'], mode = "n", desc = "git status in nvim"},
-            {"<leader>gb", function() vim.cmd( { cmd = 'Git', args = {'blame'} }) end, mode = "n", desc = "git blame for current buffer"},
-            {"<leader>glg", 
-                function() 
-                    vim.cmd({cmd = 'Git', args = {'log --graph --oneline'}}) 
-                end, 
-                mode = "n", 
+            {
+                "<leader>gs",
+                vim.cmd['Git'],
+                mode = "n",
+                desc = "git status in nvim"
+            },
+            {
+                "<leader>gb",
+                function() vim.cmd( { cmd = 'Git', args = {'blame'} }) end,
+                mode = "n",
+                desc = "git blame for current buffer"
+            },
+            {
+                "<leader>glg",
+                function() vim.cmd({cmd = 'Git', args = {'log --graph --oneline'}}) end,
+                mode = "n",
                 desc = "git log graph, current branch"
             },
-            {"<leader>gll", 
-                function() 
-                    vim.cmd({cmd = 'Git', args = {'log --graph --oneline --all'}}) 
-                end,
-                mode = "n", 
+            {
+                "<leader>gll",
+                function() vim.cmd({cmd = 'Git', args = {'log --graph --oneline --all'}}) end,
+                mode = "n",
                 desc = "git log graph"
             },
         }
@@ -56,23 +64,11 @@ local plugins = {
         'airblade/vim-gitgutter' 
     },
 
-    -- Commentary, comments
+    -- Comments. gbc for block comments, gcc for regular comments, g{b,c}<movement> also works
     {
-        'tpope/vim-commentary',
-        keys = {
-            {"<C-_>", vim.cmd.Commentary, mode = "n", desc = "Comment current line"},
-            {"<C-_>", vim.cmd.Commentary, mode = "i", desc = "Comment current line"},
-            {
-                "<C-_>", 
-                function () 
-                    local strt = math.min(vim.fn.line("v"), vim.fn.line("."))
-                    local stp = math.max(vim.fn.line("v"), vim.fn.line("."))
-                    vim.cmd(tostring(strt) .. "," .. tostring(stp) .. "Commentary")
-                end, 
-                mode = "v", 
-                desc = "Comment current visual selection" 
-            }
-        }
+        'numToStr/Comment.nvim',
+        opts = {},
+        lazy = false,
     },
 
     -- Autopairs
