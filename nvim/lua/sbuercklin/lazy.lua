@@ -190,6 +190,11 @@ local plugins = {
     },
 
     {
+        'kevinhwang91/nvim-bqf',
+        ft = 'qf'
+    },
+
+    {
         "aserowy/tmux.nvim",
         config = function()
             local tmux = require("tmux")

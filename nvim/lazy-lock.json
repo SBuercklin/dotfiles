@@ -15,6 +15,7 @@
   "mini.splitjoin": { "branch": "main", "commit": "a6b043b4afb075058a8c49325ff22e07f0e96170" },
   "nightfly": { "branch": "master", "commit": "109fa80b06f18b6e335014a97cdef534f20ee87c" },
   "nvim-autopairs": { "branch": "master", "commit": "c6139ca0d5ad7af129ea6c89cb4c56093f2c034a" },
+  "nvim-bqf": { "branch": "main", "commit": "b51a37fcd808edafd52511458467c8c9a701ea8d" },
   "nvim-cmp": { "branch": "main", "commit": "04e0ca376d6abdbfc8b52180f8ea236cbfddf782" },
   "nvim-lspconfig": { "branch": "master", "commit": "e5e600232188ed9fb960f5df6bb06084ae8bf3ec" },
   "nvim-surround": { "branch": "main", "commit": "d47001f8ddf9646c24f16d2732d4d0255acd2121" },
