@@ -1,4 +1,6 @@
-require("sbuercklin.packer")
+vim.g.mapleader = " "
+
+require("sbuercklin.lazy")
 local lib = require("sbuercklin.lib")
 
 -- set termguicolors to enable highlight groups
