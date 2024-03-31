@@ -1,7 +1,7 @@
 local api = vim.api
 local fn = vim.fn
 local math = require("math")
-local lib = require("sbuercklin.lib")
+local lib = require("samlib")
 
 local M = {}
 
@@ -86,7 +86,5 @@ function M.get_next_note(notelist, cnote, prev_b)
         M.open_note(next_note, notelist, prev_b)
     end
 end
-
-vim.keymap.set('n', '<leader>nn', M.get_daily_note)
 
 return M

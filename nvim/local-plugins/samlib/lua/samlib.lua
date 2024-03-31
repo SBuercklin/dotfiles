@@ -2,6 +2,7 @@ local api = vim.api
 local fn = vim.fn
 
 local M = {}
+
 -- Ref: https://stackoverflow.com/a/15434737
 function M.isModuleAvailable(name)
   if package.loaded[name] then
@@ -100,5 +101,12 @@ function M.file_exists(name)
 end
 
 function M.pad_str(s) return ' ' .. s end
+
+-- Used to determine if vim-slime is loaded, mainly important for REPL integrations
+function M.slime_active() 
+    return vim.g.loaded_slime
+end
+
+M.setup = function(opts) end
 
 return M

@@ -1,7 +1,7 @@
 local api = vim.api
 local fn = vim.fn
-local lib = require("sbuercklin.lib")
-local notes = require("sbuercklin.notes")
+local lib = require("samlib")
+local notes = require("notes")
 
 local M = {}
 
@@ -197,6 +197,5 @@ function M.is_root_todo_line(l)
     return string.match(l, '^%[ %]')
 end
 
-vim.keymap.set('n', '<leader>nt', M.show_todo_list)
 
 return M

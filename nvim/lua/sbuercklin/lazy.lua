@@ -244,7 +244,6 @@ local plugins = {
          },
          config = function (_, opts)
             local lsp = require('lspconfig')
-            local lib = require('sbuercklin.lib')
 
             -- require('mason').setup()
 
@@ -375,7 +374,31 @@ local plugins = {
 
     -- Colorscheme
     { "bluz71/vim-nightfly-colors", name = "nightfly" },
+
+    -----------------------------------------
+    -- Local projects
+    -----------------------------------------
+    -- Local library of helpful functions
+    require "sbuercklin/configs/samlib",
+
+    -- My preferred tmux integration with keybinds and whatnot
+    require "sbuercklin/configs/stmux",
+   
+    -- My language interactions
+    require "sbuercklin/configs/sjulia",
+    require "sbuercklin/configs/srust",
+    
+    -- Slime helpers
+    require "sbuercklin/configs/sslime",
+    
+    -- Note integrations
+    require "sbuercklin/configs/snotes",
 }
 
--- require("lazy").setup(plugins, opts)
-require("lazy").setup(plugins)
+-- local opts = {
+--     dev = {
+--         path = vim.fn.stdpath("config") .. "/lua/sbuercklin/plugins"
+--     } 
+-- }
+
+require("lazy").setup(plugins, opts)

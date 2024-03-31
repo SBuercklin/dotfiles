@@ -1,5 +1,4 @@
 local lsp = require('lspconfig')
-local lib = require('sbuercklin.lib')
 
 require('mason').setup()
 

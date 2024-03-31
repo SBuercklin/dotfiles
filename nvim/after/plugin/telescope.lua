@@ -6,8 +6,8 @@ local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local conf = require("telescope.config").values
 
-local tmux = require('sbuercklin.tmux')
-local lib = require('sbuercklin.lib')
+local tmux = require('stmux')
+local lib = require('samlib')
 
 if telescope then
     local builtin = require('telescope.builtin')
@@ -38,7 +38,7 @@ if telescope then
       }
     }
 
-    local notes = require("sbuercklin.notes")
+    local notes = require("snotes")
 
     -- This picker lists all of the detached panels in tstash and previews the contents of the
     --  panel so you can pick the correct one

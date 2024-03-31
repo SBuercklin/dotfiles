@@ -1,4 +1,4 @@
-local lib = require("sbuercklin.lib")
+local lib = require("samlib")
 
 if lib.isModuleAvailable('nvim-tree') then
     vim.keymap.set("n", "<leader>e", vim.cmd.NvimTreeToggle)

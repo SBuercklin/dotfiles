@@ -1,7 +1,6 @@
 vim.g.mapleader = " "
 
 require("sbuercklin.lazy")
-local lib = require("sbuercklin.lib")
 
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
@@ -9,17 +8,8 @@ vim.opt.termguicolors = true
 -- Generic remaps go here
 require("sbuercklin.remap")
 
-require("sbuercklin.notes")
-require("sbuercklin.julia")
-require("sbuercklin.rust")
-require("sbuercklin.tmux")
-
 if vim.fn.executable('rg') then
     vim.opt.grepprg = 'rg -n --no-heading'
-
-    -- We use ripgrep to do the TODO parsing.
-    -- TODO: rewrite with normal grep?
-    require("sbuercklin.todo")
 end
 
 -- Sets the colorscheme 
