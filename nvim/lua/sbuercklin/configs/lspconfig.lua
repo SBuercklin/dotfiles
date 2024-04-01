@@ -1,4 +1,11 @@
 return {
+     {
+         'williamboman/mason.nvim',
+         config = function (_)
+            require("mason").setup()
+         end
+     },
+     {
          'neovim/nvim-lspconfig',
          dependencies = {
              {'williamboman/mason.nvim'},
@@ -116,4 +123,5 @@ return {
                 }
             )
          end
-     }
+     },
+ }
