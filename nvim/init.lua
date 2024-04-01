@@ -8,6 +8,7 @@ vim.opt.termguicolors = true
 -- Generic remaps go here
 require("sbuercklin.remap")
 
+-- Use ripgrep instead of grep if available
 if vim.fn.executable('rg') then
     vim.opt.grepprg = 'rg -n --no-heading'
 end
@@ -15,9 +16,11 @@ end
 -- Sets the colorscheme 
 vim.cmd [[colorscheme nightfly]]
 
+-- Relative line numbering
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+-- tab configuration
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
@@ -25,6 +28,7 @@ vim.opt.expandtab = true
 
 vim.opt.smartindent = true
 
+-- Put markers at the 90th, 120th columns
 vim.opt.colorcolumn = {90, 120}
 
 -- Only do case-senstive search if capitalization is included
@@ -38,10 +42,13 @@ vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
+-- Show highlight/matches as you type with /seearches
 vim.opt.incsearch = true
 
 -- Makes sure you have at least N lines above/below cursor when you scroll
 vim.opt.scrolloff = 4
+
+-- enable the signcolumn, usually we use this for git indications
 vim.opt.signcolumn = "yes"
 
 -- Don't automatically add comments with newlines
