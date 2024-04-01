@@ -13,4 +13,7 @@ M.setup = function (opts)
     end
 end
 
+M.notes = notes
+M.todo = todo
+
 return M

@@ -7,5 +7,6 @@ return {
         "samlib",
         "stmux",
         "sslime"
-    }
+    },
+    ft = "rust"
 }
