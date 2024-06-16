@@ -25,3 +25,6 @@ function jsonformat() {
     jq . $1 > $td
     mv $td $1
 }
+
+alias cheateq='cheate query'
+alias cheatea='cheate add'
