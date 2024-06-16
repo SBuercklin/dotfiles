@@ -41,19 +41,26 @@ return {
     version = '0.1.5',
     dependencies = { { 'nvim-lua/plenary.nvim' }, { "stmux" }, { "samlib" }, { "snotes" } },
     keys = {
-        { "<leader>ff", require("telescope.builtin").find_files },
-        { "<leader>fg", require("telescope.builtin").live_grep },
-        { '<leader>fa', require("telescope.builtin").lsp_workspace_symbols },
-        { '<leader>fs', require("telescope.builtin").lsp_document_symbols },
-        { '<leader>fb', require("telescope.builtin").buffers },
-        { '<leader>fh', require("telescope.builtin").help_tags },
-        { '<leader>fr', require("telescope.builtin").lsp_references,       noremap = true, silent = true },
-        { '<leader>fn', function()
-            require("telescope.builtin").live_grep({ cwd = require("snotes").notes.get_note_dir() })
-        end
-        },
-        { '<leader>ja', reattach_picker }
+        { "<leader>ff", },
+        { "<leader>fg", },
+        { '<leader>fa', },
+        { '<leader>fs', },
+        { '<leader>fb', },
+        { '<leader>fh', },
+        { '<leader>fr', },
+        { '<leader>fn', },       
+        { '<leader>ja', reattach_picker } 
     },
+    config = function () 
+        vim.keymap.set("n",  "<leader>ff", require("telescope.builtin").find_files)
+        vim.keymap.set("n",  "<leader>fg", require("telescope.builtin").live_grep)
+        vim.keymap.set("n", '<leader>fa', require("telescope.builtin").lsp_workspace_symbols)
+        vim.keymap.set("n", '<leader>fs', require("telescope.builtin").lsp_document_symbols)
+        vim.keymap.set("n", '<leader>fb', require("telescope.builtin").buffers)
+        vim.keymap.set("n", '<leader>fh', require("telescope.builtin").help_tags)
+        vim.keymap.set("n", '<leader>fr', require("telescope.builtin").lsp_references, {noremap = true, silent = true})
+        vim.keymap.set("n", '<leader>fn', function() require("telescope.builtin").live_grep({ cwd = require("snotes").notes.get_note_dir() }) end)
+    end,
     opts = {
         pickers = {
             buffers = {
