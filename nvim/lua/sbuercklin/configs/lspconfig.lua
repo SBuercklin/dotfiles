@@ -1,20 +1,24 @@
 local attach_fn = function(client, bufnr)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, keymap_opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, keymap_opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, keymap_opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, keymap_opts)
+
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, keymap_opts)
+    vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, keymap_opts)
+
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, keymap_opts)
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, keymap_opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, keymap_opts)
     vim.keymap.set('n', '<leader>jf', vim.lsp.buf.format, keymap_opts)
+    vim.keymap.set("n", "<leader>a", vim.lsp.buf.code_action)
+    vim.keymap.set("n", "<leader>jh", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end)
             
     -- Diagnostic shortcuts, pulled from lspconfig docs
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-    vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+    vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+    vim.keymap.set('n', '<leader>jq', vim.diagnostic.open_float)
 end
-
-local toggle_hints = function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end
 
 local format_autocmd = function(bufnr)
     vim.api.nvim_create_autocmd(
@@ -62,7 +66,6 @@ return {
                     on_attach = function(client, bufnr)
                         attach_fn(client, bufnr)
 
-                        vim.keymap.set("n", "<Leader>a", vim.lsp.buf.code_action)
 
                         -- This is used to determine if we want to autoformat
                         --  kinda hacky but it works
@@ -113,8 +116,6 @@ return {
                     on_attach = function(client, bufnr)
                         attach_fn(client, bufnr)
 
-                        vim.keymap.set("n", "<Leader>a", vim.lsp.buf.code_action)
-                        vim.keymap.set("n", "<Leader>jh", toggle_hints)
                         format_autocmd(bufnr)
                     end,
                     capabilities = capabilities()

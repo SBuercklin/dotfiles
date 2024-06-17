@@ -102,3 +102,15 @@ vim.opt.gdefault = true
 
 -- used for gitgutter
 vim.cmd.set('updatetime=100')
+
+-- Toggle diagnostics command
+local toggle_diagnostics = function (_t) 
+    if vim.diagnostic.is_enabled() then 
+        print("Diagnostics disabled")
+        vim.diagnostic.disable() 
+    else 
+        print("Diagnostics enabled")
+        vim.diagnostic.enable() 
+    end
+end
+vim.api.nvim_create_user_command("ToggleDiagnostic", toggle_diagnostics, {})
