@@ -17,7 +17,7 @@ local attach_fn = function(client, bufnr)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
     vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
-    vim.keymap.set('n', '<leader>jq', vim.diagnostic.open_float)
+    vim.keymap.set('n', '<leader>jw', vim.diagnostic.open_float)
 end
 
 local format_autocmd = function(bufnr)
