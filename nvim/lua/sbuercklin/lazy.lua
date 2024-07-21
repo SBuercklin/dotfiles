@@ -46,6 +46,8 @@ local plugins = {
     -- nvim-cmp engine, snippets, autocomplete sources
     require "sbuercklin/configs/cmp",
 
+    require "sbuercklin/configs/neotest",
+
      -- Language support, I don't think this needs its own file to configure so it lives here
      {
          'JuliaEditorSupport/julia-vim'
