@@ -76,9 +76,5 @@ bind 'C-s' {
 bind 'C-\' if-shell "$hasstash" "join-pane -h -s 'wstash:$'" ''
 bind 'C-]' if-shell "$hasstash" "join-pane -v -s 'wstash:$'" ''
 
-bind-key 'C-t' run-shell '
-    pane="$(tmux list-panes -f "#""{==:#""{pane_start_command},top}" -F "#""D" | head -n 1)";
-    [ -n "$pane" ] && tmux kill-pane -t "$pane" || tmux split-window -l 93 -hf top
-'
-
+bind-key 'C-t' run-shell 'pane="$(tmux list-panes -f "#""{==:#""{pane_start_command},top}" -F "#""D" | head -n 1)"; [ -n "$pane" ] && tmux kill-pane -t "$pane" || tmux split-window -l 93 -hf top'
 set -g mouse on        #For tmux version 2.1 and up
