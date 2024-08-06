@@ -49,6 +49,7 @@ return {
         { '<leader>fh', },
         { '<leader>fr', },
         { '<leader>fn', },       
+        { '<leader>fm', },
         { '<leader>ja', reattach_picker } 
     },
     config = function () 
@@ -59,6 +60,7 @@ return {
         vim.keymap.set("n", '<leader>fb', require("telescope.builtin").buffers)
         vim.keymap.set("n", '<leader>fh', require("telescope.builtin").help_tags)
         vim.keymap.set("n", '<leader>fr', require("telescope.builtin").lsp_references, {noremap = true, silent = true})
+        vim.keymap.set("n", '<leader>fm', require("telescope.builtin").marks, {noremap = true, silent = true})
         vim.keymap.set("n", '<leader>fn', function() require("telescope.builtin").live_grep({ cwd = require("snotes").notes.get_note_dir() }) end)
     end,
     opts = {
