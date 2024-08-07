@@ -69,6 +69,7 @@ local plugins = {
    
     -- My language interactions
     require "sbuercklin/configs/sjulia",
+    require "sbuercklin/configs/spython",
     require "sbuercklin/configs/srust",
     
     -- Slime helpers
