@@ -100,17 +100,6 @@ return {
                 }
             )
 
-            -- Note that to configure the pyright env, use the venv and venvPath entries in the project config:
-            --    https://github.com/microsoft/pyright/blob/main/docs/configuration.md
-            lsp.pyright.setup(
-                {
-                    on_attach = function(client, bufnr)
-                        attach_fn(client, bufnr)
-                    end,
-                    capabilities = capabilities()
-                }
-            )
-
             lsp.rust_analyzer.setup(
                 {
                     on_attach = function(client, bufnr)
@@ -119,6 +108,22 @@ return {
                         format_autocmd(bufnr)
                     end,
                     capabilities = capabilities()
+                }
+            )
+            
+
+            -- Use pyenv to install proper pythong versions
+            -- Construct your virtualenv in whatever project you want
+            -- Add python-lsp-server as a dev dependency and run with that virtualenv active to have pylsp cmd available
+            -- e.g. `poetry run nvim` to run with the current project loaded so you get the proper autocomplete
+            lsp.pylsp.setup(
+                {
+                    on_attach = function(client, bufnr)
+                        attach_fn(client, bufnr)
+
+                        -- format_autocmd(bufnr)
+                    end,
+                    capabilities = capabilities(),
                 }
             )
          end
