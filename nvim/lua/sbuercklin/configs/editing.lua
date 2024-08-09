@@ -31,4 +31,14 @@ return {
             )
         end
     },
+
+    -- Reorders arguments to functions
+    {
+        'machakann/vim-swap',
+        keys = {
+            { "g>", },
+            { "g<", },
+            { "gs", },
+    	},
+    }
 }
