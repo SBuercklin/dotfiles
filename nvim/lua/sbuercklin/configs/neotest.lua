@@ -12,7 +12,16 @@ return {
         require("neotest").setup({
           adapters = {
             require("neotest-julials"),
-            require("neotest-python")
+            require("neotest-python")({dap = { justMyCode = false }})
+          },
+          icons = {
+            failed = "F",
+            notify = "!",
+            passed = "✓",
+            running = "R",
+            skipped = "S",
+            unknown = "?",
+            watching = "W"
           },
         })
     end
