@@ -75,5 +75,6 @@ return {
                 { name = 'cmdline' }
               })
             })
-         end
+         end,
+         event = "InsertEnter"
      }
