@@ -9,7 +9,8 @@ return {
         "nvim-neotest/neotest-python"
     },
     config = function ()
-        require("neotest").setup({
+        local nt = require("neotest")
+        nt.setup({
           adapters = {
             require("neotest-julials"),
             require("neotest-python")({dap = { justMyCode = false }})
@@ -24,5 +25,17 @@ return {
             watching = "W"
           },
         })
+        vim.api.nvim_create_user_command("NeotestToggle", nt.summary.toggle, {})
+        vim.api.nvim_create_user_command("NeotestRun", nt.run.run, {})
+        vim.api.nvim_create_user_command(
+            "NeotestRunFile",
+            function () nt.run.run(vim.fn.expand("&")) end,
+            {}
+        )
+        vim.api.nvim_create_user_command(
+            "NeotestToggleOutput",
+            nt.output_panel.toggle,
+            {}
+        )
     end
 }
