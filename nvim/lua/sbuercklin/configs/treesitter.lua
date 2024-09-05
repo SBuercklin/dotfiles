@@ -1,14 +1,17 @@
--- NOTE: You might need to delete/remove/etc the local installation of parsers for 
+-- NOTE: You might need to delete/remove/etc the local installation of parsers for
 -- languages, and if you're coming from packer then it can also cause parser issues
 return {
-        'nvim-treesitter/nvim-treesitter',
-        build = ":TSUpdate",
-        config = function ()
-            local configs = require("nvim-treesitter.configs") 
-            configs.setup(
+    'nvim-treesitter/nvim-treesitter',
+    build = ":TSUpdate",
+    config = function()
+        local configs = require("nvim-treesitter.configs")
+        configs.setup(
             {
                 -- parser_install_dir = "~/.local/share/nvim/site/parsers",
-
+                ignore_install = {},
+                sync_install = true,
+                auto_install = true,
+                modules = {},
                 ensure_installed = { "lua", "vim", "vimdoc", "query", "julia", "python", "rust", "latex" },
 
                 -- If you need to change the installation directory of the parsers (see -> Advanced Setup)
@@ -18,7 +21,7 @@ return {
                     enable = true,
                     disable = function(lang, buf)
                         local max_filesize = 100 * 1024 -- 100 KB
-                        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+                        local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
                         if ok and stats and stats.size > max_filesize then
                             return true
                         end
@@ -42,6 +45,6 @@ return {
                     },
                 }
             }
-            )
-        end
-    }
+        )
+    end
+}
