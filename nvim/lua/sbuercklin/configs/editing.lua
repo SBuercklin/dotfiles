@@ -1,16 +1,14 @@
 return {
     -- Surround motions, e.g. cs"} to change surrounding " to matched }
     {
-       "kylechui/nvim-surround",
-       version = "*", 
-       config = function() require("nvim-surround").setup({}) end
+        "kylechui/nvim-surround",
+        opts = {}
     },
 
     -- gS to split/combine contents across multiple lines
     {
-        'echasnovski/mini.splitjoin', 
-        version = '*',
-        config = true,
+        'echasnovski/mini.splitjoin',
+        opts = {}
     },
 
     -- Comments. gbc for block comments, gcc for regular comments, g{b,c}<movement> also works
@@ -22,14 +20,10 @@ return {
     -- Autopairs
     {
         'windwp/nvim-autopairs',
-        config = function () 
-            require('nvim-autopairs').setup( 
-            {
-                enable_check_bracket_line = false,
-                ignored_next_char = "[%w%.]"
-            } 
-            )
-        end
+        opts = {
+            enable_check_bracket_line = false,
+            ignored_next_char = "[%w%.]"
+        }
     },
 
     -- Reorders arguments to functions
@@ -39,6 +33,6 @@ return {
             { "g>", },
             { "g<", },
             { "gs", },
-    	},
+        },
     }
 }
