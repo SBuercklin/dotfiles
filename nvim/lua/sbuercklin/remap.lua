@@ -8,7 +8,7 @@ end
 
 -- Window movement remaps
 --     Move between windows
-if not(lib.isModuleAvailable('tmux')) then
+if not (lib.isModuleAvailable('tmux')) then
     --     These are superseded by tmux.nvim configs
     vim.keymap.set("n", "<A-h>", "<C-w>h")
     vim.keymap.set("n", "<A-j>", "<C-w>j")
@@ -16,10 +16,10 @@ if not(lib.isModuleAvailable('tmux')) then
     vim.keymap.set("n", "<A-l>", "<C-w>l")
 end
 
--- Insert mode exit with 
-vim.keymap.set("i", "jj", "<Esc>", {silent = true})
-vim.keymap.set("t", "jj", "<C-\\><C-n>", {silent = true})
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", {silent = true})
+-- Insert mode exit with
+vim.keymap.set("i", "jj", "<Esc>", { silent = true })
+vim.keymap.set("t", "jj", "<C-\\><C-n>", { silent = true })
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { silent = true })
 
 -- Switch Buffers, Tabs
 vim.keymap.set("n", "<leader>bn", vim.cmd['bnext'])
@@ -43,7 +43,7 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 
 -- System clipboard interactions, indenting
-for _,mode in ipairs({"n", "v"}) do
+for _, mode in ipairs({ "n", "v" }) do
     -- Copy
     vim.keymap.set(mode, "<leader>y", "\"+y")
     -- Cut
@@ -54,7 +54,7 @@ for _,mode in ipairs({"n", "v"}) do
 end
 
 -- Toggle spellcheck
-vim.keymap.set("n", "<leader>zt", function() vim.cmd.set({args = {'spell!', 'spelllang=en_us'}}) end)
+vim.keymap.set("n", "<leader>zt", function() vim.cmd.set({ args = { 'spell!', 'spelllang=en_us' } }) end)
 
 -- If gf is over a file that doesn't exist, create it
 -- NOTE: Was having problems where this wasn't popping open the file in the proper relative path

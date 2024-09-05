@@ -13,7 +13,7 @@ if vim.fn.executable('rg') then
     vim.opt.grepprg = 'rg -n --no-heading'
 end
 
--- Sets the colorscheme 
+-- Sets the colorscheme
 vim.cmd [[colorscheme nightfly]]
 
 -- Relative line numbering
@@ -29,7 +29,7 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 
 -- Put markers at the 90th, 120th columns
-vim.opt.colorcolumn = {90, 120}
+vim.opt.colorcolumn = { 90, 120 }
 
 -- Only do case-senstive search if capitalization is included
 --  override with \C in search string to make case sensitive
@@ -53,9 +53,10 @@ vim.opt.signcolumn = "yes"
 
 -- Don't automatically add comments with newlines
 vim.api.nvim_create_autocmd(
-    'BufEnter', { callback = function(ev)
-        vim.opt.formatoptions:remove { "c", "r", "o" }
-    end
+    'BufEnter', {
+        callback = function(ev)
+            vim.opt.formatoptions:remove { "c", "r", "o" }
+        end
     }
 )
 
@@ -69,21 +70,23 @@ vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize"
 vim.opt.foldenable = false
 
 vim.api.nvim_create_autocmd(
-    'BufReadPost', { callback = function(ev)
-        vim.fn.feedkeys("zR")
-    end
+    'BufReadPost', {
+        callback = function(ev)
+            vim.fn.feedkeys("zR")
+        end
     }
 )
 vim.api.nvim_create_autocmd(
-    'BufReadPost', { callback = function(ev)
-        -- If a buffer exceeds 10 kB, assume we fold by indentation
-        --  Note: This saves us from really long startup times for enormous files
-        if vim.fn.wordcount()["bytes"] > 100000 then
-            vim.opt_local.foldmethod = "indent"
-        else
-            vim.opt_local.foldmethod = "syntax"
+    'BufReadPost', {
+        callback = function(ev)
+            -- If a buffer exceeds 10 kB, assume we fold by indentation
+            --  Note: This saves us from really long startup times for enormous files
+            if vim.fn.wordcount()["bytes"] > 100000 then
+                vim.opt_local.foldmethod = "indent"
+            else
+                vim.opt_local.foldmethod = "syntax"
+            end
         end
-    end
     }
 )
 
@@ -104,13 +107,13 @@ vim.opt.gdefault = true
 vim.cmd.set('updatetime=100')
 
 -- Toggle diagnostics command
-local toggle_diagnostics = function (_t) 
-    if vim.diagnostic.is_enabled() then 
+local toggle_diagnostics = function(_t)
+    if vim.diagnostic.is_enabled() then
         print("Diagnostics disabled")
-        vim.diagnostic.disable() 
-    else 
+        vim.diagnostic.enable(false)
+    else
         print("Diagnostics enabled")
-        vim.diagnostic.enable() 
+        vim.diagnostic.enable()
     end
 end
 vim.api.nvim_create_user_command("ToggleDiagnostic", toggle_diagnostics, {})

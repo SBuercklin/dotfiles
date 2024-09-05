@@ -1,152 +1,237 @@
-local attach_fn = function(client, bufnr)
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, keymap_opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, keymap_opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, keymap_opts)
-
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, keymap_opts)
-    vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, keymap_opts)
-
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, keymap_opts)
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, keymap_opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, keymap_opts)
-    vim.keymap.set('n', '<leader>jf', vim.lsp.buf.format, keymap_opts)
-    vim.keymap.set("n", "<leader>a", vim.lsp.buf.code_action)
-    vim.keymap.set("n", "<leader>jh", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end)
-            
-    -- Diagnostic shortcuts, pulled from lspconfig docs
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-    vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
-    vim.keymap.set('n', '<leader>jw', vim.diagnostic.open_float)
+--[[
+-------------------------
+    LSP Keymaps
+-------------------------
+]]
+local build_keymap = function(cfg)
+    vim.keymap.set(
+        cfg.mode,
+        cfg.keys,
+        cfg.cmd,
+        cfg.opts
+    )
 end
 
+local toggle_inlay_hints = function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({})) end
+
+local dflt_opts = { noremap = true, silent = true }
+
+local keymaps = function(bufnr, new_opts)
+    local opts = dflt_opts
+    for k, v in pairs(new_opts) do
+        opts[k] = v
+    end
+    local maps = {
+        { mode = 'n', keys = 'gD',         cmd = vim.lsp.buf.declaration,    opts = opts },
+        { mode = 'n', keys = 'gd',         cmd = vim.lsp.buf.definition,     opts = opts },
+        { mode = 'n', keys = 'gi',         cmd = vim.lsp.buf.implementation, opts = opts },
+
+        { mode = 'n', keys = '<C-k>',      cmd = vim.lsp.buf.signature_help, opts = opts },
+        { mode = 'i', keys = '<C-k>',      cmd = vim.lsp.buf.signature_help, opts = opts },
+
+        { mode = 'n', keys = 'K',          cmd = vim.lsp.buf.hover,          opts = opts },
+        { mode = 'n', keys = '<leader>rn', cmd = vim.lsp.buf.rename,         opts = opts },
+        { mode = 'n', keys = 'gr',         cmd = vim.lsp.buf.references,     opts = opts },
+        { mode = 'n', keys = '<leader>jf', cmd = vim.lsp.buf.format,         opts = opts },
+        { mode = "n", keys = "<leader>a",  cmd = vim.lsp.buf.code_action,    opts = opts },
+        { mode = "n", keys = "<leader>jh", cmd = toggle_inlay_hints,         opts = opts },
+
+        -- Diagnostic shortcuts, pulled from lspconfig docs
+        { mode = 'n', keys = '[d',         cmd = vim.diagnostic.goto_prev,   opts = opts },
+        { mode = 'n', keys = ']d',         cmd = vim.diagnostic.goto_next,   opts = opts },
+        { mode = 'n', keys = '<leader>q',  cmd = vim.diagnostic.setloclist,  opts = opts },
+        { mode = 'n', keys = '<leader>jw', cmd = vim.diagnostic.open_float,  opts = opts },
+    }
+
+    return maps
+end
+
+local attach_fn = function(bufnr)
+    local new_keymaps = keymaps(bufnr, {})
+    for _, mapping in pairs(new_keymaps) do
+        build_keymap(mapping)
+    end
+end
+
+local sam_lsp_augrp = "SamLspAttach"
+vim.api.nvim_create_augroup(sam_lsp_augrp, { clear = true })
+
+vim.api.nvim_create_autocmd(
+    'LspAttach',
+    {
+        callback = function(ev)
+            attach_fn(ev.buf)
+        end,
+        group = sam_lsp_augrp
+    }
+)
+
+--[[
+-------------------------
+    Formatting logic
+-------------------------
+]]
+
+local format_augrp = "SamLspFormatting"
+vim.api.nvim_create_augroup(format_augrp, { clear = true })
+
 local format_autocmd = function(bufnr)
+    -- Only want one formatter per buffer
+    vim.api.nvim_clear_autocmds({
+        buffer = bufnr,
+        group = format_augrp
+    })
     vim.api.nvim_create_autocmd(
         'BufWritePre', {
             callback = function(ev)
+                print("Formatting")
                 vim.lsp.buf.format()
             end,
-            buffer = bufnr
+            buffer = bufnr,
+            group = format_augrp
+        }
+    )
+    -- Sometimes the Julia server detaches and it causes problems
+    vim.api.nvim_create_autocmd(
+        'LspDetach', {
+            callback = function(ev)
+                vim.api.nvim_clear_autocmds({
+                    buffer = bufnr,
+                    group = format_augrp
+                })
+            end
         }
     )
 end
 
+--[[
+-------------------------
+    LSP Configurations
+-------------------------
+]]
+
+local lsp_configs = {}
+
+local julials_config = {
+    on_attach =
+        function(client, bufnr)
+            -- This is used to determine if we want to autoformat
+            --  kinda hacky but it works
+            local fname = vim.api.nvim_buf_get_name(0)
+            local dname = vim.fs.dirname(fname)
+            local dirs = vim.fs.find('.JuliaFormatter.toml', { upward = true, path = dname })
+            if not (next(dirs) == nil) then
+                format_autocmd(bufnr)
+            end
+        end,
+}
+
+-- Requires latexindent and latexmk for formatting and building respectively
+local texlab_config = {
+    on_attach = function(_, bufnr)
+        format_autocmd(bufnr)
+        vim.keymap.set("n", "<Leader>jm", vim.cmd["TexlabBuild"])
+    end,
+    settings = {
+        texlab = {
+            build = {
+                executable = 'latexmk',
+                args = { '-shell-escape', '-pdf', '-interaction=nonstopmode', '-synctex=1', '%f' },
+            }
+        }
+    }
+}
+
+local rust_analyzer_config = {
+    on_attach = function(client, bufnr) format_autocmd(bufnr) end
+}
+
+local lua_ls_config = {
+    on_attach = function(client, bufnr) format_autocmd(bufnr) end
+}
+
+-- Use pyenv to install proper pythong versions
+-- Construct your virtualenv in whatever project you want
+-- Add python-lsp-server as a dev dependency and run with that virtualenv active to have pylsp cmd available
+-- e.g. `poetry run nvim` to run with the current project loaded so you get the proper autocomplete
+local pylsp_config = {
+    -- on_attach = function(client, bufnr) format_autocmd(bufnr) end,
+    settings = {
+        pylsp = {
+            configurationSources = { 'flake8' },
+            plugins = {
+                flake8 = {
+                    enabled = false,
+                    ignore = { 'E501', 'E231' },
+                    maxLineLength = 88,
+                },
+                -- black = {enabled = true},
+                -- autopep8 = { enabled = false },
+                -- mccabe = {enabled = false},
+                pycodestyle = {
+                    enabled = false,
+                    ignore = { 'E501', 'E231' },
+                    maxLineLength = 88,
+                },
+                -- pyflakes = {enabled = false},
+            },
+        },
+    },
+}
+
+lsp_configs.julials = julials_config
+lsp_configs.rust_analyzer = rust_analyzer_config
+lsp_configs.texlab = texlab_config
+lsp_configs.lua_ls = lua_ls_config
+
+--[[
+-------------------------
+    LSP Setup
+-------------------------
+]]
+
+local setup_lsp = function()
+    local lsp = require('lspconfig')
+
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    local dflt_lsp_cfg = { capabilities = capabilities }
+
+    -- Iterate over the servers and configure them
+    for server, server_cfg in pairs(lsp_configs) do
+        local local_cfg = dflt_lsp_cfg
+        for k, v in pairs(server_cfg) do
+            local_cfg[k] = v
+        end
+        -- vim.print(local_cfg)
+        -- vim.print(lsp[server])
+
+        lsp[server].setup(local_cfg)
+    end
+
+    -- Enable LSP logging
+    -- vim.lsp.set_log_level("debug")
+end
+
+--[[
+-------------------------
+    The actual lazy config
+-------------------------
+]]
 
 return {
-     {
-         'williamboman/mason.nvim',
-         config = function (_)
+    {
+        'williamboman/mason.nvim',
+        config = function(_)
             require("mason").setup()
-         end
-     },
-     {
-         'neovim/nvim-lspconfig',
-         dependencies = {
-             {'williamboman/mason.nvim'},
-             {'williamboman/mason-lspconfig.nvim'},
-             {'hrsh7th/cmp-nvim-lsp'},
-         },
-         config = function (_, opts)
-            local lsp = require('lspconfig')
-
-            -- require('mason').setup()
-
-            local capabilities = require('cmp_nvim_lsp').default_capabilities
-            local keymap_opts = { noremap = true, silent = true, buffer = bufnr }
-
-            -- Enable LSP logging
-            -- vim.lsp.set_log_level("debug")
-
-            --------------------------------------------
-            -- Language specific configurations
-            --------------------------------------------
-
-            lsp.julials.setup(
-                {
-                    on_attach = function(client, bufnr)
-                        attach_fn(client, bufnr)
-
-
-                        -- This is used to determine if we want to autoformat
-                        --  kinda hacky but it works
-                        local fname = vim.api.nvim_buf_get_name(0)
-                        local dname = vim.fs.dirname(fname)
-                        local dirs = vim.fs.find('.JuliaFormatter.toml',  { upward = true, path = dname })
-                        if not(next(dirs) == nil) then
-                            format_autocmd(bufnr)
-                        end
-                    end,
-                    capabilities = capabilities()
-                }
-            )
-
-            -- Requires latexindent and latexmk for formatting and building respectively
-            lsp.texlab.setup(
-                {
-                    on_attach = function(client, bufnr)
-                        attach_fn(client, bufnr)
-                        format_autocmd(bufnr)
-                        vim.keymap.set("n", "<Leader>jm", vim.cmd["TexlabBuild"])
-                    end,
-                    capabilities = capabilities(),
-                    settings = {
-                        texlab = {
-                            build = {
-                              executable = 'latexmk',
-                              args = { '-shell-escape', '-pdf', '-interaction=nonstopmode', '-synctex=1', '%f' },
-                            }
-                        }
-                    }
-                }
-            )
-
-            lsp.rust_analyzer.setup(
-                {
-                    on_attach = function(client, bufnr)
-                        attach_fn(client, bufnr)
-
-                        format_autocmd(bufnr)
-                    end,
-                    capabilities = capabilities()
-                }
-            )
-            
-
-            -- Use pyenv to install proper pythong versions
-            -- Construct your virtualenv in whatever project you want
-            -- Add python-lsp-server as a dev dependency and run with that virtualenv active to have pylsp cmd available
-            -- e.g. `poetry run nvim` to run with the current project loaded so you get the proper autocomplete
-            lsp.pylsp.setup(
-                {
-                    on_attach = function(client, bufnr)
-                        attach_fn(client, bufnr)
-
-                        -- format_autocmd(bufnr)
-                    end,
-                    capabilities = capabilities(),
-                    settings = {
-                        pylsp = {
-                            configurationSources = { 'flake8' },
-                            plugins = {
-                                flake8 = {
-                                    enabled = false,
-                                    ignore = { 'E501', 'E231' },
-                                    maxLineLength = 88,
-                                },
-                                -- black = {enabled = true},
-                                -- autopep8 = { enabled = false },
-                                -- mccabe = {enabled = false},
-                                pycodestyle = {
-                                    enabled = false,
-                                    ignore = { 'E501', 'E231' },
-                                    maxLineLength = 88,
-                                },
-                                -- pyflakes = {enabled = false},
-                            },
-                        },
-                    },
-                }
-            )
-         end
-     },
- }
+        end
+    },
+    {
+        'neovim/nvim-lspconfig',
+        dependencies = {
+            { 'williamboman/mason.nvim' },
+            { 'williamboman/mason-lspconfig.nvim' },
+            { 'hrsh7th/cmp-nvim-lsp' },
+        },
+        config = setup_lsp
+    },
+}

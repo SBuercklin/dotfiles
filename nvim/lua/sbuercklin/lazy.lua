@@ -1,18 +1,18 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
 
-opts = {}
+local opts = {}
 
 local plugins = {
     -----------------------------------------
@@ -39,6 +39,7 @@ local plugins = {
     -----------------------------------------
     -- LSP Configuration
     require "sbuercklin/configs/lspconfig",
+    require "sbuercklin/configs/lazydev",
 
     -- Treesitter parser
     require "sbuercklin/configs/treesitter",
@@ -48,10 +49,10 @@ local plugins = {
 
     require "sbuercklin/configs/neotest",
 
-     -- Language support, I don't think this needs its own file to configure so it lives here
-     {
-         'JuliaEditorSupport/julia-vim'
-     },
+    -- Language support, I don't think this needs its own file to configure so it lives here
+    {
+        'JuliaEditorSupport/julia-vim'
+    },
 
     -----------------------------------------
     -- Visual stuff, like colorschemes
@@ -66,15 +67,10 @@ local plugins = {
 
     -- My preferred tmux integration with keybinds and whatnot
     require "sbuercklin/configs/stmux",
-   
-    -- My language interactions
-    require "sbuercklin/configs/sjulia",
-    require "sbuercklin/configs/spython",
-    require "sbuercklin/configs/srust",
-    
+
     -- Slime helpers
     require "sbuercklin/configs/sslime",
-    
+
     -- Note integrations
     require "sbuercklin/configs/snotes",
 }
