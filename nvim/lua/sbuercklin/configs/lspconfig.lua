@@ -17,10 +17,7 @@ local toggle_inlay_hints = function() vim.lsp.inlay_hint.enable(not vim.lsp.inla
 local dflt_opts = { noremap = true, silent = true }
 
 local keymaps = function(bufnr, new_opts)
-    local opts = dflt_opts
-    for k, v in pairs(new_opts) do
-        opts[k] = v
-    end
+    local opts = vim.tbl_deep_extend('force', dflt_opts, new_opts)
     local maps = {
         { mode = 'n', keys = 'gD',         cmd = vim.lsp.buf.declaration,    opts = opts },
         { mode = 'n', keys = 'gd',         cmd = vim.lsp.buf.definition,     opts = opts },
@@ -199,12 +196,7 @@ local setup_lsp = function()
 
     -- Iterate over the servers and configure them
     for server, server_cfg in pairs(lsp_configs) do
-        local local_cfg = dflt_lsp_cfg
-        for k, v in pairs(server_cfg) do
-            local_cfg[k] = v
-        end
-        -- vim.print(local_cfg)
-        -- vim.print(lsp[server])
+        local local_cfg = vim.tbl_deep_extend('force', dflt_lsp_cfg, server_cfg)
 
         lsp[server].setup(local_cfg)
     end
@@ -224,7 +216,8 @@ return {
         'williamboman/mason.nvim',
         config = function(_)
             require("mason").setup()
-        end
+        end,
+        lazy = true
     },
     {
         'neovim/nvim-lspconfig',
@@ -233,6 +226,7 @@ return {
             { 'williamboman/mason-lspconfig.nvim' },
             { 'hrsh7th/cmp-nvim-lsp' },
         },
-        config = setup_lsp
+        config = setup_lsp,
+        ft = { "julia", "rust", "python", "latex", "lua" }
     },
 }

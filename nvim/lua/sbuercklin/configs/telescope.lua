@@ -1,4 +1,6 @@
-function reattach_picker(opts)
+---Opens a telescope picker to find active stashed/detached telescope panes
+---@param opts: table | none
+local function reattach_picker(opts)
     local tmux = require("stmux")
     opts = opts or {}
     local wlist = tmux.get_windowlist()
@@ -36,35 +38,12 @@ function reattach_picker(opts)
     }):find()
 end
 
+local function grep_notes() require("telescope.builtin").live_grep({ cwd = require("snotes").notes.get_note_dir() }) end
+
 return {
     'nvim-telescope/telescope.nvim',
     version = '0.1.5',
     dependencies = { { 'nvim-lua/plenary.nvim' }, { "stmux" }, { "samlib" }, { "snotes" } },
-    keys = {
-        { "<leader>ff", },
-        { "<leader>fg", },
-        { '<leader>fa', },
-        { '<leader>fs', },
-        { '<leader>fb', },
-        { '<leader>fh', },
-        { '<leader>fr', },
-        { '<leader>fn', },       
-        { '<leader>fm', },
-        { '<leader>fp', },
-        { '<leader>ja', reattach_picker } 
-    },
-    config = function () 
-        vim.keymap.set("n",  "<leader>ff", require("telescope.builtin").find_files)
-        vim.keymap.set("n",  "<leader>fg", require("telescope.builtin").live_grep)
-        vim.keymap.set("n", '<leader>fa', require("telescope.builtin").lsp_workspace_symbols)
-        vim.keymap.set("n", '<leader>fs', require("telescope.builtin").lsp_document_symbols)
-        vim.keymap.set("n", '<leader>fb', require("telescope.builtin").buffers)
-        vim.keymap.set("n", '<leader>fh', require("telescope.builtin").help_tags)
-        vim.keymap.set("n", '<leader>fr', require("telescope.builtin").lsp_references, {noremap = true, silent = true})
-        vim.keymap.set("n", '<leader>fm', require("telescope.builtin").marks, {noremap = true, silent = true})
-        vim.keymap.set("n", '<leader>fp', require("telescope.builtin").builtin, {noremap = true, silent = true})
-        vim.keymap.set("n", '<leader>fn', function() require("telescope.builtin").live_grep({ cwd = require("snotes").notes.get_note_dir() }) end)
-    end,
     opts = {
         pickers = {
             buffers = {
@@ -78,5 +57,18 @@ return {
                 }
             }
         }
+    },
+    keys = {
+        { "<leader>ff", require("telescope.builtin").find_files,            desc = "Telescope files in current dir" },
+        { "<leader>fg", require("telescope.builtin").live_grep,             desc = "Telescope ripgrep in current dir" },
+        { '<leader>fa', require("telescope.builtin").lsp_workspace_symbols, desc = "Telescope LSP workspace symbols" },
+        { '<leader>fs', require("telescope.builtin").lsp_document_symbols,  desc = "Telescope LSP document symbols" },
+        { '<leader>fb', require("telescope.builtin").buffers,               desc = "Telescope open buffers" },
+        { '<leader>fh', require("telescope.builtin").help_tags,             desc = "Telescope help tags" },
+        { '<leader>fr', require("telescope.builtin").lsp_references,        desc = "Telescope LSP references",            noremap = true, silent = true },
+        { '<leader>fm', require("telescope.builtin").marks,                 desc = "Telescope current marks",             noremap = true, silent = true },
+        { '<leader>fp', require("telescope.builtin").builtin,               desc = "Telescope builtin telescope pickers", noremap = true, silent = true },
+        { '<leader>fn', grep_notes,                                         desc = "Telescope grep notes dir" },
+        { '<leader>ja', reattach_picker,                                    desc = "Telescope tmux reattach picker" }
     }
 }

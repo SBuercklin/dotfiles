@@ -279,9 +279,10 @@ function M.get_pane_contents(pid)
     return run_cmd(ccmd)
 end
 
+local dflt_opts = {}
+
 function M.setup(opts)
-    local local_opts = vim.deepcopy(M.dflt_opts)
-    for k, v in pairs(opts) do local_opts[k] = v end
+    local local_opts = vim.tbl_deep_extend('force', dflt_opts, opts)
 
     -- TODO: This seems to not kill active panes in some cases?
     vim.api.nvim_create_augroup('TmuxAttachedPane', { clear = true })
@@ -299,19 +300,6 @@ function M.setup(opts)
             group = 'TmuxAttachedPane'
         }
     )
-
-    -- Default keymaps for interaction with tmux
-    vim.keymap.set('n', local_opts.new_pane_key, M.attach_new_pane)
-    vim.keymap.set('n', local_opts.detach_key, M.detach_pane)
-    vim.keymap.set('n', local_opts.toggle_key, M.toggle_attached_pane)
-    vim.keymap.set('n', local_opts.kill_key, M.kill_attached_pane)
 end
-
-M.dflt_opts = {
-    new_pane_key = '<leader>jr',
-    detach_key = '<leader>jd',
-    toggle_key = '<leader>jp',
-    kill_key = '<leader>jq'
-}
 
 return M

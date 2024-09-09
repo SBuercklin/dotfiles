@@ -8,7 +8,8 @@ return {
     -- gS to split/combine contents across multiple lines
     {
         'echasnovski/mini.splitjoin',
-        opts = {}
+        opts = {},
+        keys = { "gS", }
     },
 
     -- Comments. gbc for block comments, gcc for regular comments, g{b,c}<movement> also works
