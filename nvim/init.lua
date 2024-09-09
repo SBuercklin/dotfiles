@@ -69,6 +69,7 @@ vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize"
 -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldenable = false
 
+-- Open all folds when you open a buffer for the first time
 vim.api.nvim_create_autocmd(
     'BufReadPost', {
         callback = function(ev)
@@ -76,6 +77,8 @@ vim.api.nvim_create_autocmd(
         end
     }
 )
+
+-- Helps address really large files where syntax folding can cause hangs
 vim.api.nvim_create_autocmd(
     'BufReadPost', {
         callback = function(ev)
