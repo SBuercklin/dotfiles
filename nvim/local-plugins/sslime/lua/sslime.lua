@@ -30,7 +30,11 @@ end
 
 local function execute_f_and_increment(f)
     local loc = vim.api.nvim_win_get_cursor(0)
-    loc[1] = loc[1] + 1
+    local nlines = vim.api.nvim_buf_line_count(0)
+    if loc[1] ~= nlines then
+        loc[1] = loc[1] + 1
+    end
+    loc[2] = 0 -- Always move to the start of the line
     f()
     vim.api.nvim_win_set_cursor(0, loc)
 end
