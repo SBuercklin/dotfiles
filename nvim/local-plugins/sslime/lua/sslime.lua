@@ -3,13 +3,14 @@ local tmux = require("stmux")
 
 local M = {}
 
-function M.slime_active() 
+function M.slime_active()
     return vim.g.loaded_slime
 end
+
 function M.send_to_terminal(str)
     local pane_tgt = tmux.get_tab_terminal_pane()
     if M.slime_active() and pane_tgt then
-        vim.b.slime_config = {socket_name = "default", target_pane = pane_tgt }
+        vim.b.slime_config = { socket_name = "default", target_pane = pane_tgt }
 
         vim.cmd.SlimeSend1(str)
     end
@@ -27,10 +28,22 @@ function M.send_visual()
     M.send_to_terminal(contents)
 end
 
+local function execute_f_and_increment(f)
+    local loc = vim.api.nvim_win_get_cursor(0)
+    loc[1] = loc[1] + 1
+    f()
+    vim.api.nvim_win_set_cursor(0, loc)
+end
 
-M.setup = function (opts) 
-    vim.keymap.set('n', '<C-m>', M.send_line)
-    vim.keymap.set('v', '<C-m>', M.send_visual)
+local function wrap_with_line_increment(f)
+    return function()
+        execute_f_and_increment(f)
+    end
+end
+
+M.setup = function(opts)
+    vim.keymap.set('n', '<C-m>', wrap_with_line_increment(M.send_line))
+    vim.keymap.set('v', '<C-m>', wrap_with_line_increment(M.send_visual))
 end
 
 return M
