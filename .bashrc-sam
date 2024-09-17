@@ -28,3 +28,5 @@ function jsonformat() {
 
 alias cheateq='cheate query'
 alias cheatea='cheate add'
+
+alias poetrylsp='poetry run pip install "python-lsp-server[all]"'
