@@ -30,3 +30,14 @@ alias cheateq='cheate query'
 alias cheatea='cheate add'
 
 alias poetrylsp='poetry run pip install "python-lsp-server[all]"'
+
+function prune-branches() {
+    if [[ "$#" -ne 1 ]]; then
+        echo "Deleting with merge check"
+        deleteforce="-d"
+    else
+        echo "Deleting with $1"
+        deleteforce="$1"
+    fi
+    git branch >/tmp/merged-branches && vim /tmp/merged-branches && xargs git branch $deleteforce </tmp/merged-branches
+}
