@@ -53,6 +53,9 @@ return {
     -- Fugitive, git interation
     {
         'tpope/vim-fugitive',
+        dependencies = {
+            'shumphrey/fugitive-gitlab.vim',
+        },
         keys = {
             {
                 "<leader>gs",

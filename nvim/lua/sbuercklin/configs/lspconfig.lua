@@ -162,11 +162,11 @@ local pylsp_config = {
                     ignore = { 'E501', 'E231' },
                     maxLineLength = 88,
                 },
-                -- black = {enabled = true},
+                black = { enabled = true },
                 -- autopep8 = { enabled = false },
                 -- mccabe = {enabled = false},
                 pycodestyle = {
-                    enabled = false,
+                    enabled = true,
                     ignore = { 'E501', 'E231' },
                     maxLineLength = 88,
                 },
