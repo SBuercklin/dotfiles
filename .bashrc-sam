@@ -41,3 +41,19 @@ function prune-branches() {
     fi
     git branch >/tmp/merged-branches && vim /tmp/merged-branches && xargs git branch $deleteforce </tmp/merged-branches
 }
+
+function jl_pkg_date() {
+    if [[ $# -eq 3 ]]; then
+        registry=$1
+        shift
+    else
+        registry="General"
+    fi
+    pkg=$1
+    version=$2
+    pkg_dir_letter=`echo $pkg | cut -c -1 | tr '[a-z]' '[A-Z]'` # capitalize first letter for dir
+    pkg_dir="$HOME/.julia/registries/$registry/$pkg_dir_letter/$pkg"
+
+    date="$(git -C "$pkg_dir" log --grep="New version: $pkg $version" | grep -o "Date:.*" - | sed -e 's/Date:\s*//')"
+    echo "$pkg $version was released on: $date"
+}
