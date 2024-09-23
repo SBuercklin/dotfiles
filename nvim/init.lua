@@ -120,3 +120,9 @@ local toggle_diagnostics = function(_t)
     end
 end
 vim.api.nvim_create_user_command("ToggleDiagnostic", toggle_diagnostics, {})
+
+local copy_filepath = function()
+    vim.cmd [[ let @+ = expand("%:p") ]]
+end
+vim.api.nvim_create_user_command("CopyFilepath", copy_filepath,
+    { desc = "Copies the current buffer filepath to the global clipboard" })
