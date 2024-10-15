@@ -56,6 +56,7 @@ return {
         dependencies = {
             'shumphrey/fugitive-gitlab.vim',
         },
+        lazy = false,
         keys = {
             {
                 "<leader>gs",
