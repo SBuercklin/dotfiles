@@ -29,7 +29,7 @@ function jsonformat() {
 alias cheateq='cheate query'
 alias cheatea='cheate add'
 
-alias poetrylsp='poetry run pip install "python-lsp-server[all]"'
+alias poetrylsp='poetry run pip install "python-lsp-server[all]" debugpy'
 
 function prune-branches() {
     if [[ "$#" -ne 1 ]]; then
@@ -56,4 +56,36 @@ function jl_pkg_date() {
 
     date="$(git -C "$pkg_dir" log --grep="New version: $pkg $version" | grep -o "Date:.*" - | sed -e 's/Date:\s*//')"
     echo "$pkg $version was released on: $date"
+}
+
+function jq-repl() {
+    if [[ -z $1 ]] || [[ $1 == "-" ]]; then
+        input=$(mktemp)
+        trap "rm -f $input" EXIT
+        cat /dev/stdin > $input
+    else
+        input=$1
+    fi
+
+    echo '' \
+        | fzf --phony \
+              --preview-window='up:90%' \
+              --print-query \
+              --preview "jq --color-output -r {q} $input"
+}
+
+function yq-repl() {
+    if [[ -z $1 ]] || [[ $1 == "-" ]]; then
+        input=$(mktemp)
+        trap "rm -f $input" EXIT
+        cat /dev/stdin > $input
+    else
+        input=$1
+    fi
+
+    echo '' \
+        | fzf --phony \
+              --preview-window='up:90%' \
+              --print-query \
+              --preview "yq -r {q} $input"
 }
