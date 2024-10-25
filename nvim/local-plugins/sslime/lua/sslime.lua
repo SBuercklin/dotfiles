@@ -9,7 +9,7 @@ end
 
 function M.send_to_terminal(str)
     local pane_tgt = tmux.get_tab_terminal_pane()
-    if M.slime_active() and pane_tgt and string.len(s) > 0 then
+    if M.slime_active() and pane_tgt and string.len(str) > 0 then
         vim.b.slime_config = { socket_name = "default", target_pane = pane_tgt }
 
         vim.cmd.SlimeSend1(str)
