@@ -49,10 +49,14 @@ local plugins = {
 
     require "sbuercklin/configs/neotest",
 
+    require "sbuercklin/configs/nvim-dap",
+
     -- Language support, I don't think this needs its own file to configure so it lives here
     {
         'JuliaEditorSupport/julia-vim'
     },
+
+    require "sbuercklin/configs/db",
 
     -----------------------------------------
     -- Visual stuff, like colorschemes
