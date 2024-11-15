@@ -36,5 +36,6 @@ return {
             nt.output_panel.toggle,
             {}
         )
-    end
+    end,
+    cmd = { "NeotestToggle" }
 }
