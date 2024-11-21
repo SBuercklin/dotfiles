@@ -56,21 +56,15 @@ end
 -- Toggle spellcheck
 vim.keymap.set("n", "<leader>zt", function() vim.cmd.set({ args = { 'spell!', 'spelllang=en_us' } }) end)
 
--- If gf is over a file that doesn't exist, create it
--- NOTE: Was having problems where this wasn't popping open the file in the proper relative path
--- vim.keymap.set("n", "gf", function()
---     vim.cmd { cmd = 'e', args = { '<cfile>' } }
--- end)
-
 local function toggle_quickfix()
-  local windows = vim.fn.getwininfo()
-  for _, win in pairs(windows) do
-    if win["quickfix"] == 1 then
-      vim.cmd.cclose()
-      return
+    local windows = vim.fn.getwininfo()
+    for _, win in pairs(windows) do
+        if win["quickfix"] == 1 then
+            vim.cmd.cclose()
+            return
+        end
     end
-  end
-  vim.cmd.copen()
+    vim.cmd.copen()
 end
 
 vim.keymap.set('n', '<Leader>tq', toggle_quickfix, { desc = "Toggle Quickfix Window" })
