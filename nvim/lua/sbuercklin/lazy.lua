@@ -104,6 +104,7 @@ local plugins = {
     },
     {
         "kylechui/nvim-surround", -- Surround motions, e.g. cs"} to change surrounding " to matched }
+        opts = {}
     },
     {
         'echasnovski/mini.splitjoin', -- gS to split/combine inside brackets
