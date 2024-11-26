@@ -89,3 +89,7 @@ function yq-repl() {
               --print-query \
               --preview "yq -r {q} $input"
 }
+
+function dfjl() {
+    julia --project=@DataFrames -iq -e "println(\"Loading CSV, DataFrames\"); using DataFrames, CSV; println(\"Reading $1 into variable df\"); df = CSV.read(\"$1\", DataFrame); println(describe(df))"
+}
