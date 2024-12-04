@@ -1,14 +1,17 @@
 local api = vim.api
 local fn = vim.fn
-local math = require("math")
 local lib = require("samlib")
 
 local M = {}
 
+local sam_note_buf_augroup = "SamNoteBuffer"
+vim.api.nvim_create_augroup(sam_note_buf_augroup, { clear = true })
+
 -- TODO:
 -- 1. Add ability to check the local dir for a notefile
 
-local month_map = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
+local month_map = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+    "November", "December" }
 
 function M.get_note_dir()
     return lib.get_normalized_home() .. ".sam-notes/"
@@ -30,7 +33,7 @@ function M.get_note_title()
         day = '0' .. day
     end
 
-    local fname = year .. "-" .. month .. "-" .. day 
+    local fname = year .. "-" .. month .. "-" .. day
     local title = month_name .. " " .. day .. ", " .. year .. " (" .. fname .. ")"
 
     return fname, title
@@ -43,19 +46,25 @@ function M.open_note(note_name, note_list, prev_b)
 
     local b = api.nvim_get_current_buf()
 
-    vim.keymap.set('n', '<A-h>', function() M.get_prev_note(note_list, note_name, b) end, { buffer = b})
-    vim.keymap.set('n', '<A-l>', function() M.get_next_note(note_list, note_name, b) end, { buffer = b})
+    vim.keymap.set('n', '<leader>np', function() M.get_prev_note(note_list, note_name, b) end, { buffer = b })
+    vim.keymap.set('n', '<leader>nn', function() M.get_next_note(note_list, note_name, b) end, { buffer = b })
 
-    -- TODO: Do this with an autocommand instead
-    if prev_b ~= nil then
-        vim.api.nvim_buf_delete(prev_b, { force = false })
-    end
+    vim.api.nvim_create_autocmd("BufLeave", {
+        callback = function(ev)
+            if not vim.api.nvim_get_option_value("modified", { buf = b }) then
+                vim.api.nvim_buf_delete(b, {})
+            end
+        end,
+        group = sam_note_buf_augroup,
+        buffer = b,
+        desc = "Closing a buffer on leave if unmodified",
+    })
 
     return b
 end
 
 function M.get_daily_note()
-    lib.open_win()
+    -- lib.open_win()
 
     local note_dir = M.get_note_dir()
     local fname, title = M.get_note_title()
@@ -73,7 +82,7 @@ end
 
 function M.get_prev_note(notelist, cnote, prev_b)
     local idx = lib.find_in_table(notelist, cnote)
-    if idx > 1 then 
+    if idx and idx > 1 then
         local next_note = notelist[idx - 1]
         M.open_note(next_note, notelist, prev_b)
     end
@@ -81,7 +90,7 @@ end
 
 function M.get_next_note(notelist, cnote, prev_b)
     local idx = lib.find_in_table(notelist, cnote)
-    if idx < (#notelist) then
+    if idx and idx < (#notelist) then
         local next_note = notelist[idx + 1]
         M.open_note(next_note, notelist, prev_b)
     end
