@@ -21,6 +21,7 @@ local plugins = {
     require "sbuercklin/configs/cmp",      -- autocomplete, sources, etc
     require "sbuercklin/configs/neotest",  -- neotest and adapters
     require "sbuercklin/configs/nvim-dap", -- DAP, UI, and adapters
+    require "sbuercklin/configs/slime",
 
     {
         'nvim-tree/nvim-tree.lua',
@@ -157,13 +158,6 @@ local plugins = {
             { "<A-l>", require('tmux').move_right,  desc = "tmux-compatible move right" },
         }
     },
-    {
-        'jpalardy/vim-slime',
-        config = function()
-            vim.g.slime_target = "tmux"
-            -- let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}
-        end
-    },
 
     {
         'JuliaEditorSupport/julia-vim',
@@ -183,13 +177,6 @@ local plugins = {
 
     -- My preferred tmux integration with keybinds and whatnot
     require "sbuercklin/configs/stmux",
-
-    {
-        dir = vim.fn.stdpath("config") .. "/local-plugins/sslime/",
-        name = "sslime",
-        dependencies = { "samlib", "jpalardy/vim-slime" },
-        opts = {},
-    },
     require "sbuercklin/configs/snotes", -- Note integrations, probably  want to just rewrite this
 }
 
