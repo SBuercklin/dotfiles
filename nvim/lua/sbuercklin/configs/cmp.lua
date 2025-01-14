@@ -8,7 +8,7 @@ return {
         { 'kdheepak/cmp-latex-symbols' }, -- needed for Julia autocomplete of symbol
 
         { 'rafamadriz/friendly-snippets' },
-        { 'L3MON4D3/LuaSnip' },
+        { 'L3MON4D3/LuaSnip',            opts = { region_check_events = { 'InsertEnter' } } },
         { 'saadparwaiz1/cmp_luasnip' },
     },
     config = function(_, _)

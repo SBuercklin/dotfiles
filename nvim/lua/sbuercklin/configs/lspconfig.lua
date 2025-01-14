@@ -121,6 +121,7 @@ local julials_config = {
                 format_autocmd(bufnr)
             end
         end,
+    init_options = { julialangTestItemIdentification = true },
 }
 
 -- Requires latexindent and latexmk for formatting and building respectively
@@ -214,9 +215,7 @@ end
 return {
     {
         'williamboman/mason.nvim',
-        config = function(_)
-            require("mason").setup()
-        end,
+        config = true,
         lazy = true
     },
     {
