@@ -11,12 +11,14 @@ end
 local send_selection_increment = function()
     local tmux = require("stmux")
     local pane_tgt = tmux.get_tab_terminal_pane()
+
     if pane_tgt then
         vim.b.slime_config = { socket_name = "default", target_pane = pane_tgt }
-        vim.api.nvim_feedkeys('v', 'v', {})
-        vim.cmd('SlimeSend')
-        vim.cmd('normal j')
-        vim.api.nvim_feedkeys('gv', 'n', {})
+        -- Yank visual selection into v register
+        -- Reference: https://www.reddit.com/r/neovim/comments/oo97pq/how_to_get_the_visual_selection_range/
+        vim.cmd('noau normal! "vy"')
+        local contents = vim.fn.getreg('"v')
+        vim.cmd.SlimeSend1(contents)
     end
 end
 
