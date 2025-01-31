@@ -151,17 +151,17 @@ local jl_cmd = {
 }
 
 local julials_config = {
-    -- on_attach =
-    --     function(client, bufnr)
-    --         -- This is used to determine if we want to autoformat
-    --         --  kinda hacky but it works
-    --         local fname = vim.api.nvim_buf_get_name(0)
-    --         local dname = vim.fs.dirname(fname)
-    --         local dirs = vim.fs.find('.JuliaFormatter.toml', { upward = true, path = dname })
-    --         if not (next(dirs) == nil) then
-    --             format_autocmd(bufnr)
-    --         end
-    --     end,
+    on_attach =
+        function(client, bufnr)
+            -- This is used to determine if we want to autoformat
+            --  kinda hacky but it works
+            local fname = vim.api.nvim_buf_get_name(0)
+            local dname = vim.fs.dirname(fname)
+            local dirs = vim.fs.find('.JuliaFormatter.toml', { upward = true, path = dname })
+            if not (next(dirs) == nil) then
+                format_autocmd(bufnr)
+            end
+        end,
     cmd = jl_cmd,
     init_options = { julialangTestItemIdentification = true },
 }
