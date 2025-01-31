@@ -52,3 +52,15 @@ vim.api.nvim_create_autocmd(
         group = "SamJulia"
     }
 )
+
+vim.api.nvim_create_autocmd(
+    "BufEnter",
+    {
+        pattern = { "*.jl" },
+        callback = function(ev)
+            -- https://github.com/neovim/neovim/issues/20129 errors on format on save
+            vim.cmd('set noeol')
+        end,
+        group = "SamJulia"
+    }
+)
