@@ -1,12 +1,12 @@
 vim.g.mapleader = " "
 
-require("sbuercklin.lazy")
+require("lazy_init")
+
+-- Generic remaps go here
+require("remap")
 
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
-
--- Generic remaps go here
-require("sbuercklin.remap")
 
 -- Use ripgrep instead of grep if available
 if vim.fn.executable('rg') then

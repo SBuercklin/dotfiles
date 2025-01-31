@@ -25,7 +25,4 @@ return {
             desc = "Kill attached pane"
         },
     },
-    dependencies = {
-        "samlib"
-    }
 }

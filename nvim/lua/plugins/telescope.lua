@@ -43,7 +43,7 @@ local function grep_notes() require("telescope.builtin").live_grep({ cwd = requi
 return {
     'nvim-telescope/telescope.nvim',
     version = '0.1.5',
-    dependencies = { { 'nvim-lua/plenary.nvim' }, { "stmux" }, { "samlib" }, { "snotes" } },
+    dependencies = { { 'nvim-lua/plenary.nvim' }, { "stmux" }, { "snotes" } },
     opts = {
         pickers = {
             buffers = {

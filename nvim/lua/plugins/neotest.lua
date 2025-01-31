@@ -6,7 +6,7 @@ return {
             "nvim-lua/plenary.nvim",
             "nvim-treesitter/nvim-treesitter",
             "nvim-neotest/neotest-python",
-            { "sbuercklin/neotest-julials", config = true }
+            "sbuercklin/neotest-julials"
         },
         opts = function(_opts)
             local my_opts = {
