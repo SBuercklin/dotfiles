@@ -8,8 +8,15 @@ export EDITOR="vim"
 type nvim >/dev/null 2>&1 && alias vim=nvim
 
 # Vim movement mode in the terminal
-set -o vi
-bind -m vi-insert '"jj":vi-movement-mode'
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    bindkey -v
+    bindkey -v '^?' backward-delete-char
+elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
+    set -o vi
+    bind -m vi-insert '"jj":vi-movement-mode'
+fi
+
 
 alias cdtemp="cd $(mktemp -d)"
 alias pushdtemp="pushd $(mktemp -d)"

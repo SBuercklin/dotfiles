@@ -59,16 +59,16 @@ return {
         }
     },
     keys = {
-        { "<leader>ff", require("telescope.builtin").find_files,            desc = "Telescope files in current dir" },
-        { "<leader>fg", require("telescope.builtin").live_grep,             desc = "Telescope ripgrep in current dir" },
-        { '<leader>fa', require("telescope.builtin").lsp_workspace_symbols, desc = "Telescope LSP workspace symbols" },
-        { '<leader>fs', require("telescope.builtin").lsp_document_symbols,  desc = "Telescope LSP document symbols" },
-        { '<leader>fb', require("telescope.builtin").buffers,               desc = "Telescope open buffers" },
-        { '<leader>fh', require("telescope.builtin").help_tags,             desc = "Telescope help tags" },
-        { '<leader>fr', require("telescope.builtin").lsp_references,        desc = "Telescope LSP references",            noremap = true, silent = true },
-        { '<leader>fm', require("telescope.builtin").marks,                 desc = "Telescope current marks",             noremap = true, silent = true },
-        { '<leader>fp', require("telescope.builtin").builtin,               desc = "Telescope builtin telescope pickers", noremap = true, silent = true },
-        { '<leader>fn', grep_notes,                                         desc = "Telescope grep notes dir" },
-        { '<leader>ja', reattach_picker,                                    desc = "Telescope tmux reattach picker" }
+        { "<leader>ff", function () require("telescope.builtin").find_files() end,            desc = "Telescope files in current dir" },
+        { "<leader>fg", function () require("telescope.builtin").live_grep() end,             desc = "Telescope ripgrep in current dir" },
+        { '<leader>fa', function () require("telescope.builtin").lsp_workspace_symbols() end, desc = "Telescope LSP workspace symbols" },
+        { '<leader>fs', function () require("telescope.builtin").lsp_document_symbols() end,  desc = "Telescope LSP document symbols" },
+        { '<leader>fb', function () require("telescope.builtin").buffers() end,               desc = "Telescope open buffers" },
+        { '<leader>fh', function () require("telescope.builtin").help_tags() end,             desc = "Telescope help tags" },
+        { '<leader>fr', function () require("telescope.builtin").lsp_references() end,        desc = "Telescope LSP references",            noremap = true, silent = true },
+        { '<leader>fm', function () require("telescope.builtin").marks() end,                 desc = "Telescope current marks",             noremap = true, silent = true },
+        { '<leader>fp', function () require("telescope.builtin").builtin() end,               desc = "Telescope builtin telescope pickers", noremap = true, silent = true },
+        { '<leader>fn', function () grep_notes() end,                                         desc = "Telescope grep notes dir" },
+        { '<leader>ja', function () reattach_picker() end,                                    desc = "Telescope tmux reattach picker" }
     }
 }

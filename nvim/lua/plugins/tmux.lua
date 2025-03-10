@@ -14,9 +14,9 @@ return {
         }
     },
     keys = {
-        { "<A-h>", require('tmux').move_left,   desc = "tmux-compatible move left" },
-        { "<A-j>", require('tmux').move_bottom, desc = "tmux-compatible move down" },
-        { "<A-k>", require('tmux').move_top,    desc = "tmux-compatible move up" },
-        { "<A-l>", require('tmux').move_right,  desc = "tmux-compatible move right" },
+        { "<A-h>", function () require('tmux').move_left() end,   desc = "tmux-compatible move left" },
+        { "<A-j>", function () require('tmux').move_bottom() end, desc = "tmux-compatible move down" },
+        { "<A-k>", function () require('tmux').move_top() end,    desc = "tmux-compatible move up" },
+        { "<A-l>", function () require('tmux').move_right() end,  desc = "tmux-compatible move right" },
     }
 }
