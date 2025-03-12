@@ -17,6 +17,7 @@
   "mason.nvim": { "branch": "main", "commit": "3b5068f0fc565f337d67a2d315d935f574848ee7" },
   "mini.splitjoin": { "branch": "main", "commit": "a6b043b4afb075058a8c49325ff22e07f0e96170" },
   "neotest": { "branch": "master", "commit": "32ff2ac21135a372a42b38ae131e531e64833bd3" },
+  "neotest-julials": { "branch": "main", "commit": "6ce8ab5675aa74c1a947fd09b9f3e805c412fea2" },
   "neotest-python": { "branch": "master", "commit": "e5bff6dcf3cb33e6dfb97722e142961099c6021e" },
   "nightfly": { "branch": "master", "commit": "109fa80b06f18b6e335014a97cdef534f20ee87c" },
   "nvim-autopairs": { "branch": "master", "commit": "c6139ca0d5ad7af129ea6c89cb4c56093f2c034a" },

@@ -18,6 +18,9 @@ local plugins = {
     {
         import = "plugins"
     },
+    {
+        import = "hidden"
+    },
 }
 
 require("lazy").setup(plugins, opts)
