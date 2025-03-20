@@ -100,3 +100,12 @@ function yq-repl() {
 function dfjl() {
     julia --project=@DataFrames -iq -e "println(\"Loading CSV, DataFrames\"); using DataFrames, CSV; println(\"Reading $1 into variable df\"); df = CSV.read(\"$1\", DataFrame); println(describe(df))"
 }
+
+# Add some prefix to a range of commits. The squelch warning silences a warning about filter-branch
+export FILTER_BRANCH_SQUELCH_WARNING=1
+function prepend_commits() {
+    prefix=$1
+    commit_range=$2
+
+    git filter-branch -f --msg-filter "printf \"$prefix: \" && cat" $commit_range
+}
