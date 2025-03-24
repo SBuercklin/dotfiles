@@ -194,6 +194,7 @@ local lua_ls_config = {
 -- Construct your virtualenv in whatever project you want
 -- Add python-lsp-server as a dev dependency and run with that virtualenv active to have pylsp cmd available
 -- e.g. `poetry run nvim` to run with the current project loaded so you get the proper autocomplete
+-- ANOTHER OPTION could be to use pipx to globally install pylsp et al
 local pylsp_config = {
     -- on_attach = function(client, bufnr) format_autocmd(bufnr) end,
     settings = {
