@@ -235,7 +235,8 @@ lsp_configs.pylsp = pylsp_config
 local setup_lsp = function()
     local lsp = require('lspconfig')
 
-    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    local capabilities = {}
     local dflt_lsp_cfg = { capabilities = capabilities }
 
     -- Iterate over the servers and configure them
@@ -266,7 +267,7 @@ return {
         dependencies = {
             { 'williamboman/mason.nvim' },
             { 'williamboman/mason-lspconfig.nvim' },
-            { 'hrsh7th/cmp-nvim-lsp' },
+            -- { 'hrsh7th/cmp-nvim-lsp' },
         },
         config = setup_lsp,
         ft = { "julia", "rust", "python", "latex", "lua" }

@@ -17,10 +17,12 @@ local ui_config = {
 return {
     {
         "mfussenegger/nvim-dap",
+        enabled = false,
         keys = { "<leader>b", "<leader>B", "<F1>", "<F2>", "<F3>", "<F4>", "<F5>", "<F12>", }
     },
     {
         "mfussenegger/nvim-dap-python",
+        enabled = false,
         config = function()
             require("dap-python").setup("python")
         end,
@@ -28,6 +30,7 @@ return {
     },
     {
         "rcarriga/nvim-dap-ui",
+        enabled = false,
         dependencies = {
             "mfussenegger/nvim-dap",
             "nvim-neotest/nvim-nio",

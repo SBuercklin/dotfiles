@@ -1,3 +1,4 @@
 return {
-    'airblade/vim-gitgutter'
+    'airblade/vim-gitgutter',
+    enabled = false
 }
