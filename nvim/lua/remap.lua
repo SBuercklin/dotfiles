@@ -68,3 +68,19 @@ local function toggle_quickfix()
 end
 
 vim.keymap.set('n', '<Leader>tq', toggle_quickfix, { desc = "Toggle Quickfix Window" })
+
+-- Profile to "profile.prof"
+local toggle_profile = function()
+    if vim.g.is_profiling then
+        vim.g.is_profiling = false
+        vim.cmd('profile stop')
+        vim.print("Stopped profiling")
+    else
+        vim.g.is_profiling = true
+        vim.cmd('profile start profile.prof')
+        vim.cmd('profile func *')
+        vim.print("Started profiling")
+    end
+end
+
+vim.keymap.set('n', '<leader>tp', toggle_profile, { desc = 'Toggle profiling to profile.prof ' })
