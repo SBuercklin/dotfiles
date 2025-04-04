@@ -14,7 +14,7 @@ if vim.fn.executable('rg') then
 end
 
 -- Sets the colorscheme
-vim.cmd [[colorscheme nightfly]]
+-- vim.cmd [[colorscheme nightfly]]
 
 -- Relative line numbering
 vim.opt.number = true
@@ -132,7 +132,7 @@ vim.api.nvim_create_user_command("CopyFilepath", copy_filepath,
 -- See: https://vi.stackexchange.com/questions/38447/vim-fugitive-netrw-not-found-define-your-own-browse-to-use-gbrowse
 vim.api.nvim_create_user_command(
     'Browse',
-    function (opts)
+    function(opts)
         local os_str = vim.loop.os_uname().sysname
         local open_cmd = 'xdg-open'
         if os_str == 'Darwin' then
@@ -141,7 +141,7 @@ vim.api.nvim_create_user_command(
         vim.fn.system { open_cmd, opts.fargs[1] }
     end,
     {
-        nargs = 1 ,
+        nargs = 1,
         desc = '"Opens" the provided argument using the system "open" command in an explorer of some type'
     }
 )

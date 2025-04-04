@@ -8,7 +8,7 @@ end
 
 -- Window movement remaps
 --     Move between windows
-if not (lib.isModuleAvailable('tmux')) then
+if not vim.g.loaded_tmux_navigator then
     --     These are superseded by tmux.nvim configs
     vim.keymap.set("n", "<A-h>", "<C-w>h")
     vim.keymap.set("n", "<A-j>", "<C-w>j")

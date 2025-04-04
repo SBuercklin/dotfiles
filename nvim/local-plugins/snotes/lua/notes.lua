@@ -49,16 +49,16 @@ function M.open_note(note_name, note_list, prev_b)
     vim.keymap.set('n', '<leader>np', function() M.get_prev_note(note_list, note_name, b) end, { buffer = b })
     vim.keymap.set('n', '<leader>nn', function() M.get_next_note(note_list, note_name, b) end, { buffer = b })
 
-    vim.api.nvim_create_autocmd("BufLeave", {
-        callback = function(ev)
-            if not vim.api.nvim_get_option_value("modified", { buf = b }) then
-                vim.api.nvim_buf_delete(b, {})
-            end
-        end,
-        group = sam_note_buf_augroup,
-        buffer = b,
-        desc = "Closing a buffer on leave if unmodified",
-    })
+    -- vim.api.nvim_create_autocmd("BufLeave", {
+    --     callback = function(ev)
+    --         if not vim.api.nvim_get_option_value("modified", { buf = b }) then
+    --             vim.api.nvim_buf_delete(b, {})
+    --         end
+    --     end,
+    --     group = sam_note_buf_augroup,
+    --     buffer = b,
+    --     desc = "Closing a buffer on leave if unmodified",
+    -- })
 
     return b
 end
