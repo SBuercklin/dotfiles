@@ -51,6 +51,10 @@ vim.opt.scrolloff = 4
 -- enable the signcolumn, usually we use this for git indications
 vim.opt.signcolumn = "yes"
 
+-- Fix an issue with Julia LSP autoformatting
+-- https://github.com/neovim/neovim/issues/20129 errors on format on save
+vim.cmd('set noeol')
+
 -- Don't automatically add comments with newlines
 vim.api.nvim_create_autocmd(
     'BufEnter', {
