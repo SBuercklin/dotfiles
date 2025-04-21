@@ -10,6 +10,7 @@
 [alias]
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'
     ll = !git lg --all
+    ls-untracked = ls-files --exclude-standard -o
 [user]
 	email = sam.buercklin@gmail.com
 	name = Sam Buercklin
