@@ -73,12 +73,11 @@ vim.keymap.set('n', '<Leader>tq', toggle_quickfix, { desc = "Toggle Quickfix Win
 local toggle_profile = function()
     if vim.g.is_profiling then
         vim.g.is_profiling = false
-        vim.cmd('profile stop')
+        require 'plenary.profile'.stop()
         vim.print("Stopped profiling")
     else
         vim.g.is_profiling = true
-        vim.cmd('profile start profile.prof')
-        vim.cmd('profile func *')
+        require 'plenary.profile'.start("profile.log")
         vim.print("Started profiling")
     end
 end

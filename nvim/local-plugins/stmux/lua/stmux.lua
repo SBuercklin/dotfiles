@@ -144,7 +144,14 @@ function M.restore_pane(id)
         local session = session_info.session
         local window = session_info.window
 
-        local tcmd = build_tmux_cmd({ cmd = 'joinp', flags = { 'd', 'h', 's', 't', 'l' }, s = id, t = ':' .. window, l = 93 })
+        local tcmd = build_tmux_cmd({
+            cmd = 'joinp',
+            flags = { 'd', 'h', 's', 't', 'l' },
+            s = id,
+            t = ':' .. window,
+            l =
+            "30%"
+        })
 
         run_cmd(tcmd)
     end

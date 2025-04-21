@@ -111,7 +111,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 vim.opt.gdefault = true
 
 -- used for gitgutter
-vim.cmd.set('updatetime=100')
+-- vim.cmd.set('updatetime=100')
 
 -- Toggle diagnostics command
 local toggle_diagnostics = function(_t)
