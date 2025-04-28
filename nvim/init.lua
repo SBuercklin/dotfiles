@@ -28,8 +28,8 @@ vim.opt.expandtab = true
 
 vim.opt.smartindent = true
 
--- Put markers at the 90th, 120th columns
-vim.opt.colorcolumn = { 90, 120 }
+-- Put markers at the 90th column
+vim.opt.colorcolumn = { 90 }
 
 -- Only do case-senstive search if capitalization is included
 --  override with \C in search string to make case sensitive
