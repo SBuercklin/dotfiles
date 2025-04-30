@@ -36,6 +36,10 @@ vim.keymap.set("v", "<", '<gv')
 -- Toggle relative line numbers
 vim.keymap.set("n", "<leader>tr", function() vim.opt.rnu = not vim.opt.rnu:get() end)
 
+-- Complete mode <C-n> <C-p> work like <up>/<down>
+vim.cmd('inoremap <expr> <C-P> pumvisible() ? "<Up>" : "<C-P>"')
+vim.cmd('inoremap <expr> <C-N> pumvisible() ? "<Down>" : "<C-N>"')
+
 -- Center cursor on C-u, C-d, n, N
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
