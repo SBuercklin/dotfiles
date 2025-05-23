@@ -225,6 +225,10 @@ lsp_configs.rust_analyzer = rust_analyzer_config
 lsp_configs.texlab = texlab_config
 lsp_configs.lua_ls = lua_ls_config
 lsp_configs.pylsp = pylsp_config
+lsp_configs.ts_ls = {
+    cmd = { "typescript-language-server", "--stdio" },
+    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
+}
 
 --[[
 -------------------------
@@ -236,7 +240,7 @@ local setup_lsp = function()
     local lsp = require('lspconfig')
 
     -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
-    local capabilities = {}
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
     local dflt_lsp_cfg = { capabilities = capabilities }
 
     -- Iterate over the servers and configure them
@@ -270,6 +274,6 @@ return {
             -- { 'hrsh7th/cmp-nvim-lsp' },
         },
         config = setup_lsp,
-        ft = { "julia", "rust", "python", "latex", "lua" }
+        ft = { "julia", "rust", "python", "latex", "lua", "typescript" }
     },
 }
