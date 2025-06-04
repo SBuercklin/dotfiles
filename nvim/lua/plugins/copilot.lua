@@ -18,6 +18,17 @@ return {
     cmd = { 'Copilot' },
     config = function()
         vim.g.copilot_no_maps = true
+        vim.g.copilot_filetypes = {
+            ['*'] = true,
+            ['markdown'] = false,
+            ['text'] = false,
+            ['help'] = false,
+            ['TelescopePrompt'] = false,
+            ['qf'] = false,
+            ['netrw'] = false,
+        }
+        vim.g.copilot_workspace_folders = { vim.fn.getcwd() }
+
         vim.cmd('Copilot')
         print("Copilot loaded")
 
@@ -32,9 +43,9 @@ return {
         vim.api.nvim_set_keymap("i", "<A-x>", "<Plug>(copilot-dismiss)",
             { noremap = false, silent = true, desc = "Dismiss copilot suggestion" })
         vim.keymap.set('i', '<A-Y>', 'copilot#Accept("\\<CR>")', {
-          expr = true,
-          replace_keycodes = false,
-          desc = 'Accept Copilot suggestion',
+            expr = true,
+            replace_keycodes = false,
+            desc = 'Accept Copilot suggestion',
         })
     end,
     keys = {
