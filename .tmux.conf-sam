@@ -81,3 +81,9 @@ bind 'C-]' if-shell "$hasstash" "join-pane -v -s 'wstash:$'" ''
 
 bind-key 'C-t' run-shell 'pane="$(tmux list-panes -f "#""{==:#""{pane_start_command},top}" -F "#""D" | head -n 1)"; [ -n "$pane" ] && tmux kill-pane -t "$pane" || tmux split-window -l 93 -hf top'
 set -g mouse on        #For tmux version 2.1 and up
+
+bind-key C-g if-shell -F '#{==:#{session_name},scratch}' {
+    detach-client
+} {
+    display-popup -E "tmux new-session -A -s scratch"
+} 
