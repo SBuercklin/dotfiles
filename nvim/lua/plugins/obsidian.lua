@@ -45,4 +45,9 @@ return {
             end
         end,
     },
+    cmd = { "Obsidian" },
+    keys = {
+        { "<leader>nn", function () vim.cmd.Obsidian('today') end, mode = "n", desc = "Open daily Obsidian note"},
+        { "<leader>fn", function () vim.cmd.Obsidian('search') end, mode = "n", desc = "Fuzzy search Obsidian notes"},
+    }
 }
