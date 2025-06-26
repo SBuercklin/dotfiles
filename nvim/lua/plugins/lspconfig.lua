@@ -195,40 +195,97 @@ local lua_ls_config = {
 -- Add python-lsp-server as a dev dependency and run with that virtualenv active to have pylsp cmd available
 -- e.g. `poetry run nvim` to run with the current project loaded so you get the proper autocomplete
 -- ANOTHER OPTION could be to use pipx to globally install pylsp et al
-local pylsp_config = {
-    -- on_attach = function(client, bufnr) format_autocmd(bufnr) end,
-    settings = {
-        pylsp = {
-            configurationSources = { 'flake8' },
-            plugins = {
-                flake8 = {
-                    enabled = false,
-                    ignore = { 'E501', 'E231' },
-                    maxLineLength = 88,
-                },
-                black = { enabled = true },
-                -- autopep8 = { enabled = false },
-                -- mccabe = {enabled = false},
-                pycodestyle = {
-                    enabled = true,
-                    ignore = { 'E501', 'E231' },
-                    maxLineLength = 88,
-                },
-                -- pyflakes = {enabled = false},
-            },
-        },
-    },
-}
+-- local pylsp_config = {
+--     -- on_attach = function(client, bufnr) format_autocmd(bufnr) end,
+--     settings = {
+--         pylsp = {
+--             configurationSources = { 'flake8' },
+--             plugins = {
+--                 flake8 = {
+--                     enabled = false,
+--                     ignore = { 'E501', 'E231' },
+--                     maxLineLength = 88,
+--                 },
+--                 black = { enabled = true },
+--                 -- autopep8 = { enabled = false },
+--                 -- mccabe = {enabled = false},
+--                 pycodestyle = {
+--                     enabled = true,
+--                     ignore = { 'E501', 'E231' },
+--                     maxLineLength = 88,
+--                 },
+--                 -- pyflakes = {enabled = false},
+--             },
+--         },
+--     },
+-- }
+
 
 lsp_configs.julials = julials_config
 lsp_configs.rust_analyzer = rust_analyzer_config
 lsp_configs.texlab = texlab_config
 lsp_configs.lua_ls = lua_ls_config
-lsp_configs.pylsp = pylsp_config
+-- lsp_configs.pylsp = pylsp_config
 lsp_configs.ts_ls = {
     cmd = { "typescript-language-server", "--stdio" },
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
 }
+
+local function set_python_path(path)
+    local clients = vim.lsp.get_clients {
+        bufnr = vim.api.nvim_get_current_buf(),
+        name = 'basedpyright',
+    }
+    for _, client in ipairs(clients) do
+        if client.settings then
+            client.settings.python = vim.tbl_deep_extend('force', client.settings.python or {}, { pythonPath = path })
+        else
+            client.config.settings = vim.tbl_deep_extend('force', client.config.settings,
+                { python = { pythonPath = path } })
+        end
+        client.notify('workspace/didChangeConfiguration', { settings = nil })
+    end
+end
+
+local basedpyright_config = {
+    cmd = { 'basedpyright-langserver', '--stdio' },
+    filetypes = { 'python' },
+    root_markers = {
+        'pyproject.toml',
+        'setup.py',
+        'setup.cfg',
+        'requirements.txt',
+        'Pipfile',
+        'pyrightconfig.json',
+        '.git',
+    },
+    settings = {
+        basedpyright = {
+            analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = 'openFilesOnly',
+            },
+        },
+    },
+    on_attach = function(client, bufnr)
+        vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightOrganizeImports', function()
+            client:exec_cmd({
+                command = 'basedpyright.organizeimports',
+                arguments = { vim.uri_from_bufnr(bufnr) },
+            })
+        end, {
+            desc = 'Organize Imports',
+        })
+
+        vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightSetPythonPath', set_python_path, {
+            desc = 'Reconfigure basedpyright with the provided python path',
+            nargs = 1,
+            complete = 'file',
+        })
+    end,
+}
+lsp_configs.basedpyright = basedpyright_config
 
 --[[
 -------------------------
