@@ -71,13 +71,17 @@ local ts_select_cwd_for_pkr = function(pkr)
     end
 end
 
-local function grep_notes() require("telescope.builtin").live_grep({ cwd = require("snotes").notes.get_note_dir() }) end
+-- local function grep_notes() require("telescope.builtin").live_grep({ cwd = require("snotes").notes.get_note_dir() }) end
 
 return {
     {
         'nvim-telescope/telescope.nvim',
         version = '0.1.5',
-        dependencies = { { 'nvim-lua/plenary.nvim' }, { "stmux" }, { "snotes" } },
+        dependencies = {
+            { 'nvim-lua/plenary.nvim' },
+            { "stmux" },
+            -- { "snotes" }
+        },
         opts = {
             pickers = {
                 buffers = {
@@ -122,8 +126,8 @@ return {
             { '<leader>fr', function() require("telescope.builtin").lsp_references() end,        desc = "Telescope LSP references",            noremap = true, silent = true },
             { '<leader>fm', function() require("telescope.builtin").marks() end,                 desc = "Telescope current marks",             noremap = true, silent = true },
             { '<leader>fp', function() require("telescope.builtin").builtin() end,               desc = "Telescope builtin telescope pickers", noremap = true, silent = true },
-            { '<leader>fn', function() grep_notes() end,                                         desc = "Telescope grep notes dir" },
-            { '<leader>ja', function() reattach_picker() end,                                    desc = "Telescope tmux reattach picker" }
+            -- { '<leader>fn', function() grep_notes() end,                                         desc = "Telescope grep notes dir" },
+            { '<leader>ja', function() reattach_picker({}) end,                                  desc = "Telescope tmux reattach picker" }
         },
 
     },
