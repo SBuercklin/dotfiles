@@ -1,105 +1,4 @@
---[[
--------------------------
-    LSP Keymaps
--------------------------
-]]
-local build_keymap = function(cfg)
-    vim.keymap.set(
-        cfg.mode,
-        cfg.keys,
-        cfg.cmd,
-        cfg.opts
-    )
-end
-
-local toggle_inlay_hints = function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({})) end
-
-local dflt_opts = { noremap = true, silent = true }
-
-local keymaps = function(bufnr, new_opts)
-    local opts = vim.tbl_deep_extend('force', dflt_opts, new_opts)
-    local maps = {
-        { mode = 'n', keys = 'gD',         cmd = vim.lsp.buf.declaration,    opts = opts },
-        { mode = 'n', keys = 'gd',         cmd = vim.lsp.buf.definition,     opts = opts },
-        { mode = 'n', keys = 'gi',         cmd = vim.lsp.buf.implementation, opts = opts },
-
-        { mode = 'n', keys = '<C-k>',      cmd = vim.lsp.buf.signature_help, opts = opts },
-        { mode = 'i', keys = '<C-k>',      cmd = vim.lsp.buf.signature_help, opts = opts },
-
-        { mode = 'n', keys = 'K',          cmd = vim.lsp.buf.hover,          opts = opts },
-        { mode = 'n', keys = '<leader>rn', cmd = vim.lsp.buf.rename,         opts = opts },
-        { mode = 'n', keys = 'gr',         cmd = vim.lsp.buf.references,     opts = opts },
-        { mode = 'n', keys = '<leader>jf', cmd = vim.lsp.buf.format,         opts = opts },
-        { mode = "n", keys = "<leader>a",  cmd = vim.lsp.buf.code_action,    opts = opts },
-        { mode = "n", keys = "<leader>jh", cmd = toggle_inlay_hints,         opts = opts },
-
-        -- Diagnostic shortcuts, pulled from lspconfig docs
-        { mode = 'n', keys = '[d',         cmd = vim.diagnostic.goto_prev,   opts = opts },
-        { mode = 'n', keys = ']d',         cmd = vim.diagnostic.goto_next,   opts = opts },
-        { mode = 'n', keys = '<leader>q',  cmd = vim.diagnostic.setloclist,  opts = opts },
-        { mode = 'n', keys = '<leader>jw', cmd = vim.diagnostic.open_float,  opts = opts },
-    }
-
-    return maps
-end
-
-local attach_fn = function(bufnr)
-    local new_keymaps = keymaps(bufnr, {})
-    for _, mapping in pairs(new_keymaps) do
-        build_keymap(mapping)
-    end
-end
-
-local sam_lsp_augrp = "SamLspAttach"
-vim.api.nvim_create_augroup(sam_lsp_augrp, { clear = true })
-
-vim.api.nvim_create_autocmd(
-    'LspAttach',
-    {
-        callback = function(ev)
-            attach_fn(ev.buf)
-        end,
-        group = sam_lsp_augrp
-    }
-)
-
---[[
--------------------------
-    Formatting logic
--------------------------
-]]
-
-local format_augrp = "SamLspFormatting"
-vim.api.nvim_create_augroup(format_augrp, { clear = true })
-
-local format_autocmd = function(bufnr)
-    -- Only want one formatter per buffer
-    vim.api.nvim_clear_autocmds({
-        buffer = bufnr,
-        group = format_augrp
-    })
-    vim.api.nvim_create_autocmd(
-        'BufWritePre', {
-            callback = function(ev)
-                print("Formatting")
-                vim.lsp.buf.format({ async = false })
-            end,
-            buffer = bufnr,
-            group = format_augrp
-        }
-    )
-    -- Sometimes the Julia server detaches and it causes problems
-    vim.api.nvim_create_autocmd(
-        'LspDetach', {
-            callback = function(ev)
-                vim.api.nvim_clear_autocmds({
-                    buffer = bufnr,
-                    group = format_augrp
-                })
-            end
-        }
-    )
-end
+local lsp_helper = require("lsp_common")
 
 --[[
 -------------------------
@@ -107,9 +6,11 @@ end
 -------------------------
 ]]
 
-local lsp_configs = {}
+vim.lsp.config('*', {
+    root_markers = { '.git' },
+})
 
--- Sometimes I want to modify the Julia launch command
+
 local jl_cmd = {
     'julia',
     '--startup-file=no',
@@ -150,28 +51,28 @@ local jl_cmd = {
   ]],
 }
 
-local julials_config = {
-    on_attach =
-        function(client, bufnr)
+vim.lsp.config('julials',
+    {
+        on_attach = function(client, bufnr)
+            local original_oa = require("lspconfig.configs.julials").default_config.on_attach
+            original_oa(client, bufnr)
+
             -- This is used to determine if we want to autoformat
             --  kinda hacky but it works
             local fname = vim.api.nvim_buf_get_name(0)
             local dname = vim.fs.dirname(fname)
             local dirs = vim.fs.find('.JuliaFormatter.toml', { upward = true, path = dname })
             if not (next(dirs) == nil) then
-                format_autocmd(bufnr)
+                lsp_helper.format_autocmd(bufnr)
             end
         end,
-    cmd = jl_cmd,
-    init_options = { julialangTestItemIdentification = true },
-}
+        cmd = jl_cmd,
+        init_options = { julialangTestItemIdentification = true },
+        filetype = { 'julia' },
+        root_markers = { 'Project.toml', '.git' }
+    })
 
--- Requires latexindent and latexmk for formatting and building respectively
-local texlab_config = {
-    on_attach = function(_, bufnr)
-        format_autocmd(bufnr)
-        vim.keymap.set("n", "<Leader>jm", vim.cmd["TexlabBuild"])
-    end,
+vim.lsp.config('texlab', {
     settings = {
         texlab = {
             build = {
@@ -180,140 +81,55 @@ local texlab_config = {
             }
         }
     }
-}
+})
 
-local rust_analyzer_config = {
-    on_attach = function(client, bufnr) format_autocmd(bufnr) end
-}
-
-local lua_ls_config = {
-    on_attach = function(client, bufnr) format_autocmd(bufnr) end
-}
-
--- Use pyenv to install proper pythong versions
--- Construct your virtualenv in whatever project you want
--- Add python-lsp-server as a dev dependency and run with that virtualenv active to have pylsp cmd available
--- e.g. `poetry run nvim` to run with the current project loaded so you get the proper autocomplete
--- ANOTHER OPTION could be to use pipx to globally install pylsp et al
--- local pylsp_config = {
---     -- on_attach = function(client, bufnr) format_autocmd(bufnr) end,
---     settings = {
---         pylsp = {
---             configurationSources = { 'flake8' },
---             plugins = {
---                 flake8 = {
---                     enabled = false,
---                     ignore = { 'E501', 'E231' },
---                     maxLineLength = 88,
---                 },
---                 black = { enabled = true },
---                 -- autopep8 = { enabled = false },
---                 -- mccabe = {enabled = false},
---                 pycodestyle = {
---                     enabled = true,
---                     ignore = { 'E501', 'E231' },
---                     maxLineLength = 88,
---                 },
---                 -- pyflakes = {enabled = false},
---             },
---         },
---     },
--- }
-
-
-lsp_configs.julials = julials_config
-lsp_configs.rust_analyzer = rust_analyzer_config
-lsp_configs.texlab = texlab_config
-lsp_configs.lua_ls = lua_ls_config
--- lsp_configs.pylsp = pylsp_config
-lsp_configs.ts_ls = {
-    cmd = { "typescript-language-server", "--stdio" },
-    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
-}
-
-local function set_python_path(path)
-    local clients = vim.lsp.get_clients {
-        bufnr = vim.api.nvim_get_current_buf(),
-        name = 'basedpyright',
-    }
-    for _, client in ipairs(clients) do
-        if client.settings then
-            client.settings.python = vim.tbl_deep_extend('force', client.settings.python or {}, { pythonPath = path })
-        else
-            client.config.settings = vim.tbl_deep_extend('force', client.config.settings,
-                { python = { pythonPath = path } })
-        end
-        client.notify('workspace/didChangeConfiguration', { settings = nil })
-    end
-end
-
-local basedpyright_config = {
-    cmd = { 'basedpyright-langserver', '--stdio' },
-    filetypes = { 'python' },
-    root_markers = {
-        'pyproject.toml',
-        'setup.py',
-        'setup.cfg',
-        'requirements.txt',
-        'Pipfile',
-        'pyrightconfig.json',
-        '.git',
-    },
-    settings = {
-        basedpyright = {
-            analysis = {
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
-                diagnosticMode = 'openFilesOnly',
-            },
-        },
-    },
+vim.lsp.config('rust_analyzer', {
     on_attach = function(client, bufnr)
-        vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightOrganizeImports', function()
-            client:exec_cmd({
-                command = 'basedpyright.organizeimports',
-                arguments = { vim.uri_from_bufnr(bufnr) },
-            })
-        end, {
-            desc = 'Organize Imports',
-        })
-
-        vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightSetPythonPath', set_python_path, {
-            desc = 'Reconfigure basedpyright with the provided python path',
-            nargs = 1,
-            complete = 'file',
-        })
-    end,
-}
-lsp_configs.basedpyright = basedpyright_config
-
---[[
--------------------------
-    LSP Setup
--------------------------
-]]
-
-local setup_lsp = function()
-    local lsp = require('lspconfig')
-
-    -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    local dflt_lsp_cfg = { capabilities = capabilities }
-
-    -- Iterate over the servers and configure them
-    for server, server_cfg in pairs(lsp_configs) do
-        local local_cfg = vim.tbl_deep_extend('force', dflt_lsp_cfg, server_cfg)
-
-        lsp[server].setup(local_cfg)
+        local original_oa = require("lspconfig.configs.rust_analyzer").default_config.on_attach
+        if original_oa then
+            original_oa(client, bufnr)
+        end
+        lsp_helper.format_autocmd(bufnr)
     end
+})
 
-    -- Enable LSP logging
-    -- vim.lsp.set_log_level("debug")
+vim.lsp.config('lua_ls', {
+    on_attach = function(client, bufnr)
+        local original_oa = require("lspconfig.configs.lua_ls").default_config.on_attach
+        if original_oa then
+            original_oa(client, bufnr)
+        end
+        lsp_helper.format_autocmd(bufnr)
+    end,
+    filetype = { 'lua' }
+})
+
+vim.lsp.config('ts_ls', {
+    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
+})
+
+
+-- LSP Enabling
+local try_enable = function(executable_name, lsp_name)
+    -- print(executable_name)
+    -- print(vim.fn.executable(executable_name))
+    if vim.fn.executable(executable_name) ~= 0 then
+        -- print("Enabling ", lsp_name)
+        vim.lsp.enable(lsp_name)
+    end
 end
 
+try_enable('julia', 'julials')
+try_enable('rust-analyzer', 'rust_analyzer')
+try_enable('lua-language-server', 'lua_ls')
+try_enable('texlab', 'texlab')
+try_enable('typescript-language-server', 'ts_ls')
+try_enable('basedpyright', 'basedpyright')
+
+
 --[[
 -------------------------
-    The actual lazy config
+    Default configurations using nvim-lspconfig
 -------------------------
 ]]
 
@@ -327,10 +143,6 @@ return {
         'neovim/nvim-lspconfig',
         dependencies = {
             { 'williamboman/mason.nvim' },
-            { 'williamboman/mason-lspconfig.nvim' },
-            -- { 'hrsh7th/cmp-nvim-lsp' },
         },
-        config = setup_lsp,
-        ft = { "julia", "rust", "python", "latex", "lua", "typescript" }
     },
 }
