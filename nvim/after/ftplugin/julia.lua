@@ -1,4 +1,3 @@
-local lib = require("samlib")
 local tmux = require("stmux")
 
 local startJuliaCmd = function(project, startup)
