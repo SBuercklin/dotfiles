@@ -54,9 +54,6 @@ local jl_cmd = {
 vim.lsp.config('julials',
     {
         on_attach = function(client, bufnr)
-            local original_oa = require("lspconfig.configs.julials").default_config.on_attach
-            original_oa(client, bufnr)
-
             -- This is used to determine if we want to autoformat
             --  kinda hacky but it works
             local fname = vim.api.nvim_buf_get_name(0)
@@ -85,20 +82,12 @@ vim.lsp.config('texlab', {
 
 vim.lsp.config('rust_analyzer', {
     on_attach = function(client, bufnr)
-        local original_oa = require("lspconfig.configs.rust_analyzer").default_config.on_attach
-        if original_oa then
-            original_oa(client, bufnr)
-        end
         lsp_helper.format_autocmd(bufnr)
     end
 })
 
 vim.lsp.config('lua_ls', {
     on_attach = function(client, bufnr)
-        local original_oa = require("lspconfig.configs.lua_ls").default_config.on_attach
-        if original_oa then
-            original_oa(client, bufnr)
-        end
         lsp_helper.format_autocmd(bufnr)
     end,
     filetype = { 'lua' }
