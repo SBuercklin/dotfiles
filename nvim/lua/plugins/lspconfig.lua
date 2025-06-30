@@ -108,14 +108,6 @@ local try_enable = function(executable_name, lsp_name)
     end
 end
 
-try_enable('julia', 'julials')
-try_enable('rust-analyzer', 'rust_analyzer')
-try_enable('lua-language-server', 'lua_ls')
-try_enable('texlab', 'texlab')
-try_enable('typescript-language-server', 'ts_ls')
-try_enable('basedpyright', 'basedpyright')
-
-
 --[[
 -------------------------
     Default configurations using nvim-lspconfig
@@ -133,5 +125,13 @@ return {
         dependencies = {
             { 'williamboman/mason.nvim' },
         },
+        config = function()
+            try_enable('julia', 'julials')
+            try_enable('rust-analyzer', 'rust_analyzer')
+            try_enable('lua-language-server', 'lua_ls')
+            try_enable('texlab', 'texlab')
+            try_enable('typescript-language-server', 'ts_ls')
+            try_enable('basedpyright', 'basedpyright')
+        end
     },
 }

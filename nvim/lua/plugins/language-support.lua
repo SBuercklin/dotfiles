@@ -1,4 +1,11 @@
+-- julia integration
+-- lazydev and luvit-meta for local lua/nvim stuff
+
 return {
+    {
+        'JuliaEditorSupport/julia-vim',
+        filetype = "julia"
+    },
     {
         "folke/lazydev.nvim",
         ft = "lua",
