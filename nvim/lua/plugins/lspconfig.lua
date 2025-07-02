@@ -97,6 +97,58 @@ vim.lsp.config('ts_ls', {
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
 })
 
+vim.lsp.config('basedpyright', {
+    settings = {
+        basedpyright = {
+            analysis = {
+                typeCheckingMode = "basic"
+            }
+        }
+    }
+})
+
+vim.lsp.config('pylsp', {
+    settings = {
+        pylsp = {
+            plugins = {
+                rope_autoimport = {
+                    enabled = true
+                },
+                autopep8 = {
+                    enabled = false
+                },
+                yapf = {
+                    enabled = false
+                },
+                flake8 = {
+                    enabled = false
+                },
+                pyflakes = {
+                    enabled = false
+                },
+                jedi_signature_help = {
+                    enabled = false
+                },
+                jedi_completion = {
+                    enabled = false
+                },
+                jedi_definition = {
+                    enabled = false
+                },
+                jedi_hover = {
+                    enabled = false
+                },
+                jedi_references = {
+                    enabled = false
+                },
+                jedi_symbols = {
+                    enabled = false
+                },
+            }
+        }
+    }
+})
+
 
 -- LSP Enabling
 local try_enable = function(executable_name, lsp_name)
@@ -132,6 +184,7 @@ return {
             try_enable('texlab', 'texlab')
             try_enable('typescript-language-server', 'ts_ls')
             try_enable('basedpyright', 'basedpyright')
+            try_enable('pylsp', 'pylsp')
         end
     },
 }

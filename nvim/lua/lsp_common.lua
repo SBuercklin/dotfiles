@@ -31,6 +31,7 @@ local keymaps = function(bufnr, new_opts)
         { mode = 'n', keys = 'gr',         cmd = vim.lsp.buf.references,     opts = opts },
         { mode = 'n', keys = '<leader>jf', cmd = vim.lsp.buf.format,         opts = opts },
         { mode = "n", keys = "<leader>a",  cmd = vim.lsp.buf.code_action,    opts = opts },
+        { mode = "v", keys = "<leader>a",  cmd = vim.lsp.buf.code_action,    opts = opts },
         { mode = "n", keys = "<leader>jh", cmd = M.toggle_inlay_hints,       opts = opts },
 
         { mode = 'n', keys = '[d',         cmd = goto_prev_diag,             opts = opts },
