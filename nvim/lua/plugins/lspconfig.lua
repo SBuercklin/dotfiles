@@ -107,6 +107,7 @@ vim.lsp.config('basedpyright', {
     }
 })
 
+-- pipx install python-lsp-server python-lsp-ruff pylsp-code-actions
 vim.lsp.config('pylsp', {
     settings = {
         pylsp = {
@@ -114,35 +115,30 @@ vim.lsp.config('pylsp', {
                 rope_autoimport = {
                     enabled = true
                 },
-                autopep8 = {
-                    enabled = false
-                },
-                yapf = {
-                    enabled = false
-                },
                 flake8 = {
-                    enabled = false
-                },
-                pyflakes = {
-                    enabled = false
+                    enabled = true
                 },
                 jedi_signature_help = {
-                    enabled = false
+                    enabled = true
                 },
                 jedi_completion = {
-                    enabled = false
+                    enabled = true
                 },
                 jedi_definition = {
-                    enabled = false
+                    enabled = true
                 },
                 jedi_hover = {
-                    enabled = false
+                    enabled = true
                 },
                 jedi_references = {
-                    enabled = false
+                    enabled = true
                 },
                 jedi_symbols = {
-                    enabled = false
+                    enabled = true
+                },
+                ruff = {
+                    enabled = true,
+                    formatEnabled = false,
                 },
             }
         }
@@ -183,7 +179,7 @@ return {
             try_enable('lua-language-server', 'lua_ls')
             try_enable('texlab', 'texlab')
             try_enable('typescript-language-server', 'ts_ls')
-            try_enable('basedpyright', 'basedpyright')
+            -- try_enable('basedpyright', 'basedpyright')
             try_enable('pylsp', 'pylsp')
         end
     },
