@@ -9,7 +9,7 @@ return {
                 group_empty = true,
             },
             filters = {
-                dotfiles = false,
+                git_ignored = false,
             }
         }
         vim.g.loaded_netrw = 1

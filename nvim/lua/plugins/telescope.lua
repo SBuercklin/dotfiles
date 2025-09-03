@@ -102,7 +102,8 @@ return {
                         n = {
                             ["<C-f>"] = function(p) ts_select_cwd_for_pkr(require("telescope.builtin").find_files)(p) end,
                         }
-                    }
+                    },
+
                 },
                 live_grep = {
                     mappings = {
@@ -114,7 +115,7 @@ return {
                         }
                     }
                 }
-            }
+            },
         },
         keys = {
             { "<leader>ff", function() require("telescope.builtin").find_files() end,            desc = "Telescope files in current dir" },
