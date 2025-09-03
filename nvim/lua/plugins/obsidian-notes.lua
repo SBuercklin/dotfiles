@@ -1,7 +1,7 @@
 return {
     "obsidian-nvim/obsidian.nvim",
     version = "*",
-    lazy = true,
+    -- lazy = true,
     event = {
         -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
         -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
@@ -44,10 +44,14 @@ return {
                 return tostring(os.time()) .. "-" .. suffix
             end
         end,
+        ui = {
+            enable = false,
+        },
+        legacy_commands = false,
     },
     cmd = { "Obsidian" },
     keys = {
-        { "<leader>nn", function () vim.cmd.Obsidian('today') end, mode = "n", desc = "Open daily Obsidian note"},
-        { "<leader>fn", function () vim.cmd.Obsidian('search') end, mode = "n", desc = "Fuzzy search Obsidian notes"},
+        { "<leader>nn", function() vim.cmd.Obsidian("today") end,  mode = "n", desc = "Open daily Obsidian note" },
+        { "<leader>fn", function() vim.cmd.Obsidian("search") end, mode = "n", desc = "Fuzzy search Obsidian notes" },
     }
 }
