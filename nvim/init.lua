@@ -75,28 +75,14 @@ vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize"
 -- ref: https://www.jmaguire.tech/posts/treesitter_folding/
 -- vim.opt.foldmethod = "syntax"
 -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-vim.opt.foldenable = false
+vim.opt.foldenable = true
+vim.opt.foldmethod = "indent"
 
 -- Open all folds when you open a buffer for the first time
 vim.api.nvim_create_autocmd(
     'BufReadPost', {
         callback = function(ev)
             vim.fn.feedkeys("zR")
-        end
-    }
-)
-
--- Helps address really large files where syntax folding can cause hangs
-vim.api.nvim_create_autocmd(
-    'BufReadPost', {
-        callback = function(ev)
-            -- If a buffer exceeds 10 kB, assume we fold by indentation
-            --  Note: This saves us from really long startup times for enormous files
-            if vim.fn.wordcount()["bytes"] > 100000 then
-                vim.opt_local.foldmethod = "indent"
-            else
-                vim.opt_local.foldmethod = "syntax"
-            end
         end
     }
 )
