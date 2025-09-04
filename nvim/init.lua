@@ -79,13 +79,14 @@ vim.opt.foldenable = true
 vim.opt.foldmethod = "indent"
 
 -- Open all folds when you open a buffer for the first time
-vim.api.nvim_create_autocmd(
-    'BufReadPost', {
-        callback = function(ev)
-            vim.fn.feedkeys("zR")
-        end
-    }
-)
+-- vim.api.nvim_create_autocmd(
+--     'BufReadPost', {
+--         callback = function(ev)
+--             vim.fn.feedkeys("zR")
+--         end
+--     }
+-- )
+vim.opt.foldlevelstart = 99
 
 -- Open help in a vertical split to the right
 vim.api.nvim_create_autocmd("BufWinEnter", {
