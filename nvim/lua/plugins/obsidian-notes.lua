@@ -1,3 +1,13 @@
+local handle_ticket_input = function(input)
+    if input then
+        vim.cmd.Obsidian({ "new_from_template", "tickets/" .. input, "ticket" })
+    end
+end
+
+local new_ticket_fn = function()
+    vim.ui.input({ prompt = "Ticket ID: " }, handle_ticket_input)
+end
+
 return {
     "obsidian-nvim/obsidian.nvim",
     version = "*",
@@ -47,11 +57,15 @@ return {
         ui = {
             enable = false,
         },
+        templates = {
+            folder = "templates",
+        },
         legacy_commands = false,
     },
     cmd = { "Obsidian" },
     keys = {
         { "<leader>nn", function() vim.cmd.Obsidian("today") end,  mode = "n", desc = "Open daily Obsidian note" },
         { "<leader>fn", function() vim.cmd.Obsidian("search") end, mode = "n", desc = "Fuzzy search Obsidian notes" },
+        { "<leader>nt", new_ticket_fn,                             mode = "n", desc = "Create new ticket with given ticket ID" },
     }
 }
