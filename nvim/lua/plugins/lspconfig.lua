@@ -145,6 +145,14 @@ vim.lsp.config('pylsp', {
     }
 })
 
+-- terraform-ls
+vim.lsp.config('terraform-ls', {
+    cmd = { 'terraform-ls', 'serve' },
+    filetypes = { 'terraform', 'terraform-vars' },
+    root_markers = { '.terraform', '.git' },
+}
+)
+
 
 -- LSP Enabling
 local try_enable = function(executable_name, lsp_name)
@@ -181,6 +189,7 @@ return {
             try_enable('typescript-language-server', 'ts_ls')
             -- try_enable('basedpyright', 'basedpyright')
             try_enable('pylsp', 'pylsp')
+            try_enable('terraform-ls', 'terraform-ls')
         end
     },
 }
