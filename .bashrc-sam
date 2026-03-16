@@ -109,3 +109,5 @@ function prepend_commits() {
 
     git filter-branch -f --msg-filter "printf \"$prefix: \" && cat" $commit_range
 }
+
+alias .j='just --global-justfile' 

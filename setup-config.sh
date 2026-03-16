@@ -96,3 +96,15 @@ if [ ! -d $HOME/.config/nvim ]; then
     echo "symlinking nvim config into $HOME/.config"  
     ln -sd $SCRIPT_DIR/nvim/ $HOME/.config/
 fi
+
+############################################
+#
+# Importing justfile
+#
+############################################
+
+if [ ! -d $HOME/.config/just ]; then
+    echo "symlinking global justfile into $HOME/.config/just"  
+    mkdir -p "${HOME}/.config/just"
+    ln -sd $SCRIPT_DIR/justfile $HOME/.config/just/justfile
+fi
